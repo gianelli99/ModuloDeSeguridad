@@ -52,12 +52,20 @@
     <Compile Include="Datos\Interfaces\IGrupoDAO.cs" />
     <Compile Include="Datos\Interfaces\IUsuarioDAO.cs" />
     <Compile Include="Datos\DAO\UsuarioDAO.cs" />
+    <Compile Include="Logica\GrupoBL.cs" />
+    <Compile Include="Logica\PermisoBL.cs" />
     <Compile Include="Modelo\Accion.cs" />
     <Compile Include="Modelo\Grupo.cs" />
     <Compile Include="Modelo\Permiso.cs" />
     <Compile Include="Modelo\Sesion.cs" />
     <Compile Include="Modelo\Usuario.cs" />
     <Compile Include="Modelo\Vista.cs" />
+    <Compile Include="Vista\frmGrupo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vista\frmGrupo.Designer.cs">
+      <DependentUpon>frmGrupo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vista\frmGrupos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +80,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Vista\frmGrupo.resx">
+      <DependentUpon>frmGrupo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Vista\frmGrupos.resx">
       <DependentUpon>frmGrupos.cs</DependentUpon>
     </EmbeddedResource>

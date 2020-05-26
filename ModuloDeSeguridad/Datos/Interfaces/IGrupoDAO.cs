@@ -8,5 +8,8 @@ namespace ModuloDeSeguridad.Datos
 {
     interface IGrupoDAO : ICrud<Modelo.Grupo>
     {
+        List<Modelo.Accion> ListarAcciones();
+        List<Modelo.Vista> ListarVistas();
+        List<Modelo.Permiso> ListarPermisos(int id);
     }
 }

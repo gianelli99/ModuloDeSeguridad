@@ -15,11 +15,21 @@ namespace ModuloDeSeguridad.Datos
             SqlCommand query = new SqlCommand("SELECT * FROM grupos WHERE id = 1", Conexion);
             Conexion.Open();
             SqlDataReader response = query.ExecuteReader();
-            if (response.HasRows)
+            
+            if (response.Read())
             {
-                return new Grupo() { ID = 445};
+                var grupo = new Modelo.Grupo();
+
+                grupo.ID = response.GetInt32(0);
+                grupo.Codigo = response.GetString(1);
+                grupo.Descripcion = response.GetString(2);
+                grupo.Estado = false;
+                
+                Conexion.Close();
+                return grupo;
             }
-            return new Grupo() { ID = 000 };
+            Conexion.Close();
+            return null;
         }
 
         public void Eliminar(int id)
@@ -40,6 +50,116 @@ namespace ModuloDeSeguridad.Datos
         public List<Grupo> Listar(string filtro)
         {
             throw new NotImplementedException();
+        }
+
+        public List<Accion> ListarAcciones()
+        {
+            SqlCommand query = new SqlCommand("SELECT * FROM acciones", Conexion);
+            Conexion.Open();
+            SqlDataReader response = query.ExecuteReader();
+            
+            if (response.HasRows)
+            {
+                var acciones = new List<Modelo.Accion>();
+                while (response.Read())
+                {
+                    var accion = new Modelo.Accion()
+                    {
+                        ID = response.GetInt32(0),
+                        Descripcion = response.GetString(1)
+                    };
+                    acciones.Add(accion);
+                }
+                Conexion.Close();
+                return acciones;
+            }
+            Conexion.Close();
+            return null;
+        }
+
+        private List<int[]> ListarIDPermisos(int id)
+        {
+            SqlCommand query = new SqlCommand("SELECT id, vista_id,accion_id,tiene_permiso FROM permisos WHERE grupo_id = "+ id, Conexion);
+            Conexion.Open();
+            SqlDataReader response = query.ExecuteReader();
+            
+            if (response.HasRows)
+            {
+                var permisos = new List<int[]>();
+                while (response.Read())
+                {
+                    var permiso = new int[4];
+                    permiso[0] = response.GetInt32(0);//id
+                    permiso[1] = response.GetInt32(1);//vista
+                    permiso[2] = response.GetInt32(2);//accion
+                    permiso[3] = Convert.ToInt32(response.GetBoolean(3));//permiso
+                    permisos.Add(permiso);
+                }
+                Conexion.Close();
+                return permisos;
+
+            }
+            Conexion.Close();
+            return null;
+        }
+        public List<Modelo.Permiso> ListarPermisos(int id)
+        {
+            var dao = new GrupoDAO();
+            var grupo = dao.Consultar(id);
+            var vistas = dao.ListarVistas();
+            var acciones = dao.ListarAcciones();
+            var permisosID = dao.ListarIDPermisos(id);
+            var permisos = new List<Modelo.Permiso>(); 
+            foreach (var arrPermiso in permisosID)
+            {
+                var permiso = new Modelo.Permiso();
+                permiso.ID = arrPermiso[0];
+                permiso.Grupo = grupo;
+                foreach (var vista in vistas)
+                {
+                    if (vista.ID == arrPermiso[1])
+                    {
+                        permiso.Vista = vista;
+                        break;
+                    }
+                }
+                foreach (var accion in acciones)
+                {
+                    if (accion.ID == arrPermiso[2])
+                    {
+                        permiso.Accion = accion;
+                        break;
+                    }
+                }
+                permiso.TienePermiso = arrPermiso[3] == 1 ? true : false ;
+                permisos.Add(permiso);
+            }
+            return permisos;
+        }
+
+        public List<Modelo.Vista> ListarVistas()
+        {
+            SqlCommand query = new SqlCommand("SELECT * FROM vistas", Conexion);
+            Conexion.Open();
+            SqlDataReader response = query.ExecuteReader();
+            
+            if (response.HasRows)
+            {
+                var vistas = new List<Modelo.Vista>();
+                while (response.Read())
+                {
+                    var vista = new Modelo.Vista()
+                    {
+                        ID = response.GetInt32(0),
+                        Descripcion = response.GetString(1)
+                    };
+                    vistas.Add(vista);
+                }
+                Conexion.Close();
+                return vistas;
+            }
+            Conexion.Close();
+            return null;
         }
 
         public void Modificar(Grupo t)
