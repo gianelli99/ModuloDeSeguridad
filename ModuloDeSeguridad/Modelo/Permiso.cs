@@ -14,5 +14,9 @@ namespace ModuloDeSeguridad.Modelo
         public Vista Vista { get; set; }
         public bool TienePermiso { get; set; }
 
+        public string ObtenerNombre()
+        {
+            return this.Vista.Descripcion + @" - " + this.Accion.Descripcion;
+        }
     }
 }

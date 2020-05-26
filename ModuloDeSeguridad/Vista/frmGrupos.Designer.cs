@@ -28,68 +28,67 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnAgregar = new System.Windows.Forms.Button();
-            this.btnModificar = new System.Windows.Forms.Button();
-            this.btnConsultar = new System.Windows.Forms.Button();
-            this.btnEliminar = new System.Windows.Forms.Button();
+            this.dgvGrupos = new System.Windows.Forms.DataGridView();
+            this.btnBuscar = new System.Windows.Forms.Button();
+            this.txtBuscar = new System.Windows.Forms.TextBox();
+            this.flpCrud = new System.Windows.Forms.FlowLayoutPanel();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGrupos)).BeginInit();
             this.SuspendLayout();
             // 
-            // btnAgregar
+            // dgvGrupos
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(470, 415);
-            this.btnAgregar.Name = "btnAgregar";
-            this.btnAgregar.Size = new System.Drawing.Size(75, 23);
-            this.btnAgregar.TabIndex = 0;
-            this.btnAgregar.Text = "Agregar";
-            this.btnAgregar.UseVisualStyleBackColor = true;
+            this.dgvGrupos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvGrupos.Location = new System.Drawing.Point(12, 52);
+            this.dgvGrupos.Name = "dgvGrupos";
+            this.dgvGrupos.Size = new System.Drawing.Size(545, 357);
+            this.dgvGrupos.TabIndex = 4;
             // 
-            // btnModificar
+            // btnBuscar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(551, 415);
-            this.btnModificar.Name = "btnModificar";
-            this.btnModificar.Size = new System.Drawing.Size(75, 23);
-            this.btnModificar.TabIndex = 1;
-            this.btnModificar.Text = "Modificar";
-            this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Location = new System.Drawing.Point(482, 12);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(75, 23);
+            this.btnBuscar.TabIndex = 5;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.BtnBuscar_Click);
             // 
-            // btnConsultar
+            // txtBuscar
             // 
-            this.btnConsultar.Location = new System.Drawing.Point(632, 415);
-            this.btnConsultar.Name = "btnConsultar";
-            this.btnConsultar.Size = new System.Drawing.Size(75, 23);
-            this.btnConsultar.TabIndex = 2;
-            this.btnConsultar.Text = "Consultar";
-            this.btnConsultar.UseVisualStyleBackColor = true;
+            this.txtBuscar.Location = new System.Drawing.Point(244, 14);
+            this.txtBuscar.Name = "txtBuscar";
+            this.txtBuscar.Size = new System.Drawing.Size(232, 20);
+            this.txtBuscar.TabIndex = 6;
             // 
-            // btnEliminar
+            // flpCrud
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(713, 415);
-            this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(75, 23);
-            this.btnEliminar.TabIndex = 3;
-            this.btnEliminar.Text = "Eliminar";
-            this.btnEliminar.UseVisualStyleBackColor = true;
+            this.flpCrud.Location = new System.Drawing.Point(12, 427);
+            this.flpCrud.Name = "flpCrud";
+            this.flpCrud.Size = new System.Drawing.Size(545, 50);
+            this.flpCrud.TabIndex = 7;
             // 
             // frmGrupos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.btnEliminar);
-            this.Controls.Add(this.btnConsultar);
-            this.Controls.Add(this.btnModificar);
-            this.Controls.Add(this.btnAgregar);
+            this.ClientSize = new System.Drawing.Size(575, 490);
+            this.Controls.Add(this.flpCrud);
+            this.Controls.Add(this.txtBuscar);
+            this.Controls.Add(this.btnBuscar);
+            this.Controls.Add(this.dgvGrupos);
             this.Name = "frmGrupos";
             this.Text = "frmGrupos";
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGrupos)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button btnAgregar;
-        private System.Windows.Forms.Button btnModificar;
-        private System.Windows.Forms.Button btnConsultar;
-        private System.Windows.Forms.Button btnEliminar;
+        private System.Windows.Forms.DataGridView dgvGrupos;
+        private System.Windows.Forms.Button btnBuscar;
+        private System.Windows.Forms.TextBox txtBuscar;
+        private System.Windows.Forms.FlowLayoutPanel flpCrud;
     }
 }

@@ -53,13 +53,13 @@
     <Compile Include="Datos\Interfaces\IUsuarioDAO.cs" />
     <Compile Include="Datos\DAO\UsuarioDAO.cs" />
     <Compile Include="Logica\GrupoBL.cs" />
-    <Compile Include="Logica\PermisoBL.cs" />
     <Compile Include="Modelo\Accion.cs" />
     <Compile Include="Modelo\Grupo.cs" />
     <Compile Include="Modelo\Permiso.cs" />
     <Compile Include="Modelo\Sesion.cs" />
     <Compile Include="Modelo\Usuario.cs" />
     <Compile Include="Modelo\Vista.cs" />
+    <Compile Include="Vista\Enumerables.cs" />
     <Compile Include="Vista\frmGrupo.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -30,8 +30,8 @@ namespace ModuloDeSeguridad
         private void BtnGrupos_Click(object sender, EventArgs e)
         {
             // buscar las acciones de este usuario en esta vista
-            var formGrupos = new Vista.frmGrupos(1,2);
-            formGrupos.ShowDialog();
+            //var formGrupos = new Vista.frmGrupos(1,2);
+            //formGrupos.ShowDialog();
         }
     }
 }

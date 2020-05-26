@@ -9,7 +9,6 @@ namespace ModuloDeSeguridad.Datos
     interface ICrud<T>
     {
         List<T> Listar();
-        List<T> Listar(string filtro);
         void Insertar(T t);
         T Consultar(int id);
         void Modificar(T t);

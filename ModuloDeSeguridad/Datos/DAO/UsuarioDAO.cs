@@ -46,11 +46,6 @@ namespace ModuloDeSeguridad.Datos
             throw new NotImplementedException();
         }
 
-        public List<Usuario> Listar(string filtro)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<Accion> ListarAccionesDisponibles(int idUser, int idVista)
         {
             SqlCommand query = new SqlCommand("SELECT distinct acciones.id, acciones.tipo from permisos inner join acciones on permisos.accion_id = acciones.id where permisos.grupo_id in (SELECT grupo_id FROM usuarios_grupos WHERE usuario_id = "+idUser+") and vista_id = "+idVista+" and tiene_permiso = 1", Conexion);

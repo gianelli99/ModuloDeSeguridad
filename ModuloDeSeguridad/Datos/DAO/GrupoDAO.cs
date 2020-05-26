@@ -23,8 +23,7 @@ namespace ModuloDeSeguridad.Datos
                 grupo.ID = response.GetInt32(0);
                 grupo.Codigo = response.GetString(1);
                 grupo.Descripcion = response.GetString(2);
-                grupo.Estado = false;
-                
+                grupo.Estado = response.GetBoolean(3);       
                 Conexion.Close();
                 return grupo;
             }
@@ -34,23 +33,45 @@ namespace ModuloDeSeguridad.Datos
 
         public void Eliminar(int id)
         {
-            throw new NotImplementedException();
+            SqlCommand query = new SqlCommand("DELETE FROM grupos WHERE id = "+ id, Conexion);//falta validaciones
+            Conexion.Open();
+            query.ExecuteNonQuery();
+            Conexion.Close();
         }
 
         public void Insertar(Grupo t)
         {
-            throw new NotImplementedException();
+            int bitEstado = t.Estado ? 1 : 0 ;
+            SqlCommand query = new SqlCommand("INSERT INTO grupos VALUES('"+t.Codigo+"','"+t.Descripcion+"',"+bitEstado.ToString()+")", Conexion);
+            Conexion.Open();
+            query.ExecuteNonQuery();
+            Conexion.Close();
         }
 
         public List<Grupo> Listar()
         {
-            throw new NotImplementedException();
-        }
+            SqlCommand query = new SqlCommand("SELECT * FROM grupos", Conexion);
+            Conexion.Open();
+            SqlDataReader response = query.ExecuteReader();
+            if (response.HasRows)
+            {
+                var grupos = new List<Modelo.Grupo>();
+                while (response.Read())
+                {
+                    var grupo = new Modelo.Grupo();
 
-        public List<Grupo> Listar(string filtro)
-        {
-            throw new NotImplementedException();
-        }
+                    grupo.ID = response.GetInt32(0);
+                    grupo.Codigo = response.GetString(1);
+                    grupo.Descripcion = response.GetString(2);
+                    grupo.Estado = response.GetBoolean(3);
+                    grupos.Add(grupo);
+                }
+                Conexion.Close();
+                return grupos;
+            }
+            Conexion.Close();
+            return null;
+        }  
 
         public List<Accion> ListarAcciones()
         {
@@ -110,7 +131,7 @@ namespace ModuloDeSeguridad.Datos
             var acciones = dao.ListarAcciones();
             var permisosID = dao.ListarIDPermisos(id);
             var permisos = new List<Modelo.Permiso>(); 
-            foreach (var arrPermiso in permisosID)
+            foreach (var arrPermiso in permisosID)// validar que tenga datos
             {
                 var permiso = new Modelo.Permiso();
                 permiso.ID = arrPermiso[0];
@@ -164,7 +185,11 @@ namespace ModuloDeSeguridad.Datos
 
         public void Modificar(Grupo t)
         {
-            throw new NotImplementedException();
+            int bitEstado = t.Estado ? 1 : 0;
+            SqlCommand query = new SqlCommand("UPDATE grupos SET codigo='"+t.Codigo+"', descripcion='"+t.Descripcion+"', estado="+bitEstado.ToString()+" WHERE id = "+ t.ID, Conexion);
+            Conexion.Open();
+            query.ExecuteNonQuery();
+            Conexion.Close();
         }
     }
 }
