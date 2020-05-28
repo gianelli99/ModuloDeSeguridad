@@ -130,42 +130,42 @@ namespace ModuloDeSeguridad.Logica
         }
         public List<Modelo.Permiso> ListarPermisos(int id)// se usa en mod y consulta
         {
-            var grupo = grupoDAO.Consultar(id);
-            var vistas = grupoDAO.ListarVistas();
-            var acciones = grupoDAO.ListarAcciones();
-            var permisosID = grupoDAO.ListarIDPermisos(id);
-            var permisos = new List<Modelo.Permiso>();
-            if (permisosID.Count > 0)
+            try
             {
-                foreach (var permisoID in permisosID)// validar que tenga datos
-                {
-                    var permiso = new Modelo.Permiso();
-                    permiso.ID = permisoID[0];
-                    permiso.Grupo = grupo;
-                    foreach (var vista in vistas)
+                var grupo = grupoDAO.Consultar(id);
+                var vistas = grupoDAO.ListarVistas();
+                var acciones = grupoDAO.ListarAcciones();
+                var permisosID = grupoDAO.ListarIDPermisos(id);
+                var permisos = new List<Modelo.Permiso>();
+                    foreach (var permisoID in permisosID)// validar que tenga datos
                     {
-                        if (vista.ID == permisoID[1])
+                        var permiso = new Modelo.Permiso();
+                        permiso.ID = permisoID[0];
+                        permiso.Grupo = grupo;
+                        foreach (var vista in vistas)
                         {
-                            permiso.Vista = vista;
-                            break;
+                            if (vista.ID == permisoID[1])
+                            {
+                                permiso.Vista = vista;
+                                break;
+                            }
                         }
-                    }
-                    foreach (var accion in acciones)
-                    {
-                        if (accion.ID == permisoID[2])
+                        foreach (var accion in acciones)
                         {
-                            permiso.Accion = accion;
-                            break;
+                            if (accion.ID == permisoID[2])
+                            {
+                                permiso.Accion = accion;
+                                break;
+                            }
                         }
+                        permiso.TienePermiso = permisoID[3] == 1 ? true : false;
+                        permisos.Add(permiso);
                     }
-                    permiso.TienePermiso = permisoID[3] == 1 ? true : false;
-                    permisos.Add(permiso);
-                }
-                return permisos;
+                    return permisos;
             }
-            else
+            catch (Exception)
             {
-                return null;// exception ha ocurido un error, contactese con un administrador para resolver el problema
+                throw new Exception("Ha ocurrido un error, contacte a un administrador");
             }
         }
         private bool DescripcionCodigoDisponible(string descripción, string codigo)

@@ -115,7 +115,7 @@ namespace ModuloDeSeguridad.Vista
                         break;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Ocurrio un error, intente otra vez");
             }

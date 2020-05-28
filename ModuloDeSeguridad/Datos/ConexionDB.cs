@@ -9,6 +9,7 @@ namespace ModuloDeSeguridad.Datos
 {
     public class ConexionDB
     {
+        protected string connectionSQL = @"Server=(LocalDb)\MSSQLLocalDB;DataBase=ModuloDeSeguridad;Integrated Security=true";
         protected SqlConnection Conexion = new SqlConnection(@"Server=(LocalDb)\MSSQLLocalDB;DataBase=ModuloDeSeguridad;Integrated Security=true");
     }
 }

@@ -12,268 +12,493 @@ namespace ModuloDeSeguridad.Datos
     {
         public int CantidadUsuarios(int id)
         {
-            SqlCommand query = new SqlCommand("SELECT COUNT(usuario_id) AS cantidad FROM usuarios_grupos WHERE grupo_id = "+ id, Conexion);
-            Conexion.Open();
-            SqlDataReader response = query.ExecuteReader();
-            if (response.HasRows)
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
-                if (response.Read())
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Cantidad Usuarios en Grupo");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
                 {
-                    int cant= response.GetInt32(0);
-                    Conexion.Close();
-                    return cant;
+                    command.CommandText = $"SELECT COUNT(usuario_id) AS cantidad FROM usuarios_grupos WHERE grupo_id = {id}";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.Read())
+                        {
+                            int cant = response.GetInt32(0);
+                            Conexion.Close();
+                            return cant;
+                        }
+                        else
+                        {
+                            throw new Exception("Ha ocurrido un error, contacte al administrador para más información");
+                        }
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Conexion.Close();
-                    throw new Exception("Ha ocurrido un error, contacte al administrador para más información");
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
+                    }
                 }
             }
-            else
-            {
-                Conexion.Close();
-                throw new Exception("Ha ocurrido un error, contacte al administrador para más información");
-            }
+            throw new Exception("Ha ocurrido un error");
         }
 
         public Grupo Consultar(int id)
         {
-            SqlCommand query = new SqlCommand("SELECT * FROM grupos WHERE id = "+id, Conexion);
-            Conexion.Open();
-            SqlDataReader response = query.ExecuteReader();
-            
-            if (response.Read())
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
-                var grupo = new Modelo.Grupo();
+                connection.Open();
 
-                grupo.ID = response.GetInt32(0);
-                grupo.Codigo = response.GetString(1);
-                grupo.Descripcion = response.GetString(2);
-                grupo.Estado = response.GetBoolean(3);       
-                Conexion.Close();
-                return grupo;
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Consulta Grupo");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"SELECT * FROM grupos WHERE id = {id}";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.Read())
+                        {
+                            var grupo = new Modelo.Grupo();
+
+                            grupo.ID = response.GetInt32(0);
+                            grupo.Codigo = response.GetString(1);
+                            grupo.Descripcion = response.GetString(2);
+                            grupo.Estado = response.GetBoolean(3);
+                            return grupo;
+                        }
+                    }
+                    throw new Exception("No se ha podido encontrar el grupo");
+                }
+                catch (Exception)
+                {
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
+                    }
+                }
             }
-            Conexion.Close();
-            return null;
+            throw new Exception("Ha ocurrido un error");
         }
 
         public void Eliminar(int id)
         {
-            try
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
-                SqlCommand query = new SqlCommand("DELETE FROM permisos WHERE grupo_id = " + id, Conexion);//falta validaciones
-                Conexion.Open();
-                query.ExecuteNonQuery();
-                Conexion.Close();
-                Conexion.Open();
-                query = new SqlCommand("DELETE FROM grupos WHERE id = " + id, Conexion);//falta validaciones
-                query.ExecuteNonQuery();
-                Conexion.Close();
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Eliminar grupo");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"DELETE FROM permisos WHERE grupo_id = {id}";
+                    command.ExecuteNonQuery();
+                    command.CommandText = $"DELETE FROM grupos WHERE id = {id}";
+                    command.ExecuteNonQuery();
+                    transaction.Commit();
+                    return;
+                }
+                catch (Exception)
+                {
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
+                    }
+                }
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            throw new Exception("Ha ocurrido un error");
         }
 
         public void Insertar(Grupo t, List<Modelo.Permiso> permisos)
         {
-            try
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
-                int bitEstado = t.Estado ? 1 : 0;
-                SqlCommand query = new SqlCommand("INSERT INTO grupos VALUES('" + t.Codigo + "','" + t.Descripcion + "'," + bitEstado.ToString() + ")", Conexion);
-                Conexion.Open();
-                query.ExecuteNonQuery();
-                Conexion.Close();
+                connection.Open();
 
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Insertar grupo");
 
-                query = new SqlCommand($"SELECT TOP 1 id FROM grupos WHERE descripcion = '{t.Descripcion}'", Conexion);
-                Conexion.Open();
-                SqlDataReader response = query.ExecuteReader();
-                if (response.HasRows)
+                command.Connection = connection;
+                command.Transaction = transaction;
+                try
                 {
-                    if (response.Read())
+                    int bitEstado = t.Estado ? 1 : 0;
+
+                    command.CommandText = $"INSERT INTO grupos VALUES(@codigo,@descripcion,{bitEstado.ToString()});SELECT CAST(scope_identity() AS int)";
+                    command.Parameters.AddWithValue("@codigo", t.Codigo);
+                    command.Parameters.AddWithValue("@descripcion", t.Descripcion);
+                    using (SqlDataReader response = command.ExecuteReader())
                     {
-                        t.ID = response.GetInt32(0);
+                        if (response.Read())
+                        {
+                            t.ID = response.GetInt32(0);
+                        }
+                    }
+                    string querypermisos = $"INSERT INTO permisos VALUES ";
+                    foreach (var permiso in permisos)
+                    {
+                        int tienePermiso = permiso.TienePermiso ? 1 : 0;
+                        querypermisos += $"('{t.ID.ToString()}','{permiso.Vista.ID.ToString()}','{permiso.Accion.ID.ToString()}','{tienePermiso.ToString()}'),";
+                    }
+                    querypermisos = querypermisos.TrimEnd(',');
+                    command.CommandText = querypermisos;
+                    command.ExecuteNonQuery();
+                    transaction.Commit();
+                    return;
+                }
+                catch (Exception)
+                {
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
                     }
                 }
-                Conexion.Close();
-
-                string querypermisos = "INSERT INTO permisos VALUES ";
-                foreach (var permiso in permisos)
-                {
-                    int tienePermiso = permiso.TienePermiso ? 1 : 0;
-                    querypermisos += $"('{t.ID.ToString()}','{permiso.Vista.ID.ToString()}','{permiso.Accion.ID.ToString()}','{tienePermiso.ToString()}'),";
-                }
-                string finalquery = querypermisos.TrimEnd(',');
-                Conexion.Open();
-                query = new SqlCommand(finalquery, Conexion);
-                query.ExecuteNonQuery();
-                Conexion.Close();
             }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+            throw new Exception("Ha ocurrido un error");
         }
 
         public List<Grupo> Listar()
         {
-            try
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
-                SqlCommand query = new SqlCommand("SELECT * FROM grupos", Conexion);
-                Conexion.Open();
-                SqlDataReader response = query.ExecuteReader();
-                if (response.HasRows)
-                {
-                    var grupos = new List<Modelo.Grupo>();
-                    while (response.Read())
-                    {
-                        var grupo = new Modelo.Grupo();
+                connection.Open();
 
-                        grupo.ID = response.GetInt32(0);
-                        grupo.Codigo = response.GetString(1);
-                        grupo.Descripcion = response.GetString(2);
-                        grupo.Estado = response.GetBoolean(3);
-                        grupos.Add(grupo);
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Listar grupos");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"SELECT * FROM grupos";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.HasRows)
+                        {
+                            var grupos = new List<Modelo.Grupo>();
+                            while (response.Read())
+                            {
+                                var grupo = new Modelo.Grupo();
+
+                                grupo.ID = response.GetInt32(0);
+                                grupo.Codigo = response.GetString(1);
+                                grupo.Descripcion = response.GetString(2);
+                                grupo.Estado = response.GetBoolean(3);
+                                grupos.Add(grupo);
+                            }
+                            return grupos;
+                        }
                     }
-                    Conexion.Close();
-                    return grupos;
                 }
-                Conexion.Close();
-                return null;
+                catch (Exception)
+                {
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
+                    }
+                }
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            throw new Exception("Ha ocurrido un error");
         }  
 
         public List<Accion> ListarAcciones()
         {
-            SqlCommand query = new SqlCommand("SELECT * FROM acciones", Conexion);
-            Conexion.Open();
-            SqlDataReader response = query.ExecuteReader();
-            
-            if (response.HasRows)
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
-                var acciones = new List<Modelo.Accion>();
-                while (response.Read())
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Listar acciones");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
                 {
-                    var accion = new Modelo.Accion()
+                    command.CommandText = $"SELECT * FROM acciones";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
                     {
-                        ID = response.GetInt32(0),
-                        Descripcion = response.GetString(1)
-                    };
-                    acciones.Add(accion);
+                        if (response.HasRows)
+                        {
+                            var acciones = new List<Modelo.Accion>();
+                            while (response.Read())
+                            {
+                                var accion = new Modelo.Accion()
+                                {
+                                    ID = response.GetInt32(0),
+                                    Descripcion = response.GetString(1)
+                                };
+                                acciones.Add(accion);
+                            }
+                            return acciones;
+                        }
+                    }
                 }
-                Conexion.Close();
-                return acciones;
+                catch (Exception)
+                {
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
+                    }
+                }
             }
-            Conexion.Close();
-            return null;
+            throw new Exception("Ha ocurrido un error");
         }
 
         public List<int[]> ListarIDPermisos()// en alta
         {
-            SqlCommand query = new SqlCommand("SELECT DISTINCT accion_id, vista_id FROM permisos", Conexion);
-            Conexion.Open();
-            SqlDataReader response = query.ExecuteReader();
-            if (response.HasRows)
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
-                var permisos = new List<int[]>();
-                while (response.Read())
-                {
-                    var permiso = new int[2];
-                    permiso[0] = response.GetInt32(0);//accion id
-                    permiso[1] = response.GetInt32(1);//vista id
-                    permisos.Add(permiso);
-                }
-                Conexion.Close();
-                return permisos;
+                connection.Open();
 
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Listar ID permisos");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"SELECT DISTINCT accion_id, vista_id FROM permisos";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.HasRows)
+                        {
+                            var permisos = new List<int[]>();
+                            while (response.Read())
+                            {
+                                var permiso = new int[2];
+                                permiso[0] = response.GetInt32(0);//accion id
+                                permiso[1] = response.GetInt32(1);//vista id
+                                permisos.Add(permiso);
+                            }
+                            return permisos;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
+                    }
+                }
             }
-            Conexion.Close();
-            return null;
+            throw new Exception("Ha ocurrido un error");
         }
 
         public List<int[]> ListarIDPermisos(int id)// mod y consulta
         {
-            SqlCommand query = new SqlCommand("SELECT id, vista_id,accion_id,tiene_permiso FROM permisos WHERE grupo_id = "+ id, Conexion);
-            Conexion.Open();
-            SqlDataReader response = query.ExecuteReader();
-            
-            if (response.HasRows)
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
-                var permisos = new List<int[]>();
-                while (response.Read())
-                {
-                    var permiso = new int[4];
-                    permiso[0] = response.GetInt32(0);//id
-                    permiso[1] = response.GetInt32(1);//vista
-                    permiso[2] = response.GetInt32(2);//accion
-                    permiso[3] = Convert.ToInt32(response.GetBoolean(3));//permiso
-                    permisos.Add(permiso);
-                }
-                Conexion.Close();
-                return permisos;
+                connection.Open();
 
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Listar ID permisos");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"SELECT id, vista_id,accion_id,tiene_permiso FROM permisos WHERE grupo_id = {id}";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.HasRows)
+                        {
+                            var permisos = new List<int[]>();
+                            while (response.Read())
+                            {
+                                var permiso = new int[4];
+                                permiso[0] = response.GetInt32(0);//id
+                                permiso[1] = response.GetInt32(1);//vista
+                                permiso[2] = response.GetInt32(2);//accion
+                                permiso[3] = Convert.ToInt32(response.GetBoolean(3));//permiso
+                                permisos.Add(permiso);
+                            }
+                            return permisos;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
+                    }
+                }
             }
-            Conexion.Close();
-            return null;
+            throw new Exception("Ha ocurrido un error");
         }       
 
         public List<Modelo.Vista> ListarVistas()
         {
-            SqlCommand query = new SqlCommand("SELECT * FROM vistas", Conexion);
-            Conexion.Open();
-            SqlDataReader response = query.ExecuteReader();
-            
-            if (response.HasRows)
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
-                var vistas = new List<Modelo.Vista>();
-                while (response.Read())
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Listar ID permisos");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
                 {
-                    var vista = new Modelo.Vista()
+                    command.CommandText = $"SELECT * FROM vistas";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
                     {
-                        ID = response.GetInt32(0),
-                        Descripcion = response.GetString(1)
-                    };
-                    vistas.Add(vista);
+                        if (response.HasRows)
+                        {
+                            var vistas = new List<Modelo.Vista>();
+                            while (response.Read())
+                            {
+                                var vista = new Modelo.Vista()
+                                {
+                                    ID = response.GetInt32(0),
+                                    Descripcion = response.GetString(1)
+                                };
+                                vistas.Add(vista);
+                            }
+                            Conexion.Close();
+                            return vistas;
+                        }
+                    }
                 }
-                Conexion.Close();
-                return vistas;
+                catch (Exception)
+                {
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
+                    }
+                }
             }
-            Conexion.Close();
-            return null;
+            throw new Exception("Ha ocurrido un error");
         }
 
         public void Modificar(Grupo t, List<Modelo.Permiso> permisos)
         {
-            try
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
-                int bitEstado = t.Estado ? 1 : 0;
-                SqlCommand query = new SqlCommand("UPDATE grupos SET codigo='" + t.Codigo + "', descripcion='" + t.Descripcion + "', estado=" + bitEstado.ToString() + " WHERE id = " + t.ID, Conexion);
-                Conexion.Open();
-                query.ExecuteNonQuery();
-                Conexion.Close();
+                connection.Open();
 
-                string querypermisos = "";
-                foreach (var permiso in permisos)
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Modificar grupo");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+                try
                 {
-                    int tienePermiso = permiso.TienePermiso ? 1 : 0;
-                    querypermisos += $"UPDATE permisos SET tiene_permiso = '{tienePermiso.ToString()}' WHERE id = '{permiso.ID.ToString()}';";
+                    int bitEstado = t.Estado ? 1 : 0;
+
+                    command.CommandText = $"UPDATE grupos SET codigo=@codigo, descripcion=@descripcion, estado={bitEstado.ToString()} WHERE id = {t.ID}";
+                    command.Parameters.AddWithValue("@codigo", t.Codigo);
+                    command.Parameters.AddWithValue("@descripcion", t.Descripcion);
+                    command.ExecuteNonQuery();
+
+                    string querypermisos = "";
+                    foreach (var permiso in permisos)
+                    {
+                        int tienePermiso = permiso.TienePermiso ? 1 : 0;
+                        querypermisos += $"UPDATE permisos SET tiene_permiso = '{tienePermiso.ToString()}' WHERE id = '{permiso.ID.ToString()}';";
+                    }
+
+                    command.CommandText = querypermisos;
+                    command.ExecuteNonQuery();
+                    transaction.Commit();
+                    return;
                 }
-                Conexion.Open();
-                query = new SqlCommand(querypermisos, Conexion);
-                query.ExecuteNonQuery();
-                Conexion.Close();
+                catch (Exception)
+                {
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
+                    }
+                }
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            throw new Exception("Ha ocurrido un error");
         }
     }
 }
