@@ -32,12 +32,14 @@
             this.btnBuscar = new System.Windows.Forms.Button();
             this.txtBuscar = new System.Windows.Forms.TextBox();
             this.flpCrud = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnCerrar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGrupos)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvGrupos
             // 
             this.dgvGrupos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvGrupos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvGrupos.Location = new System.Drawing.Point(12, 52);
             this.dgvGrupos.Name = "dgvGrupos";
             this.dgvGrupos.Size = new System.Drawing.Size(545, 357);
@@ -62,16 +64,28 @@
             // 
             // flpCrud
             // 
-            this.flpCrud.Location = new System.Drawing.Point(12, 427);
+            this.flpCrud.AutoScroll = true;
+            this.flpCrud.Location = new System.Drawing.Point(12, 415);
+            this.flpCrud.Margin = new System.Windows.Forms.Padding(0);
             this.flpCrud.Name = "flpCrud";
-            this.flpCrud.Size = new System.Drawing.Size(545, 50);
+            this.flpCrud.Size = new System.Drawing.Size(455, 40);
             this.flpCrud.TabIndex = 7;
+            // 
+            // btnCerrar
+            // 
+            this.btnCerrar.Location = new System.Drawing.Point(482, 415);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(75, 23);
+            this.btnCerrar.TabIndex = 8;
+            this.btnCerrar.Text = "Cerrar";
+            this.btnCerrar.UseVisualStyleBackColor = true;
             // 
             // frmGrupos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(575, 490);
+            this.ClientSize = new System.Drawing.Size(575, 465);
+            this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.flpCrud);
             this.Controls.Add(this.txtBuscar);
             this.Controls.Add(this.btnBuscar);
@@ -90,5 +104,6 @@
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.TextBox txtBuscar;
         private System.Windows.Forms.FlowLayoutPanel flpCrud;
+        private System.Windows.Forms.Button btnCerrar;
     }
 }

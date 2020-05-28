@@ -47,13 +47,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datos\ConexionDB.cs" />
-    <Compile Include="Datos\DAO\GrupoDAO.cs" />
-    <Compile Include="Datos\Interfaces\ICrud.cs" />
+    <Compile Include="Datos\DAO\GrupoDAO_SqlServer.cs" />
     <Compile Include="Datos\Interfaces\IGrupoDAO.cs" />
     <Compile Include="Datos\Interfaces\IUsuarioDAO.cs" />
     <Compile Include="Datos\DAO\UsuarioDAO.cs" />
     <Compile Include="Logica\GrupoBL.cs" />
     <Compile Include="Modelo\Accion.cs" />
+    <Compile Include="Modelo\AuditoriaUsuario.cs" />
     <Compile Include="Modelo\Grupo.cs" />
     <Compile Include="Modelo\Permiso.cs" />
     <Compile Include="Modelo\Sesion.cs" />

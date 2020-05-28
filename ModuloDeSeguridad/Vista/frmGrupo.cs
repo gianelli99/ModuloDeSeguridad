@@ -15,54 +15,120 @@ namespace ModuloDeSeguridad.Vista
         private Accion accion;
         private Logica.GrupoBL grupoBL;
         private Modelo.Grupo grupo;
+        private List<Modelo.Permiso> permisos;
+        List<CheckBox> checkBoxes;
+
+        public frmGrupo()
+        {
+            InitializeComponent();
+            accion = Accion.Alta;
+            grupo = new Modelo.Grupo();
+            grupoBL = new Logica.GrupoBL();
+            permisos = grupoBL.ListarPermisos();
+            foreach (var cb in ListarCheckBoxesPermisos(permisos))
+            {
+                flpPermisos.Controls.Add(cb);
+            }
+        }
         public frmGrupo(Accion miAccion, Modelo.Grupo miGrupo)
         {
             InitializeComponent();
             accion = miAccion;
             grupo = miGrupo;
             grupoBL = new Logica.GrupoBL();
-            List<Modelo.Permiso> permisos;
-            if (accion == Accion.Alta)
+            permisos = grupoBL.ListarPermisos(grupo.ID);
+            foreach (var cb in ListarCheckBoxesPermisos(permisos))
             {
-                permisos = grupoBL.ListarPermisos(1);
+                flpPermisos.Controls.Add(cb);
+            }
+            txtCodigo.Text = grupo.Codigo;
+            txtDescripcion.Text = grupo.Descripcion;
+            if (grupo.Estado)
+            {
+                rdbActivo.Checked = true;
             }
             else
             {
-                permisos = grupoBL.ListarPermisos(grupo.ID);
+                rdbInactivo.Checked = true;
             }
-            
+            if (accion == Accion.Consulta)
+            {
+                btnAceptar.Enabled = false;
+            }
+        }
+        private List<CheckBox> ListarCheckBoxesPermisos(List<Modelo.Permiso> permisos)
+        {
+            checkBoxes = new List<CheckBox>();
             foreach (var permiso in permisos)
             {
                 var checkb = new CheckBox();
-                checkb.Name = permiso.ID.ToString();
+                if (!(accion == Accion.Alta))
+                {
+                    checkb.Name = permiso.ID.ToString();
+                }
+                else// es alta
+                {
+                    checkb.Name = permiso.ObtenerNombre();
+                }
                 checkb.Text = permiso.ObtenerNombre();
-                
                 checkb.Width = 260;
-                if (accion == Accion.Alta)
-                {
-                    checkb.Checked = false;
-                }
-                else
-                {
-                    checkb.Checked = permiso.TienePermiso;
-                }
-                flpPermisos.Controls.Add(checkb);
+                checkb.Checked = permiso.TienePermiso;
+                checkBoxes.Add(checkb);
             }
-            if (accion != Accion.Alta)
-            {
-                txtCodigo.Text = grupo.Codigo;
-                txtDescripcion.Text = grupo.Descripcion;
-            }
-
+            return checkBoxes;
         }
 
         private void BtnAceptar_Click(object sender, EventArgs e)
         {
+            if (String.IsNullOrWhiteSpace(txtCodigo.Text) ||
+                String.IsNullOrWhiteSpace(txtDescripcion.Text))
+            {
+                MessageBox.Show("Debe completar todos los campos");
+                return;
+            }
+
+            foreach (var cb in checkBoxes)
+            {
+                if (checkBoxes.Count>0)
+                {
+                    Modelo.Permiso permiso;
+                    if (accion == Accion.Alta)
+                    {
+                        permiso = permisos.Find(x => x.ObtenerNombre() == cb.Name);
+                    }
+                    else
+                    {
+                        permiso = permisos.Find(x => x.ID.ToString() == cb.Name);
+                    }
+                    permiso.TienePermiso = cb.Checked ? true : false;
+                }
+            }
             grupo.Codigo = txtCodigo.Text;
             grupo.Descripcion = txtDescripcion.Text;
-            grupo.Estado = true;
-            grupoBL.Insertar(grupo);
-            this.Close();
+            grupo.Estado = rdbActivo.Checked? true : false;
+
+            try
+            {
+                if (accion == Accion.Alta)
+                {
+                    grupoBL.Insertar(grupo, permisos);
+                }
+                else
+                {
+                    grupoBL.Modificar(grupo, permisos);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+            this.DialogResult = DialogResult.OK;
+        }
+
+        private void BtnCancelar_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
         }
     }
 }

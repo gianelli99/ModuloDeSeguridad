@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace ModuloDeSeguridad.Datos
 {
-    interface IUsuarioDAO : ICrud<Modelo.Usuario> 
+    interface IUsuarioDAO
     {
+        List<Modelo.Usuario> Listar();
+        void Insertar(Modelo.Usuario t);
+        Modelo.Usuario Consultar(int id);
+        void Modificar(Modelo.Usuario t);
+        void Eliminar(int id);
         List<Modelo.Vista> ListarVistasDisponibles(int id);
-
         List<Modelo.Accion> ListarAccionesDisponibles(int idUser, int idVista);
     }
 }
