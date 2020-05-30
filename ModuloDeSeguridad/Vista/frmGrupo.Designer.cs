@@ -30,70 +30,45 @@
         {
             this.flpPermisos = new System.Windows.Forms.FlowLayoutPanel();
             this.txtCodigo = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.txtDescripcion = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.rdbActivo = new System.Windows.Forms.RadioButton();
             this.rdbInactivo = new System.Windows.Forms.RadioButton();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.pnDatos = new System.Windows.Forms.Panel();
+            this.pnDatos.SuspendLayout();
             this.SuspendLayout();
             // 
             // flpPermisos
             // 
-            this.flpPermisos.Dock = System.Windows.Forms.DockStyle.Left;
-            this.flpPermisos.Location = new System.Drawing.Point(0, 0);
+            this.flpPermisos.AutoScroll = true;
+            this.flpPermisos.Location = new System.Drawing.Point(15, 158);
             this.flpPermisos.Name = "flpPermisos";
-            this.flpPermisos.Size = new System.Drawing.Size(260, 510);
+            this.flpPermisos.Size = new System.Drawing.Size(180, 246);
             this.flpPermisos.TabIndex = 0;
             // 
             // txtCodigo
             // 
-            this.txtCodigo.Location = new System.Drawing.Point(347, 36);
+            this.txtCodigo.Location = new System.Drawing.Point(15, 18);
             this.txtCodigo.Name = "txtCodigo";
-            this.txtCodigo.Size = new System.Drawing.Size(145, 20);
+            this.txtCodigo.Size = new System.Drawing.Size(177, 20);
             this.txtCodigo.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(278, 39);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Código";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(278, 79);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Descripción";
+            this.txtCodigo.Text = "Código";
             // 
             // txtDescripcion
             // 
-            this.txtDescripcion.Location = new System.Drawing.Point(347, 76);
+            this.txtDescripcion.Location = new System.Drawing.Point(15, 58);
             this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(145, 20);
+            this.txtDescripcion.Size = new System.Drawing.Size(177, 20);
             this.txtDescripcion.TabIndex = 3;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(288, 117);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Estado";
+            this.txtDescripcion.Text = "Descripción";
             // 
             // rdbActivo
             // 
             this.rdbActivo.AutoSize = true;
             this.rdbActivo.Checked = true;
-            this.rdbActivo.Location = new System.Drawing.Point(357, 115);
+            this.rdbActivo.Location = new System.Drawing.Point(29, 97);
             this.rdbActivo.Name = "rdbActivo";
             this.rdbActivo.Size = new System.Drawing.Size(55, 17);
             this.rdbActivo.TabIndex = 6;
@@ -104,7 +79,7 @@
             // rdbInactivo
             // 
             this.rdbInactivo.AutoSize = true;
-            this.rdbInactivo.Location = new System.Drawing.Point(429, 115);
+            this.rdbInactivo.Location = new System.Drawing.Point(90, 97);
             this.rdbInactivo.Name = "rdbInactivo";
             this.rdbInactivo.Size = new System.Drawing.Size(63, 17);
             this.rdbInactivo.TabIndex = 7;
@@ -114,7 +89,7 @@
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(336, 475);
+            this.btnAceptar.Location = new System.Drawing.Point(26, 410);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(75, 23);
             this.btnAceptar.TabIndex = 8;
@@ -124,7 +99,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(417, 475);
+            this.btnCancelar.Location = new System.Drawing.Point(107, 410);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 9;
@@ -132,25 +107,44 @@
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.BtnCancelar_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 142);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(49, 13);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Permisos";
+            // 
+            // pnDatos
+            // 
+            this.pnDatos.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.pnDatos.Controls.Add(this.flpPermisos);
+            this.pnDatos.Controls.Add(this.rdbInactivo);
+            this.pnDatos.Controls.Add(this.label4);
+            this.pnDatos.Controls.Add(this.rdbActivo);
+            this.pnDatos.Controls.Add(this.btnCancelar);
+            this.pnDatos.Controls.Add(this.txtDescripcion);
+            this.pnDatos.Controls.Add(this.txtCodigo);
+            this.pnDatos.Controls.Add(this.btnAceptar);
+            this.pnDatos.Location = new System.Drawing.Point(167, 37);
+            this.pnDatos.Margin = new System.Windows.Forms.Padding(0);
+            this.pnDatos.Name = "pnDatos";
+            this.pnDatos.Size = new System.Drawing.Size(215, 445);
+            this.pnDatos.TabIndex = 11;
+            // 
             // frmGrupo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(508, 510);
-            this.Controls.Add(this.btnCancelar);
-            this.Controls.Add(this.btnAceptar);
-            this.Controls.Add(this.rdbInactivo);
-            this.Controls.Add(this.rdbActivo);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtDescripcion);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtCodigo);
-            this.Controls.Add(this.flpPermisos);
+            this.ClientSize = new System.Drawing.Size(614, 583);
+            this.Controls.Add(this.pnDatos);
             this.Name = "frmGrupo";
             this.Text = "frmGrupo";
+            this.Resize += new System.EventHandler(this.FrmGrupo_Resize);
+            this.pnDatos.ResumeLayout(false);
+            this.pnDatos.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -158,13 +152,12 @@
 
         private System.Windows.Forms.FlowLayoutPanel flpPermisos;
         private System.Windows.Forms.TextBox txtCodigo;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtDescripcion;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RadioButton rdbActivo;
         private System.Windows.Forms.RadioButton rdbInactivo;
         private System.Windows.Forms.Button btnAceptar;
         private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Panel pnDatos;
     }
 }

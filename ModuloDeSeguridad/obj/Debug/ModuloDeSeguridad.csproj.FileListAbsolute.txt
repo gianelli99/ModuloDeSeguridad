@@ -10,3 +10,5 @@ C:\Users\Gianfranco\Desktop\Libros\Trabajo de Campo\ModuloDeSeguridad\ModuloDeSe
 C:\Users\Gianfranco\Desktop\Libros\Trabajo de Campo\ModuloDeSeguridad\ModuloDeSeguridad\obj\Debug\ModuloDeSeguridad.frmInicio.resources
 C:\Users\Gianfranco\Desktop\Libros\Trabajo de Campo\ModuloDeSeguridad\ModuloDeSeguridad\obj\Debug\ModuloDeSeguridad.Vista.frmGrupos.resources
 C:\Users\Gianfranco\Desktop\Libros\Trabajo de Campo\ModuloDeSeguridad\ModuloDeSeguridad\obj\Debug\ModuloDeSeguridad.Vista.frmGrupo.resources
+C:\Users\Gianfranco\Desktop\Libros\Trabajo de Campo\ModuloDeSeguridad\ModuloDeSeguridad\obj\Debug\ModuloDeSeguridad.Vista.frmUsuario.resources
+C:\Users\Gianfranco\Desktop\Libros\Trabajo de Campo\ModuloDeSeguridad\ModuloDeSeguridad\obj\Debug\ModuloDeSeguridad.Vista.frmUsuarios.resources

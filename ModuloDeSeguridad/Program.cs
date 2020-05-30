@@ -16,7 +16,7 @@ namespace ModuloDeSeguridad
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Vista.frmGrupos());
+            Application.Run(new Vista.frmUsuarios());
         }
     }
 }

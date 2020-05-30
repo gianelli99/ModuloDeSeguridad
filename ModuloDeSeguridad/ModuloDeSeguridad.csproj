@@ -50,8 +50,9 @@
     <Compile Include="Datos\DAO\GrupoDAO_SqlServer.cs" />
     <Compile Include="Datos\Interfaces\IGrupoDAO.cs" />
     <Compile Include="Datos\Interfaces\IUsuarioDAO.cs" />
-    <Compile Include="Datos\DAO\UsuarioDAO.cs" />
+    <Compile Include="Datos\DAO\UsuarioDAO_SqlServer.cs" />
     <Compile Include="Logica\GrupoBL.cs" />
+    <Compile Include="Logica\UsuarioBL.cs" />
     <Compile Include="Modelo\Accion.cs" />
     <Compile Include="Modelo\AuditoriaUsuario.cs" />
     <Compile Include="Modelo\Grupo.cs" />
@@ -80,6 +81,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vista\frmUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vista\frmUsuario.Designer.cs">
+      <DependentUpon>frmUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\frmUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vista\frmUsuarios.Designer.cs">
+      <DependentUpon>frmUsuarios.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Vista\frmGrupo.resx">
       <DependentUpon>frmGrupo.cs</DependentUpon>
     </EmbeddedResource>
@@ -98,6 +111,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Vista\frmUsuario.resx">
+      <DependentUpon>frmUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vista\frmUsuarios.resx">
+      <DependentUpon>frmUsuarios.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

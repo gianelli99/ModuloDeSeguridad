@@ -21,6 +21,8 @@ namespace ModuloDeSeguridad.Vista
         public frmGrupo()
         {
             InitializeComponent();
+            FrmGrupo_Resize(this, EventArgs.Empty);
+
             accion = Accion.Alta;
             grupo = new Modelo.Grupo();
             grupoBL = new Logica.GrupoBL();
@@ -30,12 +32,13 @@ namespace ModuloDeSeguridad.Vista
                 flpPermisos.Controls.Add(cb);
             }
         }
-        public frmGrupo(Accion miAccion, Modelo.Grupo miGrupo)
+        public frmGrupo(Accion miAccion, int id)
         {
             InitializeComponent();
-            accion = miAccion;
-            grupo = miGrupo;
+            FrmGrupo_Resize(this, EventArgs.Empty);
             grupoBL = new Logica.GrupoBL();
+            accion = miAccion;
+            grupo = grupoBL.Consultar(id);
             permisos = grupoBL.ListarPermisos(grupo.ID);
             foreach (var cb in ListarCheckBoxesPermisos(permisos))
             {
@@ -71,7 +74,7 @@ namespace ModuloDeSeguridad.Vista
                     checkb.Name = permiso.ObtenerNombre();
                 }
                 checkb.Text = permiso.ObtenerNombre();
-                checkb.Width = 260;
+                checkb.Width = 140;
                 checkb.Checked = permiso.TienePermiso;
                 checkBoxes.Add(checkb);
             }
@@ -129,6 +132,11 @@ namespace ModuloDeSeguridad.Vista
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+
+        private void FrmGrupo_Resize(object sender, EventArgs e)
+        {
+            pnDatos.Location =new Point( (this.ClientRectangle.Size.Width-pnDatos.Size.Width) / 2,(this.ClientRectangle.Size.Height - pnDatos.Size.Height)/2);
         }
     }
 }

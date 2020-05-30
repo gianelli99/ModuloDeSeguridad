@@ -9,6 +9,7 @@ namespace ModuloDeSeguridad.Datos
     interface IUsuarioDAO
     {
         List<Modelo.Usuario> Listar();
+        List<Modelo.Grupo> ListarGrupos(int id);
         void Insertar(Modelo.Usuario t);
         Modelo.Usuario Consultar(int id);
         void Modificar(Modelo.Usuario t);

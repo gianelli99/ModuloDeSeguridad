@@ -10,16 +10,16 @@ using System.Windows.Forms;
 
 namespace ModuloDeSeguridad.Vista
 {
-    public partial class frmGrupos : Form
+    public partial class frmUsuarios : Form
     {
-        private Logica.GrupoBL grupoBL;
-        private List<Modelo.Grupo> grupos;
+        private Logica.UsuarioBL usuarioBL;
+        private List<Modelo.Usuario> usuarios;
         private Modelo.Usuario user;
-        public frmGrupos()
+        public frmUsuarios()
         {
             InitializeComponent();
-            grupoBL = new Logica.GrupoBL();
-            var accionesDisponibles = grupoBL.ListarAccionesDisponibles(1,2);// ESTO ESTA HARDCODEADO
+            usuarioBL = new Logica.UsuarioBL();
+            var accionesDisponibles = usuarioBL.ListarAccionesDisponibles(1, 1);
             foreach (var accion in accionesDisponibles)
             {
                 var button = new Button();
@@ -28,18 +28,9 @@ namespace ModuloDeSeguridad.Vista
                 button.Click += BtnCrud;
                 flpCrud.Controls.Add(button);
             }
-            grupos = grupoBL.Listar();
-            dgvGrupos.DataSource = grupos;
-        }
-
-        private void BtnBuscar_Click(object sender, EventArgs e)
-        {
-            dgvGrupos.DataSource = null;
-            dgvGrupos.DataSource = grupoBL.Listar(grupos, txtBuscar.Text);
-        }
-        private bool TieneElementoSeleccionado()
-        {
-            return dgvGrupos.CurrentRow != null ? true : false;
+            usuarios = usuarioBL.Listar();
+            dgvUsuarios.DataSource = usuarios;
+            dgvUsuarios.Columns["Password"].Visible = false;
         }
         private void BtnCrud(object sender, EventArgs e)
         {
@@ -48,27 +39,27 @@ namespace ModuloDeSeguridad.Vista
                 switch (((Button)sender).Name)
                 {
                     case "btnAlta":
-                        frmGrupo frm = new frmGrupo();
+                        frmUsuario frm = new frmUsuario();
                         DialogResult result = frm.ShowDialog();
                         if (result == DialogResult.OK)
                         {
-                            dgvGrupos.DataSource = null;
-                            dgvGrupos.DataSource = grupoBL.Listar();
+                            dgvUsuarios.DataSource = null;
+                            dgvUsuarios.DataSource = usuarioBL.Listar();
                         }
                         break;
                     case "btnBaja":
                         if (TieneElementoSeleccionado())
                         {
-                            var grupo = (Modelo.Grupo)dgvGrupos.CurrentRow.DataBoundItem;
+                            var grupo = (Modelo.Grupo)dgvUsuarios.CurrentRow.DataBoundItem;
 
                             DialogResult resultado = MessageBox.Show("Desea eliminar el grupo " + grupo.Descripcion, "Confirmación", MessageBoxButtons.YesNo);
                             if (resultado == DialogResult.Yes)
                             {
                                 try
                                 {
-                                    grupoBL.Eliminar(grupo.ID);
-                                    dgvGrupos.DataSource = null;
-                                    dgvGrupos.DataSource = grupoBL.Listar();
+                                    usuarioBL.Eliminar(grupo.ID);
+                                    dgvUsuarios.DataSource = null;
+                                    dgvUsuarios.DataSource = usuarioBL.Listar();
                                 }
                                 catch (Exception ex)
                                 {
@@ -90,19 +81,19 @@ namespace ModuloDeSeguridad.Vista
                     case "btnModificacion":
                         if (TieneElementoSeleccionado())
                         {
-                            frmGrupo frmMod = new frmGrupo(Accion.Modificacion, ((Modelo.Grupo)dgvGrupos.CurrentRow.DataBoundItem).ID);
-                            DialogResult resultMod = frmMod.ShowDialog();
-                            if (resultMod == DialogResult.OK)
+                          //  frmUsuario frmMod = new frmUsuario(Accion.Modificacion, (Modelo.Grupo)dgvUsuarios.CurrentRow.DataBoundItem);
+                           // DialogResult resultMod = frmMod.ShowDialog();
+                         //   if (resultMod == DialogResult.OK)
                             {
-                                dgvGrupos.DataSource = null;
-                                dgvGrupos.DataSource = grupoBL.Listar();
+                                dgvUsuarios.DataSource = null;
+                                dgvUsuarios.DataSource = usuarioBL.Listar();
                             }
                         }
                         break;
                     case "btnConsulta":
                         if (TieneElementoSeleccionado())
                         {
-                            frmGrupo frmConsulta = new frmGrupo(Accion.Consulta, ((Modelo.Grupo)dgvGrupos.CurrentRow.DataBoundItem).ID);
+                            frmUsuario frmConsulta = new frmUsuario(Accion.Consulta, ((Modelo.Usuario)dgvUsuarios.CurrentRow.DataBoundItem).ID);
                             frmConsulta.ShowDialog();
                         }
                         else
@@ -120,10 +111,19 @@ namespace ModuloDeSeguridad.Vista
                 MessageBox.Show("Ocurrio un error, intente otra vez");
             }
         }
-
+        private bool TieneElementoSeleccionado()
+        {
+            return dgvUsuarios.CurrentRow != null ? true : false;
+        }
         private void BtnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+        private void BtnBuscar_Click(object sender, EventArgs e)
+        {
+            dgvUsuarios.DataSource = null;
+            dgvUsuarios.DataSource = usuarioBL.Listar(usuarios, txtBuscar.Text);
+            dgvUsuarios.Columns["Password"].Visible = false;
         }
     }
 }

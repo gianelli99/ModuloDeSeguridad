@@ -15,7 +15,7 @@ namespace ModuloDeSeguridad
         public frmInicio()
         {
             InitializeComponent();
-            Datos.IUsuarioDAO daoUsuario = new Datos.UsuarioDAO();
+            Datos.IUsuarioDAO daoUsuario = new Datos.UsuarioDAO_SqlServer();
             List<Modelo.Vista> vistasDisponibles = daoUsuario.ListarVistasDisponibles(1);
             if ((vistasDisponibles.FindAll(x => x.Descripcion == "GestionarGrupos")).Count> 0)
             {

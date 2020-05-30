@@ -17,6 +17,9 @@ namespace ModuloDeSeguridad.Modelo
         public bool Estado { get; set; }
         public List<Grupo> Grupos { get; set; }
 
-
+        public Usuario()
+        {
+            Grupos = new List<Grupo>();
+        }
     }
 }

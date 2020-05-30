@@ -1,0 +1,235 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ModuloDeSeguridad.Modelo;
+using System.Data.SqlClient;
+
+namespace ModuloDeSeguridad.Datos
+{
+    public class UsuarioDAO_SqlServer : ConexionDB,IUsuarioDAO
+    {
+
+        public Usuario Consultar(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Consulta Usuario");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"SELECT TOP 1 * from usuarios WHERE id = {id};SELECT grupos.id, grupos.codigo, grupos.descripcion,grupos.estado FROM grupos INNER JOIN usuarios_grupos ON grupos.id = usuarios_grupos.grupo_id WHERE usuarios_grupos.usuario_id = {id}";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        var usuario = new Usuario();
+                        if (response.Read())
+                        {
+                            usuario.ID = response.GetInt32(0);
+                            usuario.Username = response.GetString(1);
+                            usuario.Password = response.GetString(2);
+                            usuario.Email = response.GetString(3);
+                            usuario.Nombre = response.GetString(4);
+                            usuario.Apellido = response.GetString(5);
+                            usuario.Estado = response.GetBoolean(6);
+                        }
+                        response.NextResult();
+                        while (response.Read())
+                        {
+                            var grupo = new Grupo();
+                            grupo.ID = response.GetInt32(0);
+                            grupo.Codigo = response.GetString(1);
+                            grupo.Descripcion = response.GetString(2);
+                            grupo.Estado = response.GetBoolean(3);
+                            usuario.Grupos.Add(grupo);
+                        }
+                        return usuario;
+                    }
+                    throw new Exception("No se ha podido encontrar el grupo");
+                }
+                catch (Exception)
+                {
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
+                    }
+                }
+            }
+            throw new Exception("Ha ocurrido un error");
+        }
+
+        public void Eliminar(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Insertar(Usuario t)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Usuario> Listar()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Listar usuarios");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"SELECT id,username,email,nombre,apellido,estado FROM usuarios";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.HasRows)
+                        {
+                            var usuarios = new List<Modelo.Usuario>();
+                            while (response.Read())
+                            {
+                                var usuario = new Modelo.Usuario();
+
+                                usuario.ID = response.GetInt32(0);
+                                usuario.Username = response.GetString(1);
+                                usuario.Email = response.GetString(2);
+                                usuario.Nombre = response.GetString(3);
+                                usuario.Apellido = response.GetString(4);
+                                usuario.Estado = response.GetBoolean(5);
+                                usuarios.Add(usuario);
+                            }
+                            return usuarios;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
+                    }
+                }
+            }
+            throw new Exception("Ha ocurrido un error");
+        }
+
+        public List<Accion> ListarAccionesDisponibles(int idUser, int idVista)
+        {
+            SqlCommand query = new SqlCommand("SELECT distinct acciones.id, acciones.tipo from permisos inner join acciones on permisos.accion_id = acciones.id where permisos.grupo_id in (SELECT grupo_id FROM usuarios_grupos WHERE usuario_id = "+idUser+") and vista_id = "+idVista+" and tiene_permiso = 1", Conexion);
+            Conexion.Open();
+            SqlDataReader response = query.ExecuteReader();
+            if (response.HasRows)
+            {
+                var acciones = new List<Modelo.Accion>();
+                while (response.Read())
+                {
+                    var accion = new Modelo.Accion();
+                    accion.ID = response.GetInt32(0);
+                    accion.Descripcion = response.GetString(1);
+                    acciones.Add(accion);
+                }
+                return acciones;
+            }
+            return null;
+        }
+
+        public List<Grupo> ListarGrupos(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Listar grupos del usuario");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"SELECT grupos.id, grupos.codigo, grupos.descripcion,grupos.estado FROM grupos INNER JOIN usuarios_grupos ON grupos.id = usuarios_grupos.grupo_id WHERE usuarios_grupos.usuario_id = {id}";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.HasRows)
+                        {
+                            var grupos = new List<Modelo.Grupo>();
+                            while (response.Read())
+                            {
+                                var grupo = new Modelo.Grupo();
+
+                                grupo.ID = response.GetInt32(0);
+                                grupo.Codigo = response.GetString(1);
+                                grupo.Descripcion = response.GetString(2);
+                                grupo.Estado = response.GetBoolean(3);
+                                grupos.Add(grupo);
+                            }
+                            return grupos;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
+                    }
+                }
+            }
+            throw new Exception("Ha ocurrido un error");
+        }
+
+        public List<Modelo.Vista> ListarVistasDisponibles(int id)
+        {
+            SqlCommand query = new SqlCommand("SELECT vista_id, vistas.nombre from permisos inner join vistas on permisos.vista_id = vistas.id where grupo_id IN(SELECT grupo_id FROM usuarios_grupos WHERE usuario_id = "+id+") group by vista_id, nombre having SUM(CAST(tiene_permiso as INT)) > 0", Conexion);
+            Conexion.Open();
+            SqlDataReader response = query.ExecuteReader();
+            if (response.HasRows)
+            {
+                var vistas = new List<Modelo.Vista>();
+                while (response.Read())
+                {
+                    var vista = new Modelo.Vista();
+                    vista.ID = response.GetInt32(0);
+                    vista.Descripcion = response.GetString(1);
+                    vistas.Add(vista);
+                }
+                return vistas;
+            }
+            return null;
+        }
+
+        public void Modificar(Usuario t)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

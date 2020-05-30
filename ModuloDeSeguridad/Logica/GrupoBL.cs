@@ -13,7 +13,7 @@ namespace ModuloDeSeguridad.Logica
         public GrupoBL()
         {
             grupoDAO = new Datos.GrupoDAO_SqlServer();
-            usuarioDAO = new Datos.UsuarioDAO();
+            usuarioDAO = new Datos.UsuarioDAO_SqlServer();
         }
 
         public List<Modelo.Accion> ListarAccionesDisponibles(int userId,int vistaId)
