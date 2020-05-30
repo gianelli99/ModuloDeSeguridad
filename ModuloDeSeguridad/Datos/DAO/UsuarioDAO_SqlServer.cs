@@ -55,6 +55,34 @@ namespace ModuloDeSeguridad.Datos
                     }
                     throw new Exception("No se ha podido encontrar el grupo");
                 }
+                catch (Exception ex)
+                {
+                        throw ex;
+                }
+            }
+            throw new Exception("Ha ocurrido un error");
+        }
+
+        public void Eliminar(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Eliminar usuario");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"DELETE FROM usuarios_grupos WHERE usuario_id = {id}; DELETE FROM usuarios WHERE id = {id}";
+                    command.ExecuteNonQuery();
+                    transaction.Commit();
+                    return;
+                }
                 catch (Exception)
                 {
                     try
@@ -71,14 +99,60 @@ namespace ModuloDeSeguridad.Datos
             throw new Exception("Ha ocurrido un error");
         }
 
-        public void Eliminar(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Insertar(Usuario t)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Insertar usuario");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+                try
+                {
+                    int bitEstado = t.Estado ? 1 : 0;
+
+                    command.CommandText = $"INSERT INTO usuarios VALUES(@username,@contrasena,@email,@nombre,@apelido,{bitEstado.ToString()});SELECT CAST(scope_identity() AS int)";
+                    command.Parameters.AddWithValue("@username", t.Username);
+                    command.Parameters.AddWithValue("@contrasena", t.Password);
+                    command.Parameters.AddWithValue("@email", t.Email);
+                    command.Parameters.AddWithValue("@nombre", t.Nombre);
+                    command.Parameters.AddWithValue("@apelido", t.Apellido);
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.Read())
+                        {
+                            t.ID = response.GetInt32(0);
+                        }
+                    }
+                    string querygrupos = $"INSERT INTO usuarios_grupos VALUES ";
+                    foreach (var grupo in t.Grupos)
+                    {
+                        querygrupos += $"('{t.ID.ToString()}','{grupo.ID.ToString()}'),";
+                    }
+                    querygrupos = querygrupos.TrimEnd(',');
+                    command.CommandText = querygrupos;
+                    command.ExecuteNonQuery();
+                    transaction.Commit();
+                    return;
+                }
+                catch (Exception)
+                {
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
+                    }
+                }
+            }
+            throw new Exception("Ha ocurrido un error");
         }
 
         public List<Usuario> Listar()
@@ -119,17 +193,9 @@ namespace ModuloDeSeguridad.Datos
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex2)
                 {
-                    try
-                    {
-                        transaction.Rollback();
-                    }
-                    catch (Exception ex2)
-                    {
-
                         throw ex2;
-                    }
                 }
             }
             throw new Exception("Ha ocurrido un error");
@@ -191,17 +257,9 @@ namespace ModuloDeSeguridad.Datos
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex2)
                 {
-                    try
-                    {
-                        transaction.Rollback();
-                    }
-                    catch (Exception ex2)
-                    {
-
-                        throw ex2;
-                    }
+                    throw ex2;
                 }
             }
             throw new Exception("Ha ocurrido un error");
@@ -229,7 +287,92 @@ namespace ModuloDeSeguridad.Datos
 
         public void Modificar(Usuario t)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Modificar usuario");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+                try
+                {
+                    int bitEstado = t.Estado ? 1 : 0;
+
+                    command.CommandText = $"UPDATE usuarios SET username=@username, contrasena=@contrasena, email=@email, nombre=@nombre, apellido=@apelido, estado={bitEstado.ToString()} WHERE id = {t.ID.ToString()}";
+                    command.Parameters.AddWithValue("@username", t.Username);
+                    command.Parameters.AddWithValue("@contrasena", t.Password);
+                    command.Parameters.AddWithValue("@email", t.Email);
+                    command.Parameters.AddWithValue("@nombre", t.Nombre);
+                    command.Parameters.AddWithValue("@apelido", t.Apellido);
+                    command.ExecuteNonQuery();
+
+
+                    string querygrupos = $"DELETE FROM usuarios_grupos WHERE usuario_id = {t.ID};";
+
+
+                    querygrupos += $"INSERT INTO usuarios_grupos VALUES ";
+                    foreach (var grupo in t.Grupos)
+                    {
+                        querygrupos += $"('{t.ID.ToString()}','{grupo.ID.ToString()}'),";
+                    }
+                    querygrupos = querygrupos.TrimEnd(',');
+                    command.CommandText = querygrupos;
+                    command.ExecuteNonQuery();
+                    transaction.Commit();
+                    return;
+                }
+                catch (Exception)
+                {
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
+                    }
+                }
+            }
+            throw new Exception("Ha ocurrido un error");
+        }
+
+        public bool UsernameEmailDisponibles(string username, string email, string id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Validacion username y correo");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+                try
+                {
+                    string optionalQuery = id != null ? $" AND id <> {id}" : "";
+                    command.CommandText = $"SELECT count(id) AS cantidad FROM usuarios WHERE (username = @username OR email = @email)" + optionalQuery;
+                    command.Parameters.AddWithValue("@username", username);
+                    command.Parameters.AddWithValue("@email", email);
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.Read())
+                        {
+                            return response.GetInt32(0) > 0 ? false : true;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            throw new Exception("Ha ocurrido un error");
         }
     }
 }

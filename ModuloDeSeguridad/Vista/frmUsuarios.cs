@@ -25,6 +25,7 @@ namespace ModuloDeSeguridad.Vista
                 var button = new Button();
                 button.Name = "btn" + accion.Descripcion;
                 button.Text = accion.Descripcion;
+                button.AutoSize = true;
                 button.Click += BtnCrud;
                 flpCrud.Controls.Add(button);
             }
@@ -45,21 +46,23 @@ namespace ModuloDeSeguridad.Vista
                         {
                             dgvUsuarios.DataSource = null;
                             dgvUsuarios.DataSource = usuarioBL.Listar();
+                            dgvUsuarios.Columns["Password"].Visible = false;
                         }
                         break;
                     case "btnBaja":
                         if (TieneElementoSeleccionado())
                         {
-                            var grupo = (Modelo.Grupo)dgvUsuarios.CurrentRow.DataBoundItem;
+                            var usuario = (Modelo.Usuario)dgvUsuarios.CurrentRow.DataBoundItem;
 
-                            DialogResult resultado = MessageBox.Show("Desea eliminar el grupo " + grupo.Descripcion, "Confirmación", MessageBoxButtons.YesNo);
+                            DialogResult resultado = MessageBox.Show("Desea eliminar el usuario " + usuario.Username, "Confirmación", MessageBoxButtons.YesNo);
                             if (resultado == DialogResult.Yes)
                             {
                                 try
                                 {
-                                    usuarioBL.Eliminar(grupo.ID);
+                                    usuarioBL.Eliminar(usuario.ID);
                                     dgvUsuarios.DataSource = null;
                                     dgvUsuarios.DataSource = usuarioBL.Listar();
+                                    dgvUsuarios.Columns["Password"].Visible = false;
                                 }
                                 catch (Exception ex)
                                 {
@@ -81,12 +84,13 @@ namespace ModuloDeSeguridad.Vista
                     case "btnModificacion":
                         if (TieneElementoSeleccionado())
                         {
-                          //  frmUsuario frmMod = new frmUsuario(Accion.Modificacion, (Modelo.Grupo)dgvUsuarios.CurrentRow.DataBoundItem);
-                           // DialogResult resultMod = frmMod.ShowDialog();
-                         //   if (resultMod == DialogResult.OK)
+                            frmUsuario frmMod = new frmUsuario(Accion.Modificacion, ((Modelo.Usuario)dgvUsuarios.CurrentRow.DataBoundItem).ID);
+                            DialogResult resultMod = frmMod.ShowDialog();
+                            if (resultMod == DialogResult.OK)
                             {
                                 dgvUsuarios.DataSource = null;
                                 dgvUsuarios.DataSource = usuarioBL.Listar();
+                                dgvUsuarios.Columns["Password"].Visible = false;
                             }
                         }
                         break;

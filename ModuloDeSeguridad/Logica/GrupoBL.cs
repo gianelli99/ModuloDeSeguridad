@@ -18,7 +18,15 @@ namespace ModuloDeSeguridad.Logica
 
         public List<Modelo.Accion> ListarAccionesDisponibles(int userId,int vistaId)
         {
-            return usuarioDAO.ListarAccionesDisponibles(userId, vistaId);
+            try
+            {
+                return usuarioDAO.ListarAccionesDisponibles(userId, vistaId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         public void Insertar(Modelo.Grupo group, List<Modelo.Permiso> permisos)
         {
@@ -79,23 +87,47 @@ namespace ModuloDeSeguridad.Logica
         }
         public Modelo.Grupo Consultar(int id)
         {
-            return grupoDAO.Consultar(id);
+            try
+            {
+                return grupoDAO.Consultar(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         public List<Modelo.Grupo> Listar()
         {
-            return grupoDAO.Listar();
+            try
+            {
+                return grupoDAO.Listar();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         public List<Modelo.Grupo> Listar(List<Modelo.Grupo> grupos, string filtro)
         {
-            return grupos.FindAll(x => x.Descripcion.ToUpper().Contains(filtro.ToUpper()) || x.Codigo.ToUpper().Contains(filtro.ToUpper()));
+            try
+            {
+                return grupos.FindAll(x => x.Descripcion.ToUpper().Contains(filtro.ToUpper()) || x.Codigo.ToUpper().Contains(filtro.ToUpper()));
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         public List<Modelo.Permiso> ListarPermisos()//este se usa en el alta
         {
-            List<int[]> permisosID = grupoDAO.ListarIDPermisos();
-            var vistas = grupoDAO.ListarVistas();
-            var acciones = grupoDAO.ListarAcciones();
-            if (permisosID.Count >0)
+            try
             {
+                List<int[]> permisosID = grupoDAO.ListarIDPermisos();
+                var vistas = grupoDAO.ListarVistas();
+                var acciones = grupoDAO.ListarAcciones();
                 List<Modelo.Permiso> permisos = new List<Modelo.Permiso>();
                 foreach (var permisoID in permisosID)
                 {
@@ -120,13 +152,13 @@ namespace ModuloDeSeguridad.Logica
                     permisos.Add(permiso);
                 }
                 return permisos;
+
             }
-            else
+            catch (Exception ex)
             {
-                return null;// exception ha ocurido un error, contactese con un administrador para resolver el problema
+
+                throw ex;
             }
-
-
         }
         public List<Modelo.Permiso> ListarPermisos(int id)// se usa en mod y consulta
         {

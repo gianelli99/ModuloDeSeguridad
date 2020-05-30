@@ -18,19 +18,51 @@ namespace ModuloDeSeguridad.Logica
         }
         public Modelo.Usuario Consultar(int id)
         {
-            return usuarioDAO.Consultar(id);
+            try
+            {
+                return usuarioDAO.Consultar(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         public List<Modelo.Accion> ListarAccionesDisponibles(int userId, int vistaId)
         {
-            return usuarioDAO.ListarAccionesDisponibles(userId, vistaId);
+            try
+            {
+                return usuarioDAO.ListarAccionesDisponibles(userId, vistaId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         public List<Modelo.Usuario> Listar()
         {
-            return usuarioDAO.Listar();
+            try
+            {
+                return usuarioDAO.Listar();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         public List<Modelo.Usuario> Listar(List<Modelo.Usuario> usuarios, string filtro)
         {
-            return usuarios.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Apellido.ToUpper().Contains(filtro.ToUpper()) || x.Username.ToUpper().Contains(filtro.ToUpper()));
+            try
+            {
+                return usuarios.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Apellido.ToUpper().Contains(filtro.ToUpper()) || x.Username.ToUpper().Contains(filtro.ToUpper()));
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         public void Eliminar(int id)
         {
@@ -45,11 +77,91 @@ namespace ModuloDeSeguridad.Logica
         }
         public List<Modelo.Grupo> ListarGrupos()
         {
-            return grupoDAO.Listar();
+            try
+            {
+                return grupoDAO.Listar();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         public List<Modelo.Grupo> ListarGrupos(int userId)
         {
-            return usuarioDAO.ListarGrupos(userId);
+            try
+            {
+                return usuarioDAO.ListarGrupos(userId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public void Insertar(Modelo.Usuario usuario)
+        {
+            try
+            {
+                if (usuario.Grupos.Count == 0)
+                {
+                    throw new Exception("Debe asignar al menos un grupo al usuario");
+                }
+                else
+                {
+                    if (UsernameEmailDisponibles(usuario.Username,usuario.Email, null))
+                    {
+                        usuarioDAO.Insertar(usuario);
+                    }
+                    else
+                    {
+                        throw new Exception("Username o email no estan disponibles");
+                    } 
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        private bool UsernameEmailDisponibles(string username, string email, string id)
+        {
+            try
+            {
+                return usuarioDAO.UsernameEmailDisponibles(username, email, id);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public void Modificar(Modelo.Usuario usuario)
+        {
+            try
+            {
+                if (usuario.Grupos.Count == 0)
+                {
+                    throw new Exception("Debe asignar al menos un grupo al usuario");
+                }
+                else
+                {
+                    if (UsernameEmailDisponibles(usuario.Username, usuario.Email, usuario.ID.ToString()))
+                    {
+                        usuarioDAO.Modificar(usuario);
+                    }
+                    else
+                    {
+                        throw new Exception("Username o email no estan disponibles");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

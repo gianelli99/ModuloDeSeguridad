@@ -16,5 +16,6 @@ namespace ModuloDeSeguridad.Datos
         void Eliminar(int id);
         List<Modelo.Vista> ListarVistasDisponibles(int id);
         List<Modelo.Accion> ListarAccionesDisponibles(int idUser, int idVista);
+        bool UsernameEmailDisponibles(string username, string email, string id);
     }
 }

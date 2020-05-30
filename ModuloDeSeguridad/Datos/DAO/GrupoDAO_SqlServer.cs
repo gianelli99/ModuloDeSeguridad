@@ -41,17 +41,9 @@ namespace ModuloDeSeguridad.Datos
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex2)
                 {
-                    try
-                    {
-                        transaction.Rollback();
-                    }
-                    catch (Exception ex2)
-                    {
-
-                        throw ex2;
-                    }
+                    throw ex2;
                 }
             }
             throw new Exception("Ha ocurrido un error");
@@ -89,17 +81,9 @@ namespace ModuloDeSeguridad.Datos
                     }
                     throw new Exception("No se ha podido encontrar el grupo");
                 }
-                catch (Exception)
+                catch (Exception ex2)
                 {
-                    try
-                    {
-                        transaction.Rollback();
-                    }
-                    catch (Exception ex2)
-                    {
-
-                        throw ex2;
-                    }
+                    throw ex2;
                 }
             }
             throw new Exception("Ha ocurrido un error");
@@ -120,9 +104,7 @@ namespace ModuloDeSeguridad.Datos
 
                 try
                 {
-                    command.CommandText = $"DELETE FROM permisos WHERE grupo_id = {id}";
-                    command.ExecuteNonQuery();
-                    command.CommandText = $"DELETE FROM grupos WHERE id = {id}";
+                    command.CommandText = $"DELETE FROM permisos WHERE grupo_id = {id};DELETE FROM grupos WHERE id = {id}";
                     command.ExecuteNonQuery();
                     transaction.Commit();
                     return;
@@ -233,17 +215,9 @@ namespace ModuloDeSeguridad.Datos
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex2)
                 {
-                    try
-                    {
-                        transaction.Rollback();
-                    }
-                    catch (Exception ex2)
-                    {
-
-                        throw ex2;
-                    }
+                    throw ex2;
                 }
             }
             throw new Exception("Ha ocurrido un error");
@@ -284,17 +258,9 @@ namespace ModuloDeSeguridad.Datos
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex2)
                 {
-                    try
-                    {
-                        transaction.Rollback();
-                    }
-                    catch (Exception ex2)
-                    {
-
-                        throw ex2;
-                    }
+                    throw ex2;
                 }
             }
             throw new Exception("Ha ocurrido un error");
@@ -333,17 +299,9 @@ namespace ModuloDeSeguridad.Datos
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex2)
                 {
-                    try
-                    {
-                        transaction.Rollback();
-                    }
-                    catch (Exception ex2)
-                    {
-
-                        throw ex2;
-                    }
+                    throw ex2;
                 }
             }
             throw new Exception("Ha ocurrido un error");
@@ -384,17 +342,9 @@ namespace ModuloDeSeguridad.Datos
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex2)
                 {
-                    try
-                    {
-                        transaction.Rollback();
-                    }
-                    catch (Exception ex2)
-                    {
-
-                        throw ex2;
-                    }
+                    throw ex2;
                 }
             }
             throw new Exception("Ha ocurrido un error");
@@ -436,17 +386,9 @@ namespace ModuloDeSeguridad.Datos
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex2)
                 {
-                    try
-                    {
-                        transaction.Rollback();
-                    }
-                    catch (Exception ex2)
-                    {
-
-                        throw ex2;
-                    }
+                    throw ex2;
                 }
             }
             throw new Exception("Ha ocurrido un error");

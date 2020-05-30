@@ -40,12 +40,14 @@
             this.txtContrasena = new System.Windows.Forms.TextBox();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.btnAceptar = new System.Windows.Forms.Button();
+            this.txtConfirmarContrasena = new System.Windows.Forms.TextBox();
             this.pnDatos.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnDatos
             // 
             this.pnDatos.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.pnDatos.Controls.Add(this.txtConfirmarContrasena);
             this.pnDatos.Controls.Add(this.flpGrupos);
             this.pnDatos.Controls.Add(this.label4);
             this.pnDatos.Controls.Add(this.txtApellido);
@@ -60,7 +62,7 @@
             this.pnDatos.Location = new System.Drawing.Point(181, 9);
             this.pnDatos.Margin = new System.Windows.Forms.Padding(0);
             this.pnDatos.Name = "pnDatos";
-            this.pnDatos.Size = new System.Drawing.Size(215, 512);
+            this.pnDatos.Size = new System.Drawing.Size(213, 512);
             this.pnDatos.TabIndex = 12;
             // 
             // flpGrupos
@@ -82,7 +84,7 @@
             // 
             // txtApellido
             // 
-            this.txtApellido.Location = new System.Drawing.Point(15, 176);
+            this.txtApellido.Location = new System.Drawing.Point(15, 161);
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(177, 20);
             this.txtApellido.TabIndex = 12;
@@ -90,7 +92,7 @@
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(15, 134);
+            this.txtNombre.Location = new System.Drawing.Point(15, 135);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(177, 20);
             this.txtNombre.TabIndex = 11;
@@ -98,7 +100,7 @@
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(15, 94);
+            this.txtEmail.Location = new System.Drawing.Point(15, 109);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(177, 20);
             this.txtEmail.TabIndex = 10;
@@ -135,10 +137,11 @@
             this.btnCancelar.TabIndex = 9;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.BtnCancelar_Click);
             // 
             // txtContrasena
             // 
-            this.txtContrasena.Location = new System.Drawing.Point(15, 58);
+            this.txtContrasena.Location = new System.Drawing.Point(15, 57);
             this.txtContrasena.Name = "txtContrasena";
             this.txtContrasena.Size = new System.Drawing.Size(177, 20);
             this.txtContrasena.TabIndex = 3;
@@ -160,6 +163,15 @@
             this.btnAceptar.TabIndex = 8;
             this.btnAceptar.Text = "Aceptar";
             this.btnAceptar.UseVisualStyleBackColor = true;
+            this.btnAceptar.Click += new System.EventHandler(this.BtnAceptar_Click);
+            // 
+            // txtConfirmarContrasena
+            // 
+            this.txtConfirmarContrasena.Location = new System.Drawing.Point(15, 83);
+            this.txtConfirmarContrasena.Name = "txtConfirmarContrasena";
+            this.txtConfirmarContrasena.Size = new System.Drawing.Size(177, 20);
+            this.txtConfirmarContrasena.TabIndex = 15;
+            this.txtConfirmarContrasena.Text = "Repetir Contraseña";
             // 
             // frmUsuario
             // 
@@ -189,5 +201,6 @@
         private System.Windows.Forms.Button btnAceptar;
         private System.Windows.Forms.FlowLayoutPanel flpGrupos;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtConfirmarContrasena;
     }
 }

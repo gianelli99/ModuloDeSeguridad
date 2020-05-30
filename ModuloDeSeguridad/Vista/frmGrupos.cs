@@ -25,6 +25,7 @@ namespace ModuloDeSeguridad.Vista
                 var button = new Button();
                 button.Name = "btn" + accion.Descripcion;
                 button.Text = accion.Descripcion;
+                button.AutoSize = true;
                 button.Click += BtnCrud;
                 flpCrud.Controls.Add(button);
             }

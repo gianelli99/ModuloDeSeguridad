@@ -37,7 +37,11 @@ namespace ModuloDeSeguridad.Vista
             user = usuarioBL.Consultar(id);
             txtUsername.Text = user.Username;
             txtContrasena.UseSystemPasswordChar = true;
+            txtConfirmarContrasena.UseSystemPasswordChar = true;
             txtContrasena.Text = user.Password;
+            txtConfirmarContrasena.Text = user.Password;
+            txtContrasena.Enabled = false;
+            txtConfirmarContrasena.Enabled = false;
             txtEmail.Text = user.Email;
             txtNombre.Text = user.Nombre;
             txtApellido.Text = user.Apellido;
@@ -69,6 +73,60 @@ namespace ModuloDeSeguridad.Vista
                 checkBoxes.Add(checkb);
             }
             return checkBoxes;
+        }
+
+        private void BtnCancelar_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+        }
+
+        private void BtnAceptar_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrWhiteSpace(txtUsername.Text)   ||
+                String.IsNullOrWhiteSpace(txtContrasena.Text) ||
+                String.IsNullOrWhiteSpace(txtEmail.Text) ||
+                String.IsNullOrWhiteSpace(txtNombre.Text) ||
+                String.IsNullOrWhiteSpace(txtApellido.Text))
+            {
+                MessageBox.Show("Debe completar todos los campos");
+                return;
+            }
+            if (txtContrasena.Text != txtConfirmarContrasena.Text)
+            {
+                MessageBox.Show("Las contraseñas deben ser iguales");
+                return;
+            }
+            user.Grupos = new List<Modelo.Grupo>();
+            foreach (var cb in checkBoxes)
+            {
+                if (cb.Checked)
+                {
+                    user.Grupos.Add(gruposAll.Find(x => x.ID.ToString() == cb.Name));
+                }
+            }
+            user.Username = txtUsername.Text;
+            user.Password = txtContrasena.Text;
+            user.Email = txtEmail.Text;
+            user.Nombre = txtNombre.Text;
+            user.Apellido = txtApellido.Text;
+            user.Estado = rdbActivo.Checked ? true : false;
+            try
+            {
+                if (accion == Accion.Alta)
+                {
+                    usuarioBL.Insertar(user);
+                }
+                else
+                {
+                    usuarioBL.Modificar(user);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+            this.DialogResult = DialogResult.OK;
         }
     }
 }

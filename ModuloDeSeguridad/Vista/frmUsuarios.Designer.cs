@@ -38,6 +38,7 @@
             // 
             // btnCerrar
             // 
+            this.btnCerrar.AutoEllipsis = true;
             this.btnCerrar.Location = new System.Drawing.Point(482, 411);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(75, 23);
@@ -52,7 +53,7 @@
             this.flpCrud.Location = new System.Drawing.Point(12, 411);
             this.flpCrud.Margin = new System.Windows.Forms.Padding(0);
             this.flpCrud.Name = "flpCrud";
-            this.flpCrud.Size = new System.Drawing.Size(455, 40);
+            this.flpCrud.Size = new System.Drawing.Size(455, 36);
             this.flpCrud.TabIndex = 12;
             // 
             // txtBuscar
