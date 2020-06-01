@@ -8,12 +8,12 @@ namespace ModuloDeSeguridad.Logica
 {
     public class GrupoBL
     {
-        private Datos.IGrupoDAO grupoDAO;
-        private Datos.IUsuarioDAO usuarioDAO;
+        private Datos.Interfaces.IGrupoDAO grupoDAO;
+        private Datos.Interfaces.IUsuarioDAO usuarioDAO;
         public GrupoBL()
         {
-            grupoDAO = new Datos.GrupoDAO_SqlServer();
-            usuarioDAO = new Datos.UsuarioDAO_SqlServer();
+            grupoDAO = new Datos.DAO.GrupoDAO_SqlServer();
+            usuarioDAO = new Datos.DAO.UsuarioDAO_SqlServer();
         }
 
         public List<Modelo.Accion> ListarAccionesDisponibles(int userId,int vistaId)
@@ -32,13 +32,13 @@ namespace ModuloDeSeguridad.Logica
         {
             try
             {
-                if (DescripcionCodigoDisponible(group.Descripcion, group.Codigo))
+                if (DescripcionCodigoDisponible(group.Descripcion, group.Codigo, null))
                 {
                     grupoDAO.Insertar(group, permisos);
                 }
                 else
                 {
-                    throw new Exception("La descripción no está disponible");
+                    throw new Exception("La descripción o el código no están disponible");
                 }
             }
             catch (Exception ex)
@@ -51,13 +51,13 @@ namespace ModuloDeSeguridad.Logica
         {
             try
             {
-                if (DescripcionCodigoDisponible(group.Descripcion,group.Codigo,group.ID))
+                if (DescripcionCodigoDisponible(group.Descripcion,group.Codigo,group.ID.ToString()))
                 {
                     grupoDAO.Modificar(group, permisos);
                 }
                 else
                 {
-                    throw new Exception("La descripción no está disponible");
+                    throw new Exception("La descripción o el código no están disponible");
                 }
             }
             catch (Exception ex)
@@ -200,38 +200,11 @@ namespace ModuloDeSeguridad.Logica
                 throw new Exception("Ha ocurrido un error, contacte a un administrador");
             }
         }
-        private bool DescripcionCodigoDisponible(string descripción, string codigo)
+        private bool DescripcionCodigoDisponible(string descripción, string codigo, string id)
         {
             try
             {
-                var grupos = grupoDAO.Listar();
-                foreach (var grupo in grupos)
-                {
-                    if (grupo.Codigo == codigo || grupo.Descripcion == descripción)
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        private bool DescripcionCodigoDisponible(string descripción,string codigo, int id)
-        {
-            try
-            {
-                var grupos = grupoDAO.Listar();
-                foreach (var grupo in grupos)
-                {
-                    if ((grupo.Codigo == codigo || grupo.Descripcion == descripción) && grupo.ID != id)
-                    {
-                        return false;
-                    }
-                }
-                return true;
+                return grupoDAO.DescripcionCodigoDisponible(descripción, codigo, id);  
             }
             catch (Exception ex)
             {

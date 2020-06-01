@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModuloDeSeguridad.Datos
+namespace ModuloDeSeguridad.Datos.Interfaces
 {
     interface IGrupoDAO
     {
@@ -18,5 +18,6 @@ namespace ModuloDeSeguridad.Datos
         List<int[]> ListarIDPermisos();
         List<int[]> ListarIDPermisos(int id);
         int CantidadUsuarios(int id);
+        bool DescripcionCodigoDisponible(string descripción, string codigo, string id);
     }
 }

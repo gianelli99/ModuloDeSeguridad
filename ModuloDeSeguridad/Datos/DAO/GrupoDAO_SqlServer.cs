@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using ModuloDeSeguridad.Modelo;
 using System.Data.SqlClient;
 
-namespace ModuloDeSeguridad.Datos
+namespace ModuloDeSeguridad.Datos.DAO
 {
-    public class GrupoDAO_SqlServer : ConexionDB, IGrupoDAO
+    public class GrupoDAO_SqlServer : ConexionDB, Interfaces.IGrupoDAO
     {
         public int CantidadUsuarios(int id)
         {
@@ -84,6 +84,41 @@ namespace ModuloDeSeguridad.Datos
                 catch (Exception ex2)
                 {
                     throw ex2;
+                }
+            }
+            throw new Exception("Ha ocurrido un error");
+        }
+
+        public bool DescripcionCodigoDisponible(string descripción, string codigo, string id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Validacion descripción y código");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+                try
+                {
+                    string optionalQuery = id != null ? $" AND id <> {id}" : "";
+                    command.CommandText = $"SELECT count(id) AS cantidad FROM grupos WHERE (descripcion = @descripcion OR codigo = @codigo)" + optionalQuery;
+                    command.Parameters.AddWithValue("@descripcion", descripción);
+                    command.Parameters.AddWithValue("@codigo", codigo);
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.Read())
+                        {
+                            return response.GetInt32(0) > 0 ? false : true;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
                 }
             }
             throw new Exception("Ha ocurrido un error");

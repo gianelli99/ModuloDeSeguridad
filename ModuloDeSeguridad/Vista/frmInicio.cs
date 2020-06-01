@@ -8,30 +8,47 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ModuloDeSeguridad
+namespace ModuloDeSeguridad.Vista
 {
     public partial class frmInicio : Form
     {
-        public frmInicio()
+        private Modelo.Sesion sesion;
+        private Logica.SesionBL sesionBL;
+        public frmInicio(Modelo.Sesion miSesion)
         {
             InitializeComponent();
-            Datos.IUsuarioDAO daoUsuario = new Datos.UsuarioDAO_SqlServer();
-            List<Modelo.Vista> vistasDisponibles = daoUsuario.ListarVistasDisponibles(1);
-            if ((vistasDisponibles.FindAll(x => x.Descripcion == "GestionarGrupos")).Count> 0)
+            sesion = miSesion;
+            sesionBL = new Logica.SesionBL();
+            List<Modelo.Vista> vistasDisponibles = sesionBL.ListarVistasDisponibles(sesion.Usuario.ID);
+            if (vistasDisponibles != null)
             {
-                btnGrupos.Enabled = true;
-            }
-            else
-            {
-                btnGrupos.Enabled = false;
+                foreach (var vista in vistasDisponibles)
+                {
+                    var button = new Button();
+                    button.Name = vista.ID.ToString();
+                    button.Text = vista.Descripcion;
+                    button.AutoSize = true;
+                    button.Click += VistaClick;
+                    flpVistas.Controls.Add(button);
+                }
             }
         }
 
-        private void BtnGrupos_Click(object sender, EventArgs e)
+        private void VistaClick(object sender, EventArgs e)
         {
-            // buscar las acciones de este usuario en esta vista
-            //var formGrupos = new Vista.frmGrupos(1,2);
-            //formGrupos.ShowDialog();
+            try
+            {
+                switch (((Button)sender).Text)
+                {
+                    default:
+                        break;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Ha ocurrido un error");
+                return;
+            }
         }
     }
 }

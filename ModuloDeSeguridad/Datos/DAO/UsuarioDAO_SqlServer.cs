@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using ModuloDeSeguridad.Modelo;
 using System.Data.SqlClient;
 
-namespace ModuloDeSeguridad.Datos
+namespace ModuloDeSeguridad.Datos.DAO
 {
-    public class UsuarioDAO_SqlServer : ConexionDB,IUsuarioDAO
+    public class UsuarioDAO_SqlServer : ConexionDB,Interfaces.IUsuarioDAO
     {
 
         public Usuario Consultar(int id)

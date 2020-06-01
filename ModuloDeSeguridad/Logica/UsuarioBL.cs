@@ -8,13 +8,13 @@ namespace ModuloDeSeguridad.Logica
 {
     public class UsuarioBL
     {
-        private Datos.IUsuarioDAO usuarioDAO;
-        private Datos.IGrupoDAO grupoDAO;
+        private Datos.Interfaces.IUsuarioDAO usuarioDAO;
+        private Datos.Interfaces.IGrupoDAO grupoDAO;
 
         public UsuarioBL()
         {
-            usuarioDAO = new Datos.UsuarioDAO_SqlServer();
-            grupoDAO = new Datos.GrupoDAO_SqlServer();
+            usuarioDAO = new Datos.DAO.UsuarioDAO_SqlServer();
+            grupoDAO = new Datos.DAO.GrupoDAO_SqlServer();
         }
         public Modelo.Usuario Consultar(int id)
         {

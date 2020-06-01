@@ -53,6 +53,7 @@ namespace ModuloDeSeguridad.Vista
             }
             btnAceptar.Enabled = Accion.Consulta == accion ? false : true;
         }
+
         private List<CheckBox> ListarCheckBoxesGrupos(List<Modelo.Grupo> grupos)
         {
             checkBoxes = new List<CheckBox>();
@@ -94,6 +95,20 @@ namespace ModuloDeSeguridad.Vista
             if (txtContrasena.Text != txtConfirmarContrasena.Text)
             {
                 MessageBox.Show("Las contraseñas deben ser iguales");
+                return;
+            }
+            try//validar email
+            {
+                var addr = new System.Net.Mail.MailAddress(txtEmail.Text);
+                if (addr.Address != txtEmail.Text)
+                {
+                    MessageBox.Show("El email no es válido");
+                    return;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("El email no es válido");
                 return;
             }
             user.Grupos = new List<Modelo.Grupo>();

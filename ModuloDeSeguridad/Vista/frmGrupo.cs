@@ -74,10 +74,11 @@ namespace ModuloDeSeguridad.Vista
                     checkb.Name = permiso.ObtenerNombre();
                 }
                 checkb.Text = permiso.ObtenerNombre();
-                checkb.Width = 140;
+                checkb.Width = 180;
                 checkb.Checked = permiso.TienePermiso;
                 checkBoxes.Add(checkb);
             }
+            checkBoxes = checkBoxes.OrderBy(x => x.Text).ToList();
             return checkBoxes;
         }
 

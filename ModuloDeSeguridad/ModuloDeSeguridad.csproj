@@ -48,10 +48,13 @@
   <ItemGroup>
     <Compile Include="Datos\ConexionDB.cs" />
     <Compile Include="Datos\DAO\GrupoDAO_SqlServer.cs" />
+    <Compile Include="Datos\DAO\SesionDAO_SqlServer.cs" />
     <Compile Include="Datos\Interfaces\IGrupoDAO.cs" />
+    <Compile Include="Datos\Interfaces\ISesionDAO.cs" />
     <Compile Include="Datos\Interfaces\IUsuarioDAO.cs" />
     <Compile Include="Datos\DAO\UsuarioDAO_SqlServer.cs" />
     <Compile Include="Logica\GrupoBL.cs" />
+    <Compile Include="Logica\SesionBL.cs" />
     <Compile Include="Logica\UsuarioBL.cs" />
     <Compile Include="Modelo\Accion.cs" />
     <Compile Include="Modelo\AuditoriaUsuario.cs" />
@@ -72,6 +75,12 @@
     </Compile>
     <Compile Include="Vista\frmGrupos.Designer.cs">
       <DependentUpon>frmGrupos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\frmIniciarSesion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vista\frmIniciarSesion.Designer.cs">
+      <DependentUpon>frmIniciarSesion.cs</DependentUpon>
     </Compile>
     <Compile Include="Vista\frmInicio.cs">
       <SubType>Form</SubType>
@@ -98,6 +107,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Vista\frmGrupos.resx">
       <DependentUpon>frmGrupos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vista\frmIniciarSesion.resx">
+      <DependentUpon>frmIniciarSesion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vista\frmInicio.resx">
       <DependentUpon>frmInicio.cs</DependentUpon>

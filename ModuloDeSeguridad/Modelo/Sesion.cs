@@ -17,5 +17,10 @@ namespace ModuloDeSeguridad.Modelo
         {
             return LogOut - LogIn;
         }
+        public Sesion(DateTime login,Usuario usuario)
+        {
+            this.LogIn = login;
+            this.Usuario = usuario;
+        }
     }
 }
