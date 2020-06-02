@@ -10,14 +10,20 @@ using System.Windows.Forms;
 
 namespace ModuloDeSeguridad.Vista
 {
-    public partial class frmIniciarSesion : Form
+    public partial class frmIniciarSesion : Form, Logica.Interfaces.ISesionObserver
     {
         private Modelo.Sesion sesion;
-        private Logica.SesionBL SesionBL;
+        private Logica.SesionBL sesionBL;
         public frmIniciarSesion()
         {
             InitializeComponent();
-            SesionBL = new Logica.SesionBL();
+            sesionBL = Logica.SesionBL.ObtenerInstancia();
+        }
+
+        public void Actualizar()
+        {
+            sesionBL.Desuscribir(this);
+            this.Show();
         }
 
         private void BtnIniciarSesion_Click(object sender, EventArgs e)
@@ -29,14 +35,14 @@ namespace ModuloDeSeguridad.Vista
             }
             try
             {
-                int userId = SesionBL.ValidarUsuario(txtUsername.Text, txtContrasena.Text);
+                int userId = sesionBL.ValidarUsuario(txtUsername.Text, txtContrasena.Text);
                 if (userId != -1)
                 {
-                    sesion = new Modelo.Sesion(DateTime.Now, SesionBL.ConsultarUsuario(userId));
+                    sesionBL.Suscribir(this);
+                    sesion = new Modelo.Sesion(DateTime.Now, sesionBL.ConsultarUsuario(userId));
                     frmInicio inicio = new frmInicio(sesion);
                     this.Hide();
-                    inicio.ShowDialog();
-                    this.Close();
+                    DialogResult result = inicio.ShowDialog();
                 }
                 else
                 {

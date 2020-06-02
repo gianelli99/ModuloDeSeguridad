@@ -10,15 +10,18 @@ using System.Windows.Forms;
 
 namespace ModuloDeSeguridad.Vista
 {
-    public partial class frmInicio : Form
+    public partial class frmInicio : Form, Logica.Interfaces.ISesionObserver
     {
         private Modelo.Sesion sesion;
         private Logica.SesionBL sesionBL;
         public frmInicio(Modelo.Sesion miSesion)
         {
             InitializeComponent();
+            tmTiempoSesion.Interval= 7200000;
+            tmTiempoSesion.Start();
             sesion = miSesion;
-            sesionBL = new Logica.SesionBL();
+            sesionBL = Logica.SesionBL.ObtenerInstancia();
+            sesionBL.Suscribir(this);
             List<Modelo.Vista> vistasDisponibles = sesionBL.ListarVistasDisponibles(sesion.Usuario.ID);
             if (vistasDisponibles != null)
             {
@@ -49,6 +52,23 @@ namespace ModuloDeSeguridad.Vista
                 MessageBox.Show("Ha ocurrido un error");
                 return;
             }
+        }
+
+        private void BtnCerrarSesion_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+        }
+
+        public void Actualizar()
+        {
+            sesionBL.Desuscribir(this);
+            this.Dispose();
+        }
+
+        private void TmTiempoSesion_Tick(object sender, EventArgs e)
+        {
+            tmTiempoSesion.Dispose();
+            sesionBL.FinalizarSesion();
         }
     }
 }

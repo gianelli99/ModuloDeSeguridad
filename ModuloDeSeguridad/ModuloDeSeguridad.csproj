@@ -54,6 +54,8 @@
     <Compile Include="Datos\Interfaces\IUsuarioDAO.cs" />
     <Compile Include="Datos\DAO\UsuarioDAO_SqlServer.cs" />
     <Compile Include="Logica\GrupoBL.cs" />
+    <Compile Include="Logica\Interfaces\ISesionObserver.cs" />
+    <Compile Include="Logica\Interfaces\ISesionPublisher.cs" />
     <Compile Include="Logica\SesionBL.cs" />
     <Compile Include="Logica\UsuarioBL.cs" />
     <Compile Include="Modelo\Accion.cs" />

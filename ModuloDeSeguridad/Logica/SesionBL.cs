@@ -3,17 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ModuloDeSeguridad.Logica.Interfaces;
 
 namespace ModuloDeSeguridad.Logica
 {
-    public class SesionBL
+    public class SesionBL : Interfaces.ISesionPublisher
     {
         private Datos.Interfaces.ISesionDAO sesionDAO;
-        private Datos.Interfaces.IUsuarioDAO usuarioDAO;
-        public SesionBL()
+        private Datos.Interfaces.IUsuarioDAO usuarioDAO;        
+
+        private List<Interfaces.ISesionObserver> observadores;
+
+        private static SesionBL instancia;
+
+        public static SesionBL ObtenerInstancia()
+        {
+            if (instancia == null)
+            {
+                instancia = new SesionBL();
+            }
+            return instancia;
+        }
+        private SesionBL()
         {
             sesionDAO = new Datos.DAO.SesionDAO_SqlServer();
             usuarioDAO = new Datos.DAO.UsuarioDAO_SqlServer();
+            observadores = new List<ISesionObserver>();
         }
         public int ValidarUsuario(string username, string password)
         {
@@ -49,6 +64,27 @@ namespace ModuloDeSeguridad.Logica
             {
 
                 throw ex;
+            }
+        }
+
+        public void Suscribir(ISesionObserver observer)
+        {
+            observadores.Add(observer);
+        }
+
+        public void Desuscribir(ISesionObserver observer)
+        {
+            observadores.Remove(observer);
+        }
+        public void FinalizarSesion()
+        {
+            this.Notificar();
+        }
+        public void Notificar()
+        {
+            for (int i = observadores.Count-1; i >= 0; i--)
+            {
+                observadores[i].Actualizar();
             }
         }
     }

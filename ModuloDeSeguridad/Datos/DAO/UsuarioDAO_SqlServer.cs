@@ -216,8 +216,10 @@ namespace ModuloDeSeguridad.Datos.DAO
                     accion.Descripcion = response.GetString(1);
                     acciones.Add(accion);
                 }
+                Conexion.Close();
                 return acciones;
             }
+            Conexion.Close();
             return null;
         }
 
@@ -280,8 +282,10 @@ namespace ModuloDeSeguridad.Datos.DAO
                     vista.Descripcion = response.GetString(1);
                     vistas.Add(vista);
                 }
+                Conexion.Close();
                 return vistas;
             }
+            Conexion.Close();
             return null;
         }
 
