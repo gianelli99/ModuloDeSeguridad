@@ -11,7 +11,7 @@ namespace ModuloDeSeguridad.Datos.DAO
     public class UsuarioDAO_SqlServer : ConexionDB,Interfaces.IUsuarioDAO
     {
 
-        public Usuario Consultar(int id)
+        public Usuario Consultar(int id)// traigo usuario y sus grupos
         {
             using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
@@ -63,7 +63,7 @@ namespace ModuloDeSeguridad.Datos.DAO
             throw new Exception("Ha ocurrido un error");
         }
 
-        public void Eliminar(int id)
+        public void Eliminar(int id, int idEditor)
         {
             using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
@@ -78,7 +78,13 @@ namespace ModuloDeSeguridad.Datos.DAO
 
                 try
                 {
-                    command.CommandText = $"DELETE FROM usuarios_grupos WHERE usuario_id = {id}; DELETE FROM usuarios WHERE id = {id}";
+                    command.CommandText = $"INSERT INTO usuarios_auditorias SELECT * FROM usuarios WHERE usuarios.id = {id}";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = $"UPDATE usuarios SET estado=0, editor_id=@editor_id, edicion_fecha=@edicion_fecha, edicion_accion='B' WHERE id = {id}";
+                    command.Parameters.AddWithValue("@editor_id", idEditor);
+                    command.Parameters.AddWithValue("@edicion_fecha", DateTime.Now);
+                    //command.CommandText = $"DELETE FROM usuarios_grupos WHERE usuario_id = {id}; DELETE FROM usuarios WHERE id = {id}";
                     command.ExecuteNonQuery();
                     transaction.Commit();
                     return;
@@ -99,7 +105,7 @@ namespace ModuloDeSeguridad.Datos.DAO
             throw new Exception("Ha ocurrido un error");
         }
 
-        public void Insertar(Usuario t)
+        public void Insertar(Usuario t, int idEditor)
         {
             using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
@@ -115,12 +121,14 @@ namespace ModuloDeSeguridad.Datos.DAO
                 {
                     int bitEstado = t.Estado ? 1 : 0;
 
-                    command.CommandText = $"INSERT INTO usuarios VALUES(@username,@contrasena,@email,@nombre,@apelido,{bitEstado.ToString()});SELECT CAST(scope_identity() AS int)";
+                    command.CommandText = $"INSERT INTO usuarios VALUES(@username,@contrasena,@email,@nombre,@apelido,{bitEstado.ToString()},@editor_id,@edicion_fecha,'A');SELECT CAST(scope_identity() AS int)";
                     command.Parameters.AddWithValue("@username", t.Username);
                     command.Parameters.AddWithValue("@contrasena", t.Password);
                     command.Parameters.AddWithValue("@email", t.Email);
                     command.Parameters.AddWithValue("@nombre", t.Nombre);
                     command.Parameters.AddWithValue("@apelido", t.Apellido);
+                    command.Parameters.AddWithValue("@editor_id", idEditor);
+                    command.Parameters.AddWithValue("@edicion_fecha", DateTime.Now);
                     using (SqlDataReader response = command.ExecuteReader())
                     {
                         if (response.Read())
@@ -170,7 +178,7 @@ namespace ModuloDeSeguridad.Datos.DAO
 
                 try
                 {
-                    command.CommandText = $"SELECT id,username,email,nombre,apellido,estado FROM usuarios";
+                    command.CommandText = $"SELECT id,username,email,nombre,apellido,estado FROM usuarios WHERE estado=1";
                     transaction.Commit();
                     using (SqlDataReader response = command.ExecuteReader())
                     {
@@ -203,27 +211,47 @@ namespace ModuloDeSeguridad.Datos.DAO
 
         public List<Accion> ListarAccionesDisponibles(int idUser, int idVista)
         {
-            SqlCommand query = new SqlCommand("SELECT distinct acciones.id, acciones.tipo from permisos inner join acciones on permisos.accion_id = acciones.id where permisos.grupo_id in (SELECT grupo_id FROM usuarios_grupos WHERE usuario_id = "+idUser+") and vista_id = "+idVista+" and tiene_permiso = 1", Conexion);
-            Conexion.Open();
-            SqlDataReader response = query.ExecuteReader();
-            if (response.HasRows)
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
-                var acciones = new List<Modelo.Accion>();
-                while (response.Read())
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Listar vistas disponibles");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
                 {
-                    var accion = new Modelo.Accion();
-                    accion.ID = response.GetInt32(0);
-                    accion.Descripcion = response.GetString(1);
-                    acciones.Add(accion);
+                    command.CommandText = $"SELECT DISTINCT acciones.id, acciones.tipo FROM permisos INNER JOIN acciones on permisos.accion_id = acciones.id WHERE permisos.grupo_id IN (SELECT grupo_id FROM usuarios_grupos INNER JOIN grupos ON grupos.id = usuarios_grupos.grupo_id WHERE usuario_id = {idUser} AND grupos.estado = 1) AND vista_id = {idVista} AND tiene_permiso = 1";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.HasRows)
+                        {
+                            var acciones = new List<Modelo.Accion>();
+                            while (response.Read())
+                            {
+                                var accion = new Modelo.Accion();
+                                accion.ID = response.GetInt32(0);
+                                accion.Descripcion = response.GetString(1);
+                                acciones.Add(accion);
+                            }
+                            return acciones;
+                        }
+                    }
+                    throw new Exception("No se han podido encontrar acciones disponibles");
                 }
-                Conexion.Close();
-                return acciones;
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
-            Conexion.Close();
-            return null;
+            throw new Exception("Ha ocurrido un error");
         }
 
-        public List<Grupo> ListarGrupos(int id)
+        public List<Grupo> ListarGrupos(int id)//grupos del usuario
         {
             using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
@@ -238,7 +266,7 @@ namespace ModuloDeSeguridad.Datos.DAO
 
                 try
                 {
-                    command.CommandText = $"SELECT grupos.id, grupos.codigo, grupos.descripcion,grupos.estado FROM grupos INNER JOIN usuarios_grupos ON grupos.id = usuarios_grupos.grupo_id WHERE usuarios_grupos.usuario_id = {id}";
+                    command.CommandText = $"SELECT grupos.id, grupos.codigo, grupos.descripcion,grupos.estado FROM grupos INNER JOIN usuarios_grupos ON grupos.id = usuarios_grupos.grupo_id WHERE usuarios_grupos.usuario_id = {id} AND grupos.estado = 1";
                     transaction.Commit();
                     using (SqlDataReader response = command.ExecuteReader())
                     {
@@ -269,27 +297,47 @@ namespace ModuloDeSeguridad.Datos.DAO
 
         public List<Modelo.Vista> ListarVistasDisponibles(int id)
         {
-            SqlCommand query = new SqlCommand("SELECT vista_id, vistas.nombre from permisos inner join vistas on permisos.vista_id = vistas.id where grupo_id IN(SELECT grupo_id FROM usuarios_grupos WHERE usuario_id = "+id+") group by vista_id, nombre having SUM(CAST(tiene_permiso as INT)) > 0", Conexion);
-            Conexion.Open();
-            SqlDataReader response = query.ExecuteReader();
-            if (response.HasRows)
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
-                var vistas = new List<Modelo.Vista>();
-                while (response.Read())
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Listar vistas disponibles");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
                 {
-                    var vista = new Modelo.Vista();
-                    vista.ID = response.GetInt32(0);
-                    vista.Descripcion = response.GetString(1);
-                    vistas.Add(vista);
+                    command.CommandText = $"SELECT vista_id, vistas.nombre FROM permisos INNER JOIN vistas ON permisos.vista_id = vistas.id WHERE grupo_id IN(SELECT grupo_id FROM usuarios_grupos INNER JOIN grupos ON grupos.id = usuarios_grupos.grupo_id WHERE usuario_id = {id} AND grupos.estado = 1) GROUP BY vista_id, nombre HAVING SUM(CAST(tiene_permiso AS INT)) > 0";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.HasRows)
+                        {
+                            var vistas = new List<Modelo.Vista>();
+                            while (response.Read())
+                            {
+                                var vista = new Modelo.Vista();
+                                vista.ID = response.GetInt32(0);
+                                vista.Descripcion = response.GetString(1);
+                                vistas.Add(vista);
+                            }
+                            return vistas;
+                        }        
+                    }
+                    throw new Exception("No se han podido encontrar vistas disponibles");
                 }
-                Conexion.Close();
-                return vistas;
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
-            Conexion.Close();
-            return null;
+            throw new Exception("Ha ocurrido un error");
         }
 
-        public void Modificar(Usuario t)
+        public void Modificar(Usuario t, int idEditor)
         {
             using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
@@ -303,15 +351,21 @@ namespace ModuloDeSeguridad.Datos.DAO
                 command.Transaction = transaction;
                 try
                 {
+                    command.CommandText = $"INSERT INTO usuarios_auditorias SELECT * FROM usuarios WHERE usuarios.id = {t.ID}";
+                    command.ExecuteNonQuery();
+
                     int bitEstado = t.Estado ? 1 : 0;
 
-                    command.CommandText = $"UPDATE usuarios SET username=@username, contrasena=@contrasena, email=@email, nombre=@nombre, apellido=@apelido, estado={bitEstado.ToString()} WHERE id = {t.ID.ToString()}";
+                    command.CommandText = $"UPDATE usuarios SET username=@username, contrasena=@contrasena, email=@email, nombre=@nombre, apellido=@apelido, estado={bitEstado.ToString()}, editor_id=@editor_id, edicion_fecha=@edicion_fecha, edicion_accion='M' WHERE id = {t.ID.ToString()}";
                     command.Parameters.AddWithValue("@username", t.Username);
                     command.Parameters.AddWithValue("@contrasena", t.Password);
                     command.Parameters.AddWithValue("@email", t.Email);
                     command.Parameters.AddWithValue("@nombre", t.Nombre);
                     command.Parameters.AddWithValue("@apelido", t.Apellido);
+                    command.Parameters.AddWithValue("@editor_id", idEditor);
+                    command.Parameters.AddWithValue("@edicion_fecha", DateTime.Now);
                     command.ExecuteNonQuery();
+
 
 
                     string querygrupos = $"DELETE FROM usuarios_grupos WHERE usuario_id = {t.ID};";

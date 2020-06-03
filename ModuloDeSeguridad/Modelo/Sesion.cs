@@ -12,15 +12,22 @@ namespace ModuloDeSeguridad.Modelo
         public Usuario Usuario { get; set; }
         public DateTime LogIn { get; set; }
         public DateTime LogOut { get; set; }
-        public TimeSpan MaxTime { get; set; }
         public TimeSpan CalcularTiempoSesion()
         {
             return LogOut - LogIn;
         }
-        public Sesion(DateTime login,Usuario usuario)
+        //singleton
+        private static Sesion _instancia;
+        private Sesion()
         {
-            this.LogIn = login;
-            this.Usuario = usuario;
+        }
+        public static Sesion ObtenerInstancia()
+        {
+            if (_instancia == null)
+            {
+                _instancia = new Sesion();
+            }
+            return _instancia;
         }
     }
 }

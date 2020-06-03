@@ -12,7 +12,6 @@ namespace ModuloDeSeguridad.Vista
 {
     public partial class frmIniciarSesion : Form, Logica.Interfaces.ISesionObserver
     {
-        private Modelo.Sesion sesion;
         private Logica.SesionBL sesionBL;
         public frmIniciarSesion()
         {
@@ -23,6 +22,7 @@ namespace ModuloDeSeguridad.Vista
         public void Actualizar()
         {
             sesionBL.Desuscribir(this);
+            Modelo.Sesion.ObtenerInstancia().LogOut = DateTime.Now;
             this.Show();
         }
 
@@ -39,8 +39,11 @@ namespace ModuloDeSeguridad.Vista
                 if (userId != -1)
                 {
                     sesionBL.Suscribir(this);
-                    sesion = new Modelo.Sesion(DateTime.Now, sesionBL.ConsultarUsuario(userId));
-                    frmInicio inicio = new frmInicio(sesion);
+
+                    var sesion = Modelo.Sesion.ObtenerInstancia();
+                    sesion.Usuario = sesionBL.ConsultarUsuario(userId);
+                    sesion.LogIn = DateTime.Now;
+                    frmInicio inicio = new frmInicio();
                     this.Hide();
                     DialogResult result = inicio.ShowDialog();
                 }

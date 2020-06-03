@@ -64,11 +64,11 @@ namespace ModuloDeSeguridad.Logica
                 throw ex;
             }
         }
-        public void Eliminar(int id)
+        public void Eliminar(int id, int idEditor)
         {
             try
             {
-                 usuarioDAO.Eliminar(id);
+                 usuarioDAO.Eliminar(id, idEditor);
             }
             catch (Exception)
             {
@@ -99,7 +99,7 @@ namespace ModuloDeSeguridad.Logica
                 throw ex;
             }
         }
-        public void Insertar(Modelo.Usuario usuario)
+        public void Insertar(Modelo.Usuario usuario, int idEditor)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace ModuloDeSeguridad.Logica
                 {
                     if (UsernameEmailDisponibles(usuario.Username,usuario.Email, null))
                     {
-                        usuarioDAO.Insertar(usuario);
+                        usuarioDAO.Insertar(usuario, idEditor);
                     }
                     else
                     {
@@ -137,7 +137,7 @@ namespace ModuloDeSeguridad.Logica
                 throw ex;
             }
         }
-        public void Modificar(Modelo.Usuario usuario)
+        public void Modificar(Modelo.Usuario usuario, int idEditor)
         {
             try
             {
@@ -149,7 +149,7 @@ namespace ModuloDeSeguridad.Logica
                 {
                     if (UsernameEmailDisponibles(usuario.Username, usuario.Email, usuario.ID.ToString()))
                     {
-                        usuarioDAO.Modificar(usuario);
+                        usuarioDAO.Modificar(usuario, idEditor);
                     }
                     else
                     {

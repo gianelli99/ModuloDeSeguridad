@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ModuloDeSeguridad.Vista
 {
-    public partial class frmGrupo : Form
+    public partial class frmGrupo : Form, Logica.Interfaces.ISesionObserver
     {
         private Accion accion;
         private Logica.GrupoBL grupoBL;
@@ -22,7 +22,7 @@ namespace ModuloDeSeguridad.Vista
         {
             InitializeComponent();
             FrmGrupo_Resize(this, EventArgs.Empty);
-
+            Logica.SesionBL.ObtenerInstancia().Suscribir(this);
             accion = Accion.Alta;
             grupo = new Modelo.Grupo();
             grupoBL = new Logica.GrupoBL();
@@ -36,6 +36,7 @@ namespace ModuloDeSeguridad.Vista
         {
             InitializeComponent();
             FrmGrupo_Resize(this, EventArgs.Empty);
+            Logica.SesionBL.ObtenerInstancia().Suscribir(this);
             grupoBL = new Logica.GrupoBL();
             accion = miAccion;
             grupo = grupoBL.Consultar(id);
@@ -46,14 +47,7 @@ namespace ModuloDeSeguridad.Vista
             }
             txtCodigo.Text = grupo.Codigo;
             txtDescripcion.Text = grupo.Descripcion;
-            if (grupo.Estado)
-            {
-                rdbActivo.Checked = true;
-            }
-            else
-            {
-                rdbInactivo.Checked = true;
-            }
+           
             if (accion == Accion.Consulta)
             {
                 btnAceptar.Enabled = false;
@@ -109,7 +103,7 @@ namespace ModuloDeSeguridad.Vista
             }
             grupo.Codigo = txtCodigo.Text;
             grupo.Descripcion = txtDescripcion.Text;
-            grupo.Estado = rdbActivo.Checked? true : false;
+            grupo.Estado = true;
 
             try
             {
@@ -138,6 +132,12 @@ namespace ModuloDeSeguridad.Vista
         private void FrmGrupo_Resize(object sender, EventArgs e)
         {
             pnDatos.Location =new Point( (this.ClientRectangle.Size.Width-pnDatos.Size.Width) / 2,(this.ClientRectangle.Size.Height - pnDatos.Size.Height)/2);
+        }
+
+        public void Actualizar()
+        {
+            Logica.SesionBL.ObtenerInstancia().Desuscribir(this);
+            this.Dispose();
         }
     }
 }

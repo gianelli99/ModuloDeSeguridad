@@ -10,15 +10,15 @@ using System.Windows.Forms;
 
 namespace ModuloDeSeguridad.Vista
 {
-    public partial class frmGrupos : Form
+    public partial class frmGrupos : Form, Logica.Interfaces.ISesionObserver
     {
         private Logica.GrupoBL grupoBL;
         private List<Modelo.Grupo> grupos;
-        private Modelo.Usuario user;
         public frmGrupos()
         {
             InitializeComponent();
             grupoBL = new Logica.GrupoBL();
+            Logica.SesionBL.ObtenerInstancia().Suscribir(this);
             var accionesDisponibles = grupoBL.ListarAccionesDisponibles(1,2);// ESTO ESTA HARDCODEADO
             foreach (var accion in accionesDisponibles)
             {
@@ -125,6 +125,12 @@ namespace ModuloDeSeguridad.Vista
         private void BtnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        public void Actualizar()
+        {
+            Logica.SesionBL.ObtenerInstancia().Desuscribir(this);
+            this.Dispose();
         }
     }
 }

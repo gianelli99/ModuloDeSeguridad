@@ -31,8 +31,6 @@
             this.flpPermisos = new System.Windows.Forms.FlowLayoutPanel();
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.txtDescripcion = new System.Windows.Forms.TextBox();
-            this.rdbActivo = new System.Windows.Forms.RadioButton();
-            this.rdbInactivo = new System.Windows.Forms.RadioButton();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -43,9 +41,9 @@
             // flpPermisos
             // 
             this.flpPermisos.AutoScroll = true;
-            this.flpPermisos.Location = new System.Drawing.Point(15, 158);
+            this.flpPermisos.Location = new System.Drawing.Point(15, 111);
             this.flpPermisos.Name = "flpPermisos";
-            this.flpPermisos.Size = new System.Drawing.Size(180, 246);
+            this.flpPermisos.Size = new System.Drawing.Size(180, 293);
             this.flpPermisos.TabIndex = 0;
             // 
             // txtCodigo
@@ -63,29 +61,6 @@
             this.txtDescripcion.Size = new System.Drawing.Size(177, 20);
             this.txtDescripcion.TabIndex = 3;
             this.txtDescripcion.Text = "Descripción";
-            // 
-            // rdbActivo
-            // 
-            this.rdbActivo.AutoSize = true;
-            this.rdbActivo.Checked = true;
-            this.rdbActivo.Location = new System.Drawing.Point(29, 97);
-            this.rdbActivo.Name = "rdbActivo";
-            this.rdbActivo.Size = new System.Drawing.Size(55, 17);
-            this.rdbActivo.TabIndex = 6;
-            this.rdbActivo.TabStop = true;
-            this.rdbActivo.Text = "Activo";
-            this.rdbActivo.UseVisualStyleBackColor = true;
-            // 
-            // rdbInactivo
-            // 
-            this.rdbInactivo.AutoSize = true;
-            this.rdbInactivo.Location = new System.Drawing.Point(90, 97);
-            this.rdbInactivo.Name = "rdbInactivo";
-            this.rdbInactivo.Size = new System.Drawing.Size(63, 17);
-            this.rdbInactivo.TabIndex = 7;
-            this.rdbInactivo.TabStop = true;
-            this.rdbInactivo.Text = "Inactivo";
-            this.rdbInactivo.UseVisualStyleBackColor = true;
             // 
             // btnAceptar
             // 
@@ -110,7 +85,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 142);
+            this.label4.Location = new System.Drawing.Point(12, 95);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(49, 13);
             this.label4.TabIndex = 10;
@@ -120,9 +95,7 @@
             // 
             this.pnDatos.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.pnDatos.Controls.Add(this.flpPermisos);
-            this.pnDatos.Controls.Add(this.rdbInactivo);
             this.pnDatos.Controls.Add(this.label4);
-            this.pnDatos.Controls.Add(this.rdbActivo);
             this.pnDatos.Controls.Add(this.btnCancelar);
             this.pnDatos.Controls.Add(this.txtDescripcion);
             this.pnDatos.Controls.Add(this.txtCodigo);
@@ -153,8 +126,6 @@
         private System.Windows.Forms.FlowLayoutPanel flpPermisos;
         private System.Windows.Forms.TextBox txtCodigo;
         private System.Windows.Forms.TextBox txtDescripcion;
-        private System.Windows.Forms.RadioButton rdbActivo;
-        private System.Windows.Forms.RadioButton rdbInactivo;
         private System.Windows.Forms.Button btnAceptar;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Label label4;

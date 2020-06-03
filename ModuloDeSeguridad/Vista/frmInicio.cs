@@ -12,14 +12,13 @@ namespace ModuloDeSeguridad.Vista
 {
     public partial class frmInicio : Form, Logica.Interfaces.ISesionObserver
     {
-        private Modelo.Sesion sesion;
         private Logica.SesionBL sesionBL;
-        public frmInicio(Modelo.Sesion miSesion)
+        public frmInicio()
         {
             InitializeComponent();
-            tmTiempoSesion.Interval= 7200000;
+            tmTiempoSesion.Interval= 10000;
             tmTiempoSesion.Start();
-            sesion = miSesion;
+            var sesion = Modelo.Sesion.ObtenerInstancia();
             sesionBL = Logica.SesionBL.ObtenerInstancia();
             sesionBL.Suscribir(this);
             List<Modelo.Vista> vistasDisponibles = sesionBL.ListarVistasDisponibles(sesion.Usuario.ID);
@@ -43,6 +42,12 @@ namespace ModuloDeSeguridad.Vista
             {
                 switch (((Button)sender).Text)
                 {
+                    case "Grupos":
+                        break;
+                    case "Usuarios":
+                        break;
+                    case "Informes":
+                        break;
                     default:
                         break;
                 }

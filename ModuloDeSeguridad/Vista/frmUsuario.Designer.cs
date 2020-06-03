@@ -29,18 +29,16 @@
         private void InitializeComponent()
         {
             this.pnDatos = new System.Windows.Forms.Panel();
+            this.txtConfirmarContrasena = new System.Windows.Forms.TextBox();
             this.flpGrupos = new System.Windows.Forms.FlowLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
-            this.rdbInactivo = new System.Windows.Forms.RadioButton();
-            this.rdbActivo = new System.Windows.Forms.RadioButton();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.txtContrasena = new System.Windows.Forms.TextBox();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.btnAceptar = new System.Windows.Forms.Button();
-            this.txtConfirmarContrasena = new System.Windows.Forms.TextBox();
             this.pnDatos.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,8 +51,6 @@
             this.pnDatos.Controls.Add(this.txtApellido);
             this.pnDatos.Controls.Add(this.txtNombre);
             this.pnDatos.Controls.Add(this.txtEmail);
-            this.pnDatos.Controls.Add(this.rdbInactivo);
-            this.pnDatos.Controls.Add(this.rdbActivo);
             this.pnDatos.Controls.Add(this.btnCancelar);
             this.pnDatos.Controls.Add(this.txtContrasena);
             this.pnDatos.Controls.Add(this.txtUsername);
@@ -65,18 +61,26 @@
             this.pnDatos.Size = new System.Drawing.Size(213, 512);
             this.pnDatos.TabIndex = 12;
             // 
+            // txtConfirmarContrasena
+            // 
+            this.txtConfirmarContrasena.Location = new System.Drawing.Point(15, 83);
+            this.txtConfirmarContrasena.Name = "txtConfirmarContrasena";
+            this.txtConfirmarContrasena.Size = new System.Drawing.Size(177, 20);
+            this.txtConfirmarContrasena.TabIndex = 15;
+            this.txtConfirmarContrasena.Text = "Repetir Contraseña";
+            // 
             // flpGrupos
             // 
             this.flpGrupos.AutoScroll = true;
-            this.flpGrupos.Location = new System.Drawing.Point(15, 259);
+            this.flpGrupos.Location = new System.Drawing.Point(15, 200);
             this.flpGrupos.Name = "flpGrupos";
-            this.flpGrupos.Size = new System.Drawing.Size(180, 213);
+            this.flpGrupos.Size = new System.Drawing.Size(180, 272);
             this.flpGrupos.TabIndex = 13;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 243);
+            this.label4.Location = new System.Drawing.Point(12, 184);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 13);
             this.label4.TabIndex = 14;
@@ -105,29 +109,6 @@
             this.txtEmail.Size = new System.Drawing.Size(177, 20);
             this.txtEmail.TabIndex = 10;
             this.txtEmail.Text = "Email";
-            // 
-            // rdbInactivo
-            // 
-            this.rdbInactivo.AutoSize = true;
-            this.rdbInactivo.Location = new System.Drawing.Point(106, 212);
-            this.rdbInactivo.Name = "rdbInactivo";
-            this.rdbInactivo.Size = new System.Drawing.Size(63, 17);
-            this.rdbInactivo.TabIndex = 7;
-            this.rdbInactivo.TabStop = true;
-            this.rdbInactivo.Text = "Inactivo";
-            this.rdbInactivo.UseVisualStyleBackColor = true;
-            // 
-            // rdbActivo
-            // 
-            this.rdbActivo.AutoSize = true;
-            this.rdbActivo.Checked = true;
-            this.rdbActivo.Location = new System.Drawing.Point(45, 212);
-            this.rdbActivo.Name = "rdbActivo";
-            this.rdbActivo.Size = new System.Drawing.Size(55, 17);
-            this.rdbActivo.TabIndex = 6;
-            this.rdbActivo.TabStop = true;
-            this.rdbActivo.Text = "Activo";
-            this.rdbActivo.UseVisualStyleBackColor = true;
             // 
             // btnCancelar
             // 
@@ -165,14 +146,6 @@
             this.btnAceptar.UseVisualStyleBackColor = true;
             this.btnAceptar.Click += new System.EventHandler(this.BtnAceptar_Click);
             // 
-            // txtConfirmarContrasena
-            // 
-            this.txtConfirmarContrasena.Location = new System.Drawing.Point(15, 83);
-            this.txtConfirmarContrasena.Name = "txtConfirmarContrasena";
-            this.txtConfirmarContrasena.Size = new System.Drawing.Size(177, 20);
-            this.txtConfirmarContrasena.TabIndex = 15;
-            this.txtConfirmarContrasena.Text = "Repetir Contraseña";
-            // 
             // frmUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -193,8 +166,6 @@
         private System.Windows.Forms.TextBox txtApellido;
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.TextBox txtEmail;
-        private System.Windows.Forms.RadioButton rdbInactivo;
-        private System.Windows.Forms.RadioButton rdbActivo;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.TextBox txtContrasena;
         private System.Windows.Forms.TextBox txtUsername;

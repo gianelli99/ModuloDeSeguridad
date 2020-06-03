@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ModuloDeSeguridad.Vista
 {
-    public partial class frmUsuario : Form
+    public partial class frmUsuario : Form, Logica.Interfaces.ISesionObserver
     {
         private Accion accion;
         private Logica.UsuarioBL usuarioBL;
@@ -20,6 +20,7 @@ namespace ModuloDeSeguridad.Vista
         public frmUsuario()
         {
             InitializeComponent();
+            Logica.SesionBL.ObtenerInstancia().Suscribir(this);
             accion = Accion.Alta;
             user = new Modelo.Usuario();
             usuarioBL = new Logica.UsuarioBL();
@@ -32,6 +33,7 @@ namespace ModuloDeSeguridad.Vista
         public frmUsuario(Accion miAccion, int id)
         {
             InitializeComponent();
+            Logica.SesionBL.ObtenerInstancia().Suscribir(this);
             usuarioBL = new Logica.UsuarioBL();
             accion = miAccion;
             user = usuarioBL.Consultar(id);
@@ -45,7 +47,6 @@ namespace ModuloDeSeguridad.Vista
             txtEmail.Text = user.Email;
             txtNombre.Text = user.Nombre;
             txtApellido.Text = user.Apellido;
-            rdbActivo.Checked = user.Estado ? true : false;
             gruposAll = usuarioBL.ListarGrupos();
             foreach (var cbGrupo in ListarCheckBoxesGrupos(gruposAll))
             {
@@ -124,16 +125,16 @@ namespace ModuloDeSeguridad.Vista
             user.Email = txtEmail.Text;
             user.Nombre = txtNombre.Text;
             user.Apellido = txtApellido.Text;
-            user.Estado = rdbActivo.Checked ? true : false;
+            user.Estado = true;
             try
             {
                 if (accion == Accion.Alta)
                 {
-                    usuarioBL.Insertar(user);
+                    usuarioBL.Insertar(user, 1);//Modelo.Sesion.ObtenerInstancia().Usuario.ID);
                 }
                 else
                 {
-                    usuarioBL.Modificar(user);
+                    usuarioBL.Modificar(user, 1);//Modelo.Sesion.ObtenerInstancia().Usuario.ID);
                 }
             }
             catch (Exception ex)
@@ -142,6 +143,12 @@ namespace ModuloDeSeguridad.Vista
                 return;
             }
             this.DialogResult = DialogResult.OK;
+        }
+
+        public void Actualizar()
+        {
+            Logica.SesionBL.ObtenerInstancia().Desuscribir(this);
+            this.Dispose();
         }
     }
 }

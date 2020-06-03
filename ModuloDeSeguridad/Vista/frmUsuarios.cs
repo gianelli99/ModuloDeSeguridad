@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace ModuloDeSeguridad.Vista
 {
-    public partial class frmUsuarios : Form
+    public partial class frmUsuarios : Form, Logica.Interfaces.ISesionObserver
     {
         private Logica.UsuarioBL usuarioBL;
         private List<Modelo.Usuario> usuarios;
-        private Modelo.Usuario user;
         public frmUsuarios()
         {
             InitializeComponent();
+            Logica.SesionBL.ObtenerInstancia().Suscribir(this);
             usuarioBL = new Logica.UsuarioBL();
             var accionesDisponibles = usuarioBL.ListarAccionesDisponibles(1, 1);
             foreach (var accion in accionesDisponibles)
@@ -59,7 +59,7 @@ namespace ModuloDeSeguridad.Vista
                             {
                                 try
                                 {
-                                    usuarioBL.Eliminar(usuario.ID);
+                                    usuarioBL.Eliminar(usuario.ID,  1);//Modelo.Sesion.ObtenerInstancia().ID);
                                     dgvUsuarios.DataSource = null;
                                     dgvUsuarios.DataSource = usuarioBL.Listar();
                                     dgvUsuarios.Columns["Password"].Visible = false;
@@ -128,6 +128,12 @@ namespace ModuloDeSeguridad.Vista
             dgvUsuarios.DataSource = null;
             dgvUsuarios.DataSource = usuarioBL.Listar(usuarios, txtBuscar.Text);
             dgvUsuarios.Columns["Password"].Visible = false;
+        }
+
+        public void Actualizar()
+        {
+            Logica.SesionBL.ObtenerInstancia().Desuscribir(this);
+            this.Dispose();
         }
     }
 }

@@ -25,7 +25,7 @@ namespace ModuloDeSeguridad.Datos.DAO
 
                 try
                 {
-                    command.CommandText = $"SELECT COUNT(usuario_id) AS cantidad FROM usuarios_grupos WHERE grupo_id = {id}";
+                    command.CommandText = $"SELECT COUNT(usuario_id) AS cantidad FROM usuarios_grupos INNER JOIN usuarios ON usuario_id = usuarios.id WHERE grupo_id = {id} AND usuarios.estado = 1";
                     transaction.Commit();
                     using (SqlDataReader response = command.ExecuteReader())
                     {
@@ -139,7 +139,8 @@ namespace ModuloDeSeguridad.Datos.DAO
 
                 try
                 {
-                    command.CommandText = $"DELETE FROM permisos WHERE grupo_id = {id};DELETE FROM grupos WHERE id = {id}";
+                    //command.CommandText = $"DELETE FROM permisos WHERE grupo_id = {id};DELETE FROM grupos WHERE id = {id}";
+                    command.CommandText = $"UPDATE grupos set estado=0 WHERE id = {id}";
                     command.ExecuteNonQuery();
                     transaction.Commit();
                     return;
@@ -229,7 +230,7 @@ namespace ModuloDeSeguridad.Datos.DAO
 
                 try
                 {
-                    command.CommandText = $"SELECT * FROM grupos";
+                    command.CommandText = $"SELECT * FROM grupos WHERE estado = 1";
                     transaction.Commit();
                     using (SqlDataReader response = command.ExecuteReader())
                     {
