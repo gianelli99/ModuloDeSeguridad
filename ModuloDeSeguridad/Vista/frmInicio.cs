@@ -16,7 +16,7 @@ namespace ModuloDeSeguridad.Vista
         public frmInicio()
         {
             InitializeComponent();
-            tmTiempoSesion.Interval= 10000;
+            tmTiempoSesion.Interval= 10000000;
             tmTiempoSesion.Start();
             var sesion = Modelo.Sesion.ObtenerInstancia();
             sesionBL = Logica.SesionBL.ObtenerInstancia();
@@ -40,13 +40,24 @@ namespace ModuloDeSeguridad.Vista
         {
             try
             {
+                int vistaId = Convert.ToInt32(((Button)sender).Name);
                 switch (((Button)sender).Text)
                 {
                     case "Grupos":
+                        frmGrupos grupos = new frmGrupos(vistaId);
+                        grupos.ShowDialog();
                         break;
                     case "Usuarios":
+                        frmUsuarios usuarios = new frmUsuarios(vistaId);
+                        usuarios.ShowDialog();
                         break;
                     case "Informes":
+                        frmInformes informes = new frmInformes(vistaId);
+                        informes.ShowDialog();
+                        break;
+                    case "Mis Datos":
+                        frmMisDatos datos = new frmMisDatos(vistaId);
+                        datos.ShowDialog();
                         break;
                     default:
                         break;
@@ -61,18 +72,23 @@ namespace ModuloDeSeguridad.Vista
 
         private void BtnCerrarSesion_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            sesionBL.FinalizarSesion();
         }
 
         public void Actualizar()
         {
+            tmTiempoSesion.Dispose();
             sesionBL.Desuscribir(this);
             this.Dispose();
         }
 
         private void TmTiempoSesion_Tick(object sender, EventArgs e)
         {
-            tmTiempoSesion.Dispose();
+            sesionBL.FinalizarSesion();
+        }
+
+        private void FrmInicio_FormClosed(object sender, FormClosedEventArgs e)
+        {
             sesionBL.FinalizarSesion();
         }
     }

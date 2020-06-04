@@ -22,7 +22,6 @@ namespace ModuloDeSeguridad.Vista
         public void Actualizar()
         {
             sesionBL.Desuscribir(this);
-            Modelo.Sesion.ObtenerInstancia().LogOut = DateTime.Now;
             this.Show();
         }
 
@@ -43,6 +42,7 @@ namespace ModuloDeSeguridad.Vista
                     var sesion = Modelo.Sesion.ObtenerInstancia();
                     sesion.Usuario = sesionBL.ConsultarUsuario(userId);
                     sesion.LogIn = DateTime.Now;
+                    sesionBL.IniciarSesion();
                     frmInicio inicio = new frmInicio();
                     this.Hide();
                     DialogResult result = inicio.ShowDialog();

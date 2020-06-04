@@ -66,12 +66,23 @@ namespace ModuloDeSeguridad.Logica
                 throw ex;
             }
         }
+        public void IniciarSesion()
+        {
+            try
+            {
+                int id = sesionDAO.IniciarSesion(Modelo.Sesion.ObtenerInstancia());
+                Modelo.Sesion.ObtenerInstancia().ID = id;
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
+        }
         public void Suscribir(ISesionObserver observer)
         {
             observadores.Add(observer);
         }
-
         public void Desuscribir(ISesionObserver observer)
         {
             observadores.Remove(observer);
@@ -79,6 +90,16 @@ namespace ModuloDeSeguridad.Logica
         public void FinalizarSesion()
         {
             this.Notificar();
+            Modelo.Sesion.ObtenerInstancia().LogOut = DateTime.Now;
+            try
+            {
+                sesionDAO.CerrarSesion(Modelo.Sesion.ObtenerInstancia()); 
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         public void Notificar()
         {

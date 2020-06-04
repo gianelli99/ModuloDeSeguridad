@@ -10,9 +10,38 @@ namespace ModuloDeSeguridad.Datos.DAO
 {
     public class SesionDAO_SqlServer : ConexionDB, Interfaces.ISesionDAO
     {
-        public void Insertar(Sesion sesion)
+        public int IniciarSesion(Sesion sesion)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Iniciar sesión");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"INSERT INTO sesiones (usuario_id,inicio) VALUES({sesion.Usuario.ID},@inicio);SELECT CAST(scope_identity() AS int)";
+                    command.Parameters.AddWithValue("@inicio", sesion.LogIn);
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.Read())
+                        {
+                            return response.GetInt32(0);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                throw new Exception("Ha ocurrido un error");
+            }
         }
 
         public List<Sesion> Listar()
@@ -30,9 +59,31 @@ namespace ModuloDeSeguridad.Datos.DAO
             throw new NotImplementedException();
         }
 
-        public void Modificar(Sesion sesion)
+        public void CerrarSesion(Sesion sesion)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Cerrar sesión");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"UPDATE sesiones SET cierre=@cierre WHERE id = {sesion.ID}";
+                    command.Parameters.AddWithValue("@cierre", sesion.LogOut);
+                    command.ExecuteNonQuery();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
         }
 
         public int ValidarUsuario(string username, string password)

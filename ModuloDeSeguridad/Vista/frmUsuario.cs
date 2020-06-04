@@ -79,7 +79,7 @@ namespace ModuloDeSeguridad.Vista
 
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            Actualizar();
         }
 
         private void BtnAceptar_Click(object sender, EventArgs e)
@@ -142,6 +142,7 @@ namespace ModuloDeSeguridad.Vista
                 MessageBox.Show(ex.Message);
                 return;
             }
+            Logica.SesionBL.ObtenerInstancia().Desuscribir(this);
             this.DialogResult = DialogResult.OK;
         }
 

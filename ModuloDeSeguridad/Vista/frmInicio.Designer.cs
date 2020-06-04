@@ -66,6 +66,7 @@
             this.Controls.Add(this.flpVistas);
             this.Name = "frmInicio";
             this.Text = "Inicio";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmInicio_FormClosed);
             this.ResumeLayout(false);
 
         }

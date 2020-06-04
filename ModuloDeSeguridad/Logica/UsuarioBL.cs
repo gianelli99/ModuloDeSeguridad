@@ -163,5 +163,24 @@ namespace ModuloDeSeguridad.Logica
                 throw ex;
             }
         }
+
+        public bool ValidarContrasena(Modelo.Usuario usuario,string actual,string nueva)
+        {
+            if (usuario.Password == actual)
+            {
+                if (actual!=nueva)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

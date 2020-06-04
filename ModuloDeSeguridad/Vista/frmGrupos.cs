@@ -14,12 +14,12 @@ namespace ModuloDeSeguridad.Vista
     {
         private Logica.GrupoBL grupoBL;
         private List<Modelo.Grupo> grupos;
-        public frmGrupos()
+        public frmGrupos(int vistaId)
         {
             InitializeComponent();
             grupoBL = new Logica.GrupoBL();
             Logica.SesionBL.ObtenerInstancia().Suscribir(this);
-            var accionesDisponibles = grupoBL.ListarAccionesDisponibles(1,2);// ESTO ESTA HARDCODEADO
+            var accionesDisponibles = grupoBL.ListarAccionesDisponibles(Modelo.Sesion.ObtenerInstancia().Usuario.ID, vistaId);
             foreach (var accion in accionesDisponibles)
             {
                 var button = new Button();

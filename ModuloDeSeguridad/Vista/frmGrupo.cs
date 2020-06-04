@@ -121,12 +121,13 @@ namespace ModuloDeSeguridad.Vista
                 MessageBox.Show(ex.Message);
                 return;
             }
+            Logica.SesionBL.ObtenerInstancia().Desuscribir(this);
             this.DialogResult = DialogResult.OK;
         }
 
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            Actualizar();
         }
 
         private void FrmGrupo_Resize(object sender, EventArgs e)
