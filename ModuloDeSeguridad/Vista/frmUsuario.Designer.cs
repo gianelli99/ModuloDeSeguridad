@@ -63,7 +63,7 @@
             // 
             // txtConfirmarContrasena
             // 
-            this.txtConfirmarContrasena.Location = new System.Drawing.Point(15, 83);
+            this.txtConfirmarContrasena.Location = new System.Drawing.Point(15, 148);
             this.txtConfirmarContrasena.Name = "txtConfirmarContrasena";
             this.txtConfirmarContrasena.Size = new System.Drawing.Size(177, 20);
             this.txtConfirmarContrasena.TabIndex = 15;
@@ -88,7 +88,7 @@
             // 
             // txtApellido
             // 
-            this.txtApellido.Location = new System.Drawing.Point(15, 161);
+            this.txtApellido.Location = new System.Drawing.Point(15, 96);
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(177, 20);
             this.txtApellido.TabIndex = 12;
@@ -96,7 +96,7 @@
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(15, 135);
+            this.txtNombre.Location = new System.Drawing.Point(15, 70);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(177, 20);
             this.txtNombre.TabIndex = 11;
@@ -104,7 +104,7 @@
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(15, 109);
+            this.txtEmail.Location = new System.Drawing.Point(15, 44);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(177, 20);
             this.txtEmail.TabIndex = 10;
@@ -122,7 +122,7 @@
             // 
             // txtContrasena
             // 
-            this.txtContrasena.Location = new System.Drawing.Point(15, 57);
+            this.txtContrasena.Location = new System.Drawing.Point(15, 122);
             this.txtContrasena.Name = "txtContrasena";
             this.txtContrasena.Size = new System.Drawing.Size(177, 20);
             this.txtContrasena.TabIndex = 3;

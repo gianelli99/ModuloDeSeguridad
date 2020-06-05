@@ -9,7 +9,6 @@ namespace ModuloDeSeguridad.Logica
 {
     public class Hasheo
     {
-
         public static string GetMd5Hash(string input)
         {
             using (MD5 md5Hash = MD5.Create())

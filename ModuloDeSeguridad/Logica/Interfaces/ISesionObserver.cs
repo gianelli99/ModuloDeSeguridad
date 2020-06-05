@@ -8,6 +8,6 @@ namespace ModuloDeSeguridad.Logica.Interfaces
 {
     public interface ISesionObserver
     {
-        void Actualizar();
+        void Actualizar(bool isFirst);
     }
 }

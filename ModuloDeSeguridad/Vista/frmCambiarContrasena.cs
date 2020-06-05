@@ -18,21 +18,26 @@ namespace ModuloDeSeguridad.Vista
         public frmCambiarContrasena(int miUserId)
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             userId = miUserId;
             usuarioBL = new Logica.UsuarioBL();
             usuario = usuarioBL.Consultar(userId);
             Logica.SesionBL.ObtenerInstancia().Suscribir(this);
         }
 
-        public void Actualizar()
+        public void Actualizar(bool isFirst)
         {
+            if (isFirst)
+            {
+                MessageBox.Show("Su sesión se cerrará automaticamente");
+            }
             Logica.SesionBL.ObtenerInstancia().Desuscribir(this);
             this.Dispose();
         }
 
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
-            Actualizar();
+            Actualizar(false);
         }
 
         private void BtnAceptar_Click(object sender, EventArgs e)
@@ -60,7 +65,7 @@ namespace ModuloDeSeguridad.Vista
             {
                 usuarioBL.CambiarContrasena(txtContrasenaNueva.Text, userId,Modelo.Sesion.ObtenerInstancia().Usuario.ID);
                 
-                Actualizar();
+                Actualizar(false);
             }
             catch (Exception ex)
             {

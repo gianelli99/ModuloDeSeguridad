@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using ModuloDeSeguridad.Logica.Interfaces;
+using System.Timers;
 
 namespace ModuloDeSeguridad.Logica
 {
@@ -16,6 +17,8 @@ namespace ModuloDeSeguridad.Logica
         private List<Interfaces.ISesionObserver> observadores;
 
         private static SesionBL instancia;
+
+        private static Timer sesionTime;
 
         public static SesionBL ObtenerInstancia()
         {
@@ -74,6 +77,10 @@ namespace ModuloDeSeguridad.Logica
             {
                 int id = sesionDAO.IniciarSesion(Modelo.Sesion.ObtenerInstancia());
                 Modelo.Sesion.ObtenerInstancia().ID = id;
+                sesionTime = new Timer(7200000);
+                sesionTime.Elapsed += SesionTime_Elapsed;
+                sesionTime.AutoReset = true;
+                sesionTime.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -81,6 +88,12 @@ namespace ModuloDeSeguridad.Logica
                 throw ex;
             }
         }
+
+        private void SesionTime_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            FinalizarSesion();
+        }
+
         public void Suscribir(ISesionObserver observer)
         {
             observadores.Add(observer);
@@ -91,6 +104,10 @@ namespace ModuloDeSeguridad.Logica
         }
         public void FinalizarSesion()
         {
+            if (sesionTime != null)
+            {
+                sesionTime.Dispose();
+            }
             this.Notificar();
             Modelo.Sesion.ObtenerInstancia().LogOut = DateTime.Now;
             try
@@ -105,9 +122,10 @@ namespace ModuloDeSeguridad.Logica
         }
         public void Notificar()
         {
+            observadores[observadores.Count - 1].Actualizar(true);
             for (int i = observadores.Count-1; i >= 0; i--)
             {
-                observadores[i].Actualizar();
+                observadores[i].Actualizar(false);
             }
         }
     }

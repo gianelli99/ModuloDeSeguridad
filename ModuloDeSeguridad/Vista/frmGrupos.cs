@@ -17,6 +17,7 @@ namespace ModuloDeSeguridad.Vista
         public frmGrupos(int vistaId)
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             grupoBL = new Logica.GrupoBL();
             Logica.SesionBL.ObtenerInstancia().Suscribir(this);
             var accionesDisponibles = grupoBL.ListarAccionesDisponibles(Modelo.Sesion.ObtenerInstancia().Usuario.ID, vistaId);
@@ -124,11 +125,15 @@ namespace ModuloDeSeguridad.Vista
 
         private void BtnCerrar_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Actualizar(false);
         }
 
-        public void Actualizar()
+        public void Actualizar(bool isFirst)
         {
+            if (isFirst)
+            {
+                MessageBox.Show("Su sesión se cerrará automaticamente");
+            }
             Logica.SesionBL.ObtenerInstancia().Desuscribir(this);
             this.Dispose();
         }

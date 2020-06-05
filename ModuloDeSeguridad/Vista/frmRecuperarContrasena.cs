@@ -17,6 +17,7 @@ namespace ModuloDeSeguridad.Vista
         public frmRecuperarContrasena()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             usuarioBL = new Logica.UsuarioBL();
         }
 

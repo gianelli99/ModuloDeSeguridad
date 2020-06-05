@@ -16,6 +16,7 @@ namespace ModuloDeSeguridad.Vista
         public frmInformes(int vistaId)
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             usuarioBL = new Logica.UsuarioBL();
             Logica.SesionBL.ObtenerInstancia().Suscribir(this);
             
@@ -31,15 +32,19 @@ namespace ModuloDeSeguridad.Vista
             }
         }
 
-        public void Actualizar()
+        public void Actualizar(bool isFirst)
         {
+            if (isFirst)
+            {
+                MessageBox.Show("Su sesión se cerrará automaticamente");
+            }
             Logica.SesionBL.ObtenerInstancia().Desuscribir(this);
             this.Dispose();
         }
 
         private void BtnCerrar_Click(object sender, EventArgs e)
         {
-            Actualizar();
+            Actualizar(false);
         }
         private void BtnAccion(object sender, EventArgs e)
         {

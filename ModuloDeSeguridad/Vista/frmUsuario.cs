@@ -20,6 +20,7 @@ namespace ModuloDeSeguridad.Vista
         public frmUsuario()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             Logica.SesionBL.ObtenerInstancia().Suscribir(this);
             accion = Accion.Alta;
             user = new Modelo.Usuario();
@@ -33,6 +34,7 @@ namespace ModuloDeSeguridad.Vista
         public frmUsuario(Accion miAccion, int id)
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             Logica.SesionBL.ObtenerInstancia().Suscribir(this);
             usuarioBL = new Logica.UsuarioBL();
             accion = miAccion;
@@ -44,6 +46,8 @@ namespace ModuloDeSeguridad.Vista
             txtConfirmarContrasena.Text = user.Password;
             txtContrasena.Enabled = false;
             txtConfirmarContrasena.Enabled = false;
+            txtContrasena.Visible = false;
+            txtConfirmarContrasena.Visible = false;
             txtEmail.Text = user.Email;
             txtNombre.Text = user.Nombre;
             txtApellido.Text = user.Apellido;
@@ -79,7 +83,7 @@ namespace ModuloDeSeguridad.Vista
 
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
-            Actualizar();
+            Actualizar(false);
         }
 
         private void BtnAceptar_Click(object sender, EventArgs e)
@@ -146,8 +150,12 @@ namespace ModuloDeSeguridad.Vista
             this.DialogResult = DialogResult.OK;
         }
 
-        public void Actualizar()
+        public void Actualizar(bool isFirst)
         {
+            if (isFirst)
+            {
+                MessageBox.Show("Su sesión se cerrará automaticamente");
+            }
             Logica.SesionBL.ObtenerInstancia().Desuscribir(this);
             this.Dispose();
         }

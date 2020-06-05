@@ -21,6 +21,7 @@ namespace ModuloDeSeguridad.Vista
         public frmGrupo()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             FrmGrupo_Resize(this, EventArgs.Empty);
             Logica.SesionBL.ObtenerInstancia().Suscribir(this);
             accion = Accion.Alta;
@@ -35,6 +36,7 @@ namespace ModuloDeSeguridad.Vista
         public frmGrupo(Accion miAccion, int id)
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             FrmGrupo_Resize(this, EventArgs.Empty);
             Logica.SesionBL.ObtenerInstancia().Suscribir(this);
             grupoBL = new Logica.GrupoBL();
@@ -127,7 +129,7 @@ namespace ModuloDeSeguridad.Vista
 
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
-            Actualizar();
+            Actualizar(false);
         }
 
         private void FrmGrupo_Resize(object sender, EventArgs e)
@@ -135,8 +137,12 @@ namespace ModuloDeSeguridad.Vista
             pnDatos.Location =new Point( (this.ClientRectangle.Size.Width-pnDatos.Size.Width) / 2,(this.ClientRectangle.Size.Height - pnDatos.Size.Height)/2);
         }
 
-        public void Actualizar()
+        public void Actualizar(bool isFirst)
         {
+            if (isFirst)
+            {
+                MessageBox.Show("Su sesión se cerrará automaticamente");
+            }
             Logica.SesionBL.ObtenerInstancia().Desuscribir(this);
             this.Dispose();
         }

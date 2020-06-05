@@ -16,8 +16,7 @@ namespace ModuloDeSeguridad.Vista
         public frmInicio()
         {
             InitializeComponent();
-            tmTiempoSesion.Interval= 5000000;
-            tmTiempoSesion.Start();
+            CheckForIllegalCrossThreadCalls = false;
             var sesion = Modelo.Sesion.ObtenerInstancia();
             sesionBL = Logica.SesionBL.ObtenerInstancia();
             sesionBL.Suscribir(this);
@@ -75,18 +74,15 @@ namespace ModuloDeSeguridad.Vista
             sesionBL.FinalizarSesion();
         }
 
-        public void Actualizar()
+        public void Actualizar(bool isFirst)
         {
-            tmTiempoSesion.Dispose();
+            if (isFirst)
+            {
+                MessageBox.Show("Su sesión se cerrará automaticamente");
+            }
             sesionBL.Desuscribir(this);
             this.Dispose();
         }
-
-        private void TmTiempoSesion_Tick(object sender, EventArgs e)
-        {
-            sesionBL.FinalizarSesion();
-        }
-
         private void FrmInicio_FormClosed(object sender, FormClosedEventArgs e)
         {
             sesionBL.FinalizarSesion();

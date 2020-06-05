@@ -16,11 +16,16 @@ namespace ModuloDeSeguridad.Vista
         public frmIniciarSesion()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             sesionBL = Logica.SesionBL.ObtenerInstancia();
         }
 
-        public void Actualizar()
+        public void Actualizar(bool isFirst)
         {
+            if (isFirst)
+            {
+                MessageBox.Show("Su sesión se cerrará automaticamente");
+            }
             sesionBL.Desuscribir(this);
             this.Show();
         }
