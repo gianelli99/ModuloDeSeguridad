@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using ModuloDeSeguridad.Logica.Interfaces;
@@ -34,6 +35,7 @@ namespace ModuloDeSeguridad.Logica
         {
             try
             {
+                password = Hasheo.GetMd5Hash(password);
                 return sesionDAO.ValidarUsuario(username, password);
             }
             catch (Exception ex)

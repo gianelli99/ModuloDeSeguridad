@@ -60,6 +60,7 @@
             this.llblOlvidasteTuContrasena.TabIndex = 2;
             this.llblOlvidasteTuContrasena.TabStop = true;
             this.llblOlvidasteTuContrasena.Text = "¿Olvidaste tu contraseña?";
+            this.llblOlvidasteTuContrasena.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LlblOlvidasteTuContrasena_LinkClicked);
             // 
             // btnIniciarSesion
             // 

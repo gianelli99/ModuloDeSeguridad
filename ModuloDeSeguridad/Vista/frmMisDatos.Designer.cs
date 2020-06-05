@@ -33,8 +33,9 @@
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
-            this.txtContrasena = new System.Windows.Forms.TextBox();
             this.txtUsername = new System.Windows.Forms.TextBox();
+            this.flpGrupos = new System.Windows.Forms.FlowLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // flpAcciones
@@ -56,7 +57,7 @@
             // 
             // txtApellido
             // 
-            this.txtApellido.Location = new System.Drawing.Point(175, 129);
+            this.txtApellido.Location = new System.Drawing.Point(12, 90);
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(177, 20);
             this.txtApellido.TabIndex = 20;
@@ -64,7 +65,7 @@
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(175, 103);
+            this.txtNombre.Location = new System.Drawing.Point(12, 64);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(177, 20);
             this.txtNombre.TabIndex = 19;
@@ -72,39 +73,46 @@
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(175, 77);
+            this.txtEmail.Location = new System.Drawing.Point(12, 38);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(177, 20);
             this.txtEmail.TabIndex = 18;
             this.txtEmail.Text = "Email";
             // 
-            // txtContrasena
-            // 
-            this.txtContrasena.Enabled = false;
-            this.txtContrasena.Location = new System.Drawing.Point(175, 51);
-            this.txtContrasena.Name = "txtContrasena";
-            this.txtContrasena.Size = new System.Drawing.Size(177, 20);
-            this.txtContrasena.TabIndex = 17;
-            this.txtContrasena.Text = "Contraseña";
-            this.txtContrasena.UseSystemPasswordChar = true;
-            // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(175, 25);
+            this.txtUsername.Location = new System.Drawing.Point(12, 12);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(177, 20);
             this.txtUsername.TabIndex = 16;
             this.txtUsername.Text = "Username";
+            // 
+            // flpGrupos
+            // 
+            this.flpGrupos.Location = new System.Drawing.Point(195, 55);
+            this.flpGrupos.Name = "flpGrupos";
+            this.flpGrupos.Size = new System.Drawing.Size(200, 122);
+            this.flpGrupos.TabIndex = 21;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(195, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.TabIndex = 22;
+            this.label1.Text = "Grupos";
             // 
             // frmMisDatos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(549, 265);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.flpGrupos);
             this.Controls.Add(this.txtApellido);
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.txtEmail);
-            this.Controls.Add(this.txtContrasena);
             this.Controls.Add(this.txtUsername);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.flpAcciones);
@@ -122,7 +130,8 @@
         private System.Windows.Forms.TextBox txtApellido;
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.TextBox txtEmail;
-        private System.Windows.Forms.TextBox txtContrasena;
         private System.Windows.Forms.TextBox txtUsername;
+        private System.Windows.Forms.FlowLayoutPanel flpGrupos;
+        private System.Windows.Forms.Label label1;
     }
 }

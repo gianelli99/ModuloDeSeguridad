@@ -14,9 +14,11 @@ namespace ModuloDeSeguridad.Vista
     {
         private Logica.UsuarioBL usuarioBL;
         private Modelo.Usuario usuario;
-        public frmCambiarContrasena(int userId)
+        int userId;
+        public frmCambiarContrasena(int miUserId)
         {
             InitializeComponent();
+            userId = miUserId;
             usuarioBL = new Logica.UsuarioBL();
             usuario = usuarioBL.Consultar(userId);
             Logica.SesionBL.ObtenerInstancia().Suscribir(this);
@@ -56,8 +58,8 @@ namespace ModuloDeSeguridad.Vista
             }
             try
             {
-                usuario.Password = txtContrasenaNueva.Text;
-                usuarioBL.Modificar(usuario, Modelo.Sesion.ObtenerInstancia().Usuario.ID);
+                usuarioBL.CambiarContrasena(txtContrasenaNueva.Text, userId,Modelo.Sesion.ObtenerInstancia().Usuario.ID);
+                
                 Actualizar();
             }
             catch (Exception ex)

@@ -16,3 +16,4 @@ C:\Users\Gianfranco\Desktop\Libros\Trabajo de Campo\ModuloDeSeguridad\ModuloDeSe
 C:\Users\Gianfranco\Desktop\Libros\Trabajo de Campo\ModuloDeSeguridad\ModuloDeSeguridad\obj\Debug\ModuloDeSeguridad.Vista.frmCambiarContrasena.resources
 C:\Users\Gianfranco\Desktop\Libros\Trabajo de Campo\ModuloDeSeguridad\ModuloDeSeguridad\obj\Debug\ModuloDeSeguridad.Vista.frmInformes.resources
 C:\Users\Gianfranco\Desktop\Libros\Trabajo de Campo\ModuloDeSeguridad\ModuloDeSeguridad\obj\Debug\ModuloDeSeguridad.Vista.frmMisDatos.resources
+C:\Users\Gianfranco\Desktop\Libros\Trabajo de Campo\ModuloDeSeguridad\ModuloDeSeguridad\obj\Debug\ModuloDeSeguridad.Vista.frmRecuperarContrasena.resources

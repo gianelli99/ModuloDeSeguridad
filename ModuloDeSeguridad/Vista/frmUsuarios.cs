@@ -56,7 +56,7 @@ namespace ModuloDeSeguridad.Vista
 
                             if (usuario.ID == Modelo.Sesion.ObtenerInstancia().Usuario.ID)
                             {
-                                MessageBox.Show("No puede eliminarse a si mismo..Ingrese a \"Mis Datos\"");
+                                MessageBox.Show("Para realizar esta acción ingrese a \"Mis Datos\"");
                                 return;
                             }
 
@@ -93,7 +93,7 @@ namespace ModuloDeSeguridad.Vista
                             var usuario = (Modelo.Usuario)dgvUsuarios.CurrentRow.DataBoundItem;
                             if (usuario.ID == Modelo.Sesion.ObtenerInstancia().Usuario.ID)
                             {
-                                MessageBox.Show("No puede modificarse a si mismo. Ingrese a \"Mis Datos\"");
+                                MessageBox.Show("Para realizar esta acción ingrese a \"Mis Datos\"");
                                 return;
                             }
                             frmUsuario frmMod = new frmUsuario(Accion.Modificacion, ((Modelo.Usuario)dgvUsuarios.CurrentRow.DataBoundItem).ID);
@@ -121,6 +121,12 @@ namespace ModuloDeSeguridad.Vista
                     case "Cambiar Contraseña":
                         if (TieneElementoSeleccionado())
                         {
+                            var usuario = (Modelo.Usuario)dgvUsuarios.CurrentRow.DataBoundItem;
+                            if (usuario.ID == Modelo.Sesion.ObtenerInstancia().Usuario.ID)
+                            {
+                                MessageBox.Show("Para realizar esta acción ingrese a \"Mis Datos\"");
+                                return;
+                            }
                             frmCambiarContrasena frmConsulta = new frmCambiarContrasena(((Modelo.Usuario)dgvUsuarios.CurrentRow.DataBoundItem).ID);
                             frmConsulta.ShowDialog();
                         }

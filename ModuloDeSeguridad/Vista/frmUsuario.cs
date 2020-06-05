@@ -121,7 +121,6 @@ namespace ModuloDeSeguridad.Vista
                 }
             }
             user.Username = txtUsername.Text;
-            user.Password = txtContrasena.Text;
             user.Email = txtEmail.Text;
             user.Nombre = txtNombre.Text;
             user.Apellido = txtApellido.Text;
@@ -130,11 +129,12 @@ namespace ModuloDeSeguridad.Vista
             {
                 if (accion == Accion.Alta)
                 {
-                    usuarioBL.Insertar(user, 1);//Modelo.Sesion.ObtenerInstancia().Usuario.ID);
+                    user.Password = txtContrasena.Text;
+                    usuarioBL.Insertar(user, Modelo.Sesion.ObtenerInstancia().Usuario.ID);
                 }
                 else
                 {
-                    usuarioBL.Modificar(user, 1);//Modelo.Sesion.ObtenerInstancia().Usuario.ID);
+                    usuarioBL.Modificar(user, Modelo.Sesion.ObtenerInstancia().Usuario.ID,true);
                 }
             }
             catch (Exception ex)

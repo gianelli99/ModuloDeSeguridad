@@ -28,6 +28,17 @@ namespace ModuloDeSeguridad.Logica
                 throw ex;
             }
         }
+        public Modelo.Usuario Consultar(string username, string email)
+        {
+            try
+            {
+                return usuarioDAO.Consultar(username,email);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<Modelo.Accion> ListarAccionesDisponibles(int userId, int vistaId)
         {
             try
@@ -111,6 +122,7 @@ namespace ModuloDeSeguridad.Logica
                 {
                     if (UsernameEmailDisponibles(usuario.Username,usuario.Email, null))
                     {
+                        usuario.Password = Hasheo.GetMd5Hash(usuario.Password);
                         usuarioDAO.Insertar(usuario, idEditor);
                     }
                     else
@@ -137,7 +149,7 @@ namespace ModuloDeSeguridad.Logica
                 throw ex;
             }
         }
-        public void Modificar(Modelo.Usuario usuario, int idEditor)
+        public void Modificar(Modelo.Usuario usuario, int idEditor,bool modificaGrupo)
         {
             try
             {
@@ -149,7 +161,7 @@ namespace ModuloDeSeguridad.Logica
                 {
                     if (UsernameEmailDisponibles(usuario.Username, usuario.Email, usuario.ID.ToString()))
                     {
-                        usuarioDAO.Modificar(usuario, idEditor);
+                        usuarioDAO.Modificar(usuario, idEditor, modificaGrupo);
                     }
                     else
                     {
@@ -163,10 +175,9 @@ namespace ModuloDeSeguridad.Logica
                 throw ex;
             }
         }
-
         public bool ValidarContrasena(Modelo.Usuario usuario,string actual,string nueva)
         {
-            if (usuario.Password == actual)
+            if (Hasheo.VerifyMd5Hash(actual, usuario.Password))
             {
                 if (actual!=nueva)
                 {
@@ -180,6 +191,19 @@ namespace ModuloDeSeguridad.Logica
             else
             {
                 return false;
+            }
+        }
+        public void CambiarContrasena(string pass, int userId, int editorId)
+        {
+            try
+            {
+                pass = Hasheo.GetMd5Hash(pass);
+                usuarioDAO.CambiarContrasena(pass, userId, editorId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
     }

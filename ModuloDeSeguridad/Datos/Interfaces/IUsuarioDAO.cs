@@ -12,7 +12,9 @@ namespace ModuloDeSeguridad.Datos.Interfaces
         List<Modelo.Grupo> ListarGrupos(int id);
         void Insertar(Modelo.Usuario t, int idEditor);
         Modelo.Usuario Consultar(int id);
-        void Modificar(Modelo.Usuario t, int idEditor);
+        Modelo.Usuario Consultar(string username, string email);
+        void CambiarContrasena(string pass, int userId, int editorId);
+        void Modificar(Modelo.Usuario t, int idEditor, bool modificaGrupo);
         void Eliminar(int id, int idEditor);
         List<Modelo.Vista> ListarVistasDisponibles(int id);
         List<Modelo.Accion> ListarAccionesDisponibles(int idUser, int idVista);

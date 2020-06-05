@@ -59,5 +59,11 @@ namespace ModuloDeSeguridad.Vista
                 return;
             }
         }
+
+        private void LlblOlvidasteTuContrasena_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            frmRecuperarContrasena recuperar = new frmRecuperarContrasena();
+            recuperar.ShowDialog();
+        }
     }
 }

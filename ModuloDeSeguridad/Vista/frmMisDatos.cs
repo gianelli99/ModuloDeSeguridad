@@ -32,9 +32,15 @@ namespace ModuloDeSeguridad.Vista
                 button.Click += BtnAccion;
                 flpAcciones.Controls.Add(button);
             }
+            foreach (var grupo in usuario.Grupos)
+            {
+                var label = new Label();
+                label.Name = grupo.ID.ToString();
+                label.Text = grupo.Descripcion;
+                flpGrupos.Controls.Add(label);
+            }
 
             txtUsername.Text = usuario.Username;
-            txtContrasena.Text = usuario.Password;
             txtEmail.Text = usuario.Email;
             txtNombre.Text = usuario.Nombre;
             txtApellido.Text = usuario.Apellido;
@@ -46,11 +52,54 @@ namespace ModuloDeSeguridad.Vista
             {
                 switch (((Button)sender).Text)
                 {
-                    case "Modificar":
+                    case "Modificacion":
+                        //validar
+                        if (String.IsNullOrWhiteSpace(txtUsername.Text) ||
+                            String.IsNullOrWhiteSpace(txtEmail.Text) ||
+                            String.IsNullOrWhiteSpace(txtNombre.Text) ||
+                            String.IsNullOrWhiteSpace(txtApellido.Text))
+                        {
+                            MessageBox.Show("Debe completar todos los campos");
+                            return;
+                        }
+                        try//validar email
+                        {
+                            var addr = new System.Net.Mail.MailAddress(txtEmail.Text);
+                            if (addr.Address != txtEmail.Text)
+                            {
+                                MessageBox.Show("El email no es válido");
+                                return;
+                            }
+                        }
+                        catch
+                        {
+                            MessageBox.Show("El email no es válido");
+                            return;
+                        }
+                        //modificar
+                       
+                        DialogResult modificar = MessageBox.Show("¿Está seguro que desea modificar sus datos?", "Modificación", MessageBoxButtons.YesNo);
+                        if (modificar == DialogResult.Yes)
+                        {
+                            usuario.Username = txtUsername.Text;
+                            usuario.Email = txtEmail.Text;
+                            usuario.Nombre = txtNombre.Text;
+                            usuario.Apellido = txtApellido.Text;
+                            usuarioBL.Modificar(usuario, usuario.ID,false);
+                        }
                         break;
                     case "Baja":
+                        DialogResult eliminar = MessageBox.Show("¿Está seguro que desea darse de baja?", "Eliminación", MessageBoxButtons.YesNo);
+                        if (eliminar==DialogResult.Yes)
+                        {
+                            usuarioBL.Eliminar(usuario.ID, usuario.ID);
+                            Logica.SesionBL.ObtenerInstancia().FinalizarSesion();
+                        }
                         break;
                     case "Cambiar Contraseña":
+                        frmCambiarContrasena frmCambiarContrasena = new frmCambiarContrasena(usuario.ID);
+                        frmCambiarContrasena.ShowDialog();
+                        usuarioBL.Consultar(usuario.ID);
                         break;
                     default:
                         break;

@@ -10,6 +10,46 @@ namespace ModuloDeSeguridad.Datos.DAO
 {
     public class UsuarioDAO_SqlServer : ConexionDB,Interfaces.IUsuarioDAO
     {
+        public void CambiarContrasena(string pass, int userId, int editorId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Cambiar Contraseña");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+                try
+                {
+                    command.CommandText = $"INSERT INTO usuarios_auditorias SELECT * FROM usuarios WHERE usuarios.id = {userId}";
+                    command.ExecuteNonQuery();
+
+
+                    command.CommandText = $"UPDATE usuarios SET contrasena=@contrasena, editor_id={editorId}, edicion_fecha=@edicion_fecha, edicion_accion='M' WHERE id = {userId}";
+                    command.Parameters.AddWithValue("@contrasena", pass);
+                    command.Parameters.AddWithValue("@edicion_fecha", DateTime.Now);
+                    command.ExecuteNonQuery();
+                    transaction.Commit();
+                    return;
+                }
+                catch (Exception)
+                {
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+
+                        throw ex2;
+                    }
+                }
+            }
+            throw new Exception("Ha ocurrido un error");
+        }
 
         public Usuario Consultar(int id)// traigo usuario y sus grupos
         {
@@ -58,6 +98,53 @@ namespace ModuloDeSeguridad.Datos.DAO
                 catch (Exception ex)
                 {
                         throw ex;
+                }
+            }
+            throw new Exception("Ha ocurrido un error");
+        }
+
+        public Usuario Consultar(string username, string email)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Consulta Usuario");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"SELECT TOP 1 * from usuarios WHERE username = @username AND email =@email";
+                    command.Parameters.AddWithValue("@username", username);
+                    command.Parameters.AddWithValue("@email", email);
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        var usuario = new Usuario();
+                        if (response.Read())
+                        {
+                            usuario.ID = response.GetInt32(0);
+                            usuario.Username = response.GetString(1);
+                            usuario.Password = response.GetString(2);
+                            usuario.Email = response.GetString(3);
+                            usuario.Nombre = response.GetString(4);
+                            usuario.Apellido = response.GetString(5);
+                            usuario.Estado = response.GetBoolean(6);
+                            return usuario;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
                 }
             }
             throw new Exception("Ha ocurrido un error");
@@ -337,7 +424,7 @@ namespace ModuloDeSeguridad.Datos.DAO
             throw new Exception("Ha ocurrido un error");
         }
 
-        public void Modificar(Usuario t, int idEditor)
+        public void Modificar(Usuario t, int idEditor, bool modificaGrupo)
         {
             using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
@@ -356,9 +443,8 @@ namespace ModuloDeSeguridad.Datos.DAO
 
                     int bitEstado = t.Estado ? 1 : 0;
 
-                    command.CommandText = $"UPDATE usuarios SET username=@username, contrasena=@contrasena, email=@email, nombre=@nombre, apellido=@apelido, estado={bitEstado.ToString()}, editor_id=@editor_id, edicion_fecha=@edicion_fecha, edicion_accion='M' WHERE id = {t.ID.ToString()}";
+                    command.CommandText = $"UPDATE usuarios SET username=@username, email=@email, nombre=@nombre, apellido=@apelido, estado={bitEstado.ToString()}, editor_id=@editor_id, edicion_fecha=@edicion_fecha, edicion_accion='M' WHERE id = {t.ID.ToString()}";
                     command.Parameters.AddWithValue("@username", t.Username);
-                    command.Parameters.AddWithValue("@contrasena", t.Password);
                     command.Parameters.AddWithValue("@email", t.Email);
                     command.Parameters.AddWithValue("@nombre", t.Nombre);
                     command.Parameters.AddWithValue("@apelido", t.Apellido);
@@ -367,18 +453,21 @@ namespace ModuloDeSeguridad.Datos.DAO
                     command.ExecuteNonQuery();
 
 
-
-                    string querygrupos = $"DELETE FROM usuarios_grupos WHERE usuario_id = {t.ID};";
-
-
-                    querygrupos += $"INSERT INTO usuarios_grupos VALUES ";
-                    foreach (var grupo in t.Grupos)
+                    if (modificaGrupo)
                     {
-                        querygrupos += $"('{t.ID.ToString()}','{grupo.ID.ToString()}'),";
+                        string querygrupos = $"DELETE FROM usuarios_grupos WHERE usuario_id = {t.ID};";
+
+
+                        querygrupos += $"INSERT INTO usuarios_grupos VALUES ";
+                        foreach (var grupo in t.Grupos)
+                        {
+                            querygrupos += $"('{t.ID.ToString()}','{grupo.ID.ToString()}'),";
+                        }
+                        querygrupos = querygrupos.TrimEnd(',');
+                        command.CommandText = querygrupos;
+                        command.ExecuteNonQuery();
                     }
-                    querygrupos = querygrupos.TrimEnd(',');
-                    command.CommandText = querygrupos;
-                    command.ExecuteNonQuery();
+                    
                     transaction.Commit();
                     return;
                 }

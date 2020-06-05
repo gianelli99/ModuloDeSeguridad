@@ -16,7 +16,7 @@ namespace ModuloDeSeguridad.Vista
         public frmInicio()
         {
             InitializeComponent();
-            tmTiempoSesion.Interval= 10000000;
+            tmTiempoSesion.Interval= 5000000;
             tmTiempoSesion.Start();
             var sesion = Modelo.Sesion.ObtenerInstancia();
             sesionBL = Logica.SesionBL.ObtenerInstancia();

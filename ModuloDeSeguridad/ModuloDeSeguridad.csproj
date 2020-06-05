@@ -54,6 +54,7 @@
     <Compile Include="Datos\Interfaces\IUsuarioDAO.cs" />
     <Compile Include="Datos\DAO\UsuarioDAO_SqlServer.cs" />
     <Compile Include="Logica\GrupoBL.cs" />
+    <Compile Include="Logica\Hasheo.cs" />
     <Compile Include="Logica\Interfaces\ISesionObserver.cs" />
     <Compile Include="Logica\Interfaces\ISesionPublisher.cs" />
     <Compile Include="Logica\SesionBL.cs" />
@@ -110,6 +111,12 @@
     <Compile Include="Vista\frmMisDatos.Designer.cs">
       <DependentUpon>frmMisDatos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Vista\frmRecuperarContrasena.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vista\frmRecuperarContrasena.Designer.cs">
+      <DependentUpon>frmRecuperarContrasena.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vista\frmUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +158,9 @@
     </Compile>
     <EmbeddedResource Include="Vista\frmMisDatos.resx">
       <DependentUpon>frmMisDatos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vista\frmRecuperarContrasena.resx">
+      <DependentUpon>frmRecuperarContrasena.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vista\frmUsuario.resx">
       <DependentUpon>frmUsuario.cs</DependentUpon>
