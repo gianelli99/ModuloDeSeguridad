@@ -70,5 +70,10 @@ namespace ModuloDeSeguridad.Vista
             frmRecuperarContrasena recuperar = new frmRecuperarContrasena();
             recuperar.ShowDialog();
         }
+
+        private void PictureBox1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
