@@ -29,6 +29,14 @@ namespace ModuloDeSeguridad.Vista
                 button.Text = accion.Descripcion;
                 button.AutoSize = true;
                 button.Click += BtnCrud;
+                button.Padding = new Padding(3);
+                button.ImageAlign = ContentAlignment.TopCenter;
+                button.TextAlign = ContentAlignment.BottomCenter;
+                button.FlatStyle = FlatStyle.Flat;
+                button.FlatAppearance.BorderSize = 0;
+                button.BackColor = Color.FromArgb(94, 48, 228);
+                button.Size = new Size(135, 72);
+                button.Image = Image.FromFile(@"..\..\Resources\"+accion.IconName);
                 flpCrud.Controls.Add(button);
             }
             grupos = grupoBL.Listar();

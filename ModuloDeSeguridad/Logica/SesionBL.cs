@@ -122,7 +122,10 @@ namespace ModuloDeSeguridad.Logica
         }
         public void Notificar()
         {
-            observadores[observadores.Count - 1].Actualizar(true);
+            if (observadores.Count - 1>=0)
+            {
+                observadores[observadores.Count - 1].Actualizar(true);
+            }
             for (int i = observadores.Count-1; i >= 0; i--)
             {
                 observadores[i].Actualizar(false);

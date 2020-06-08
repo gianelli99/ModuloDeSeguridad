@@ -311,7 +311,7 @@ namespace ModuloDeSeguridad.Datos.DAO
 
                 try
                 {
-                    command.CommandText = $"SELECT DISTINCT acciones.id, acciones.tipo FROM permisos INNER JOIN acciones on permisos.accion_id = acciones.id WHERE permisos.grupo_id IN (SELECT grupo_id FROM usuarios_grupos INNER JOIN grupos ON grupos.id = usuarios_grupos.grupo_id WHERE usuario_id = {idUser} AND grupos.estado = 1) AND vista_id = {idVista} AND tiene_permiso = 1";
+                    command.CommandText = $"SELECT DISTINCT acciones.id, acciones.tipo, acciones.icon_name FROM permisos INNER JOIN acciones on permisos.accion_id = acciones.id WHERE permisos.grupo_id IN (SELECT grupo_id FROM usuarios_grupos INNER JOIN grupos ON grupos.id = usuarios_grupos.grupo_id WHERE usuario_id = {idUser} AND grupos.estado = 1) AND vista_id = {idVista} AND tiene_permiso = 1";
                     transaction.Commit();
                     using (SqlDataReader response = command.ExecuteReader())
                     {
@@ -323,6 +323,7 @@ namespace ModuloDeSeguridad.Datos.DAO
                                 var accion = new Modelo.Accion();
                                 accion.ID = response.GetInt32(0);
                                 accion.Descripcion = response.GetString(1);
+                                accion.IconName = response.GetString(2);
                                 acciones.Add(accion);
                             }
                             return acciones;
