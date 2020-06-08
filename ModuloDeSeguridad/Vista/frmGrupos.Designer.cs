@@ -35,9 +35,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.btnBuscar = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGrupos)).BeginInit();
-            this.flpCrud.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,7 +66,6 @@
             // 
             this.flpCrud.AutoScroll = true;
             this.flpCrud.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(25)))), ((int)(((byte)(74)))));
-            this.flpCrud.Controls.Add(this.button1);
             this.flpCrud.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpCrud.Location = new System.Drawing.Point(1, 76);
             this.flpCrud.Margin = new System.Windows.Forms.Padding(0);
@@ -121,22 +118,6 @@
             this.btnBuscar.UseVisualStyleBackColor = false;
             this.btnBuscar.Click += new System.EventHandler(this.BtnBuscar_Click);
             // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(48)))), ((int)(((byte)(228)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button1.Font = new System.Drawing.Font("Lato", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button1.Location = new System.Drawing.Point(4, 4);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Padding = new System.Windows.Forms.Padding(2);
-            this.button1.Size = new System.Drawing.Size(135, 72);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "Alta";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button1.UseVisualStyleBackColor = false;
-            // 
             // frmGrupos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
@@ -155,7 +136,6 @@
             this.Name = "frmGrupos";
             this.Text = "frmGrupos";
             ((System.ComponentModel.ISupportInitialize)(this.dgvGrupos)).EndInit();
-            this.flpCrud.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -169,7 +149,6 @@
         private System.Windows.Forms.TextBox txtBuscar;
         private System.Windows.Forms.FlowLayoutPanel flpCrud;
         private System.Windows.Forms.Button btnCerrar;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnBuscar;
