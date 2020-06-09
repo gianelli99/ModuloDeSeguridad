@@ -21,6 +21,10 @@ namespace ModuloDeSeguridad.Modelo
         private Sesion()
         {
         }
+        public static Sesion SesionInforme()
+        {
+            return new Sesion();
+        }
         public static Sesion ObtenerInstancia()
         {
             if (_instancia == null)

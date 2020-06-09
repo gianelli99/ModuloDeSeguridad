@@ -41,6 +41,7 @@
             this.cmbTipo = new System.Windows.Forms.ComboBox();
             this.gbFiltros = new System.Windows.Forms.GroupBox();
             this.flpAcciones = new System.Windows.Forms.FlowLayoutPanel();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInforme)).BeginInit();
             this.gbTipo.SuspendLayout();
             this.gbFiltros.SuspendLayout();
@@ -174,11 +175,22 @@
             this.flpAcciones.Size = new System.Drawing.Size(519, 65);
             this.flpAcciones.TabIndex = 12;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(313, 49);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            // 
             // frmInformes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(543, 500);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.flpAcciones);
             this.Controls.Add(this.gbFiltros);
             this.Controls.Add(this.gbTipo);
@@ -210,5 +222,6 @@
         private System.Windows.Forms.ComboBox cmbTipo;
         private System.Windows.Forms.GroupBox gbFiltros;
         private System.Windows.Forms.FlowLayoutPanel flpAcciones;
+        private System.Windows.Forms.Button button1;
     }
 }

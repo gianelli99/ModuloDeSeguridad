@@ -44,19 +44,162 @@ namespace ModuloDeSeguridad.Datos.DAO
             }
         }
 
-        public List<Sesion> Listar()
+        public List<Sesion> Listar(DateTime fechaDesde, DateTime fechaHasta)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Listar sesiones");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"SELECT sesiones.id AS id,usuarios.username,inicio,cierre FROM sesiones INNER JOIN usuarios ON usuarios.id = sesiones.usuario_id WHERE inicio > '{fechaDesde.ToString("yyyy-MM-dd HH:mm:ss")}' AND cierre < '{fechaHasta.ToString("yyyy-MM-dd HH:mm:ss")}'";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.HasRows)
+                        {
+                            var sesiones = new List<Modelo.Sesion>();
+                            while (response.Read())
+                            {
+                                var sesion = Modelo.Sesion.SesionInforme();
+                                var usuario = new Modelo.Usuario();
+                                sesion.Usuario = usuario;
+                                sesion.ID = response.GetInt32(0);
+                                usuario.Username = response.GetString(1);
+                                sesion.LogIn = response.GetDateTime(2);
+                                sesion.LogOut = response.GetDateTime(3);
+                                sesiones.Add(sesion);
+                            }
+                            return sesiones;
+                        }
+                        return null;
+                    }
+                }
+                catch (Exception ex2)
+                {
+                    throw ex2;
+                }
+            }
+            throw new Exception("Ha ocurrido un error");
         }
 
-        public List<Sesion> ListarPorGrupo(int idGrupo)
+        public List<Sesion> ListarPorGrupo(int idGrupo, DateTime fechaDesde, DateTime fechaHasta)// devuelve sesiones de 1 grupo, cada sesion tiene un usuario con solo el username, el usuario de la primer sesion contiene 1 grupo con solo la descripcion del mismo
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Listar sesiones por grupo");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"SELECT sesiones.id AS id,usuarios.username,inicio,cierre FROM sesiones INNER JOIN usuarios ON usuarios.id = sesiones.usuario_id WHERE usuarios.id IN (SELECT usuario_id from usuarios_grupos WHERE grupo_id = {idGrupo}) AND inicio > '{fechaDesde.ToString("yyyy-MM-dd HH:mm:ss")}' AND cierre < '{fechaHasta.ToString("yyyy-MM-dd HH:mm:ss")}';SELECT TOP 1 descripcion from grupos WHERE id = {idGrupo}";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        var sesiones = new List<Modelo.Sesion>();
+                        if (response.HasRows)
+                        {
+                           
+                            while (response.Read())
+                            {
+                                var sesion = Modelo.Sesion.SesionInforme();
+                                var usuario = new Modelo.Usuario();
+                                sesion.Usuario = usuario;
+                                sesion.ID = response.GetInt32(0);
+                                usuario.Username = response.GetString(1);
+                                sesion.LogIn = response.GetDateTime(2);
+                                sesion.LogOut = response.GetDateTime(3);
+                                sesiones.Add(sesion);
+                            }
+                            //return sesiones;
+                        }
+                        response.NextResult();
+                        if (response.HasRows)
+                        {
+                            response.Read();
+                            var grupo = new Modelo.Grupo() { Descripcion = response.GetString(0) };
+                            sesiones[0].Usuario.Grupos.Add(grupo);
+                        }
+                        return sesiones;
+                    }
+                }
+                catch (Exception ex2)
+                {
+                    throw ex2;
+                }
+            }
+            throw new Exception("Ha ocurrido un error");
         }
 
-        public List<Sesion> ListarPorUsuario(int idUsuario)
+        public List<Sesion> ListarPorUsuario(int idUsuario, DateTime fechaDesde, DateTime fechaHasta)// en la primer sesion se encuentra 1 usuario con solo su Username
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Listar sesiones por usuarios");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"SELECT sesiones.id AS id,username,inicio,cierre FROM sesiones INNER JOIN usuarios ON usuarios.id = sesiones.usuario_id WHERE usuarios.id = {idUsuario} AND inicio > '{fechaDesde.ToString("yyyy-MM-dd HH:mm:ss")}' AND cierre < '{fechaHasta.ToString("yyyy-MM-dd HH:mm:ss")}';SELECT username FROM usuarios WHERE id = {idUsuario}";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        var sesiones = new List<Modelo.Sesion>();
+                        if (response.HasRows)
+                        {
+
+                            while (response.Read())
+                            {
+                                var sesion = Modelo.Sesion.SesionInforme();
+                                var usuario = new Modelo.Usuario();
+                                sesion.Usuario = usuario;
+                                sesion.ID = response.GetInt32(0);
+                                usuario.Username = response.GetString(1);
+                                sesion.LogIn = response.GetDateTime(2);
+                                sesion.LogOut = response.GetDateTime(3);
+                                sesiones.Add(sesion);
+                            }
+                            //return sesiones;
+                        }
+                        response.NextResult();
+                        if (response.HasRows)
+                        {
+                            response.Read();
+                            var usuario = new Modelo.Usuario() { Username = response.GetString(0) };
+
+                            if (sesiones!= null && sesiones.Count>0)
+                            {
+                                sesiones[0].Usuario = usuario;
+                            }
+                        }
+                        return sesiones;
+                    }
+                }
+                catch (Exception ex2)
+                {
+                    throw ex2;
+                }
+            }
+            throw new Exception("Ha ocurrido un error");
         }
 
         public void CerrarSesion(Sesion sesion)

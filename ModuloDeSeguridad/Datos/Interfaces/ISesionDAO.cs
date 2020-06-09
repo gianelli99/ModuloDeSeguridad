@@ -11,8 +11,8 @@ namespace ModuloDeSeguridad.Datos.Interfaces
         int ValidarUsuario(string username, string password);
         int IniciarSesion(Modelo.Sesion sesion);
         void CerrarSesion(Modelo.Sesion sesion);
-        List<Modelo.Sesion> Listar();
-        List<Modelo.Sesion> ListarPorGrupo(int idGrupo);
-        List<Modelo.Sesion> ListarPorUsuario(int idUsuario);
+        List<Modelo.Sesion> Listar(DateTime fechaDesde, DateTime fechaHasta);
+        List<Modelo.Sesion> ListarPorGrupo(int idGrupo, DateTime fechaDesde, DateTime fechaHasta);
+        List<Modelo.Sesion> ListarPorUsuario(int idUsuario, DateTime fechaDesde, DateTime fechaHasta);
     }
 }

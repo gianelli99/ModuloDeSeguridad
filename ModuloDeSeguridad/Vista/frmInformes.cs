@@ -13,11 +13,13 @@ namespace ModuloDeSeguridad.Vista
     public partial class frmInformes : Form, Logica.Interfaces.ISesionObserver
     {
         private Logica.UsuarioBL usuarioBL;
+        private Logica.InformeBL informeBL;
         public frmInformes(int vistaId)
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
             usuarioBL = new Logica.UsuarioBL();
+            informeBL = new Logica.InformeBL();
             Logica.SesionBL.ObtenerInstancia().Suscribir(this);
             
             var accionesDisponibles = usuarioBL.ListarAccionesDisponibles(Modelo.Sesion.ObtenerInstancia().Usuario.ID, vistaId);
@@ -62,6 +64,11 @@ namespace ModuloDeSeguridad.Vista
             {
                 MessageBox.Show("Ha ocurrido un error.");
             }
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            informeBL.GenerarInforme(Logica.TipoInforme.Usuario,2,dtpFechaInicio.Value,dtpFechaFin.Value);
         }
     }
 }
