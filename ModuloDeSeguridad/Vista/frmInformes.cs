@@ -14,6 +14,9 @@ namespace ModuloDeSeguridad.Vista
     {
         private Logica.UsuarioBL usuarioBL;
         private Logica.InformeBL informeBL;
+        private List<Modelo.Usuario> usuarios;
+        private List<Modelo.Grupo> grupos;
+        private Logica.TipoInforme tipoInforme;
         public frmInformes(int vistaId)
         {
             InitializeComponent();
@@ -21,7 +24,10 @@ namespace ModuloDeSeguridad.Vista
             usuarioBL = new Logica.UsuarioBL();
             informeBL = new Logica.InformeBL();
             Logica.SesionBL.ObtenerInstancia().Suscribir(this);
-            
+            usuarios = informeBL.ListarUsuarios();
+            grupos = informeBL.ListarGrupos();
+            rdbTodos.Checked = true;
+            tipoInforme = Logica.TipoInforme.Todos;
             var accionesDisponibles = usuarioBL.ListarAccionesDisponibles(Modelo.Sesion.ObtenerInstancia().Usuario.ID, vistaId);
             foreach (var accion in accionesDisponibles)
             {
@@ -55,6 +61,26 @@ namespace ModuloDeSeguridad.Vista
                 switch (((Button)sender).Text)
                 {
                     case "Alta"://aca se hace el informe
+                        if (dtpFechaInicio.Value>dtpFechaFin.Value)
+                        {
+                            MessageBox.Show("La fecha de inicio no puede ser mayor a la de fin.");
+                            return;
+                        }
+                        switch (tipoInforme)
+                        {
+                            case Logica.TipoInforme.Todos:
+                                informeBL.GenerarInforme(dtpFechaInicio.Value, dtpFechaFin.Value);
+                                break;
+                            case Logica.TipoInforme.Usuario:
+
+                                informeBL.GenerarInforme(tipoInforme,((Modelo.Usuario)cmbTipo.SelectedItem).ID, dtpFechaInicio.Value, dtpFechaFin.Value);
+                                break;
+                            case Logica.TipoInforme.Grupo:
+                                informeBL.GenerarInforme(tipoInforme, ((Modelo.Grupo)cmbTipo.SelectedItem).ID, dtpFechaInicio.Value, dtpFechaFin.Value);
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                     default:
                         break;
@@ -65,10 +91,29 @@ namespace ModuloDeSeguridad.Vista
                 MessageBox.Show("Ha ocurrido un error.");
             }
         }
-
-        private void Button1_Click(object sender, EventArgs e)
+        private void RdbCheckedChanged(object sender, EventArgs e)
         {
-            informeBL.GenerarInforme(Logica.TipoInforme.Usuario,2,dtpFechaInicio.Value,dtpFechaFin.Value);
+            switch (((RadioButton)sender).Text)
+            {
+                case "Todos":
+                    cmbTipo.DataSource = null;
+                    tipoInforme = Logica.TipoInforme.Todos;
+                    break;
+                case "Usuario":
+                    cmbTipo.DataSource = null;
+                    cmbTipo.DataSource = usuarios;
+                    cmbTipo.DisplayMember = "Username";
+                    tipoInforme = Logica.TipoInforme.Usuario;
+                    break;
+                case "Grupo":
+                    cmbTipo.DataSource = null;
+                    cmbTipo.DataSource = grupos;
+                    cmbTipo.DisplayMember = "Descripcion";
+                    tipoInforme = Logica.TipoInforme.Grupo;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

@@ -28,11 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dgvInforme = new System.Windows.Forms.DataGridView();
             this.btnCerrar = new System.Windows.Forms.Button();
-            this.rdbTiempoInicio = new System.Windows.Forms.RadioButton();
-            this.rdbTiempoCierre = new System.Windows.Forms.RadioButton();
-            this.rdbTiempoSesion = new System.Windows.Forms.RadioButton();
             this.btnUsuario = new System.Windows.Forms.RadioButton();
             this.rdbGrupo = new System.Windows.Forms.RadioButton();
             this.gbTipo = new System.Windows.Forms.GroupBox();
@@ -41,62 +37,22 @@
             this.cmbTipo = new System.Windows.Forms.ComboBox();
             this.gbFiltros = new System.Windows.Forms.GroupBox();
             this.flpAcciones = new System.Windows.Forms.FlowLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvInforme)).BeginInit();
+            this.rdbTodos = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.gbTipo.SuspendLayout();
             this.gbFiltros.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dgvInforme
-            // 
-            this.dgvInforme.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvInforme.Location = new System.Drawing.Point(12, 183);
-            this.dgvInforme.Name = "dgvInforme";
-            this.dgvInforme.Size = new System.Drawing.Size(519, 201);
-            this.dgvInforme.TabIndex = 0;
-            // 
             // btnCerrar
             // 
-            this.btnCerrar.Location = new System.Drawing.Point(461, 463);
+            this.btnCerrar.Location = new System.Drawing.Point(348, 254);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(70, 23);
             this.btnCerrar.TabIndex = 2;
             this.btnCerrar.Text = "Cerrar";
             this.btnCerrar.UseVisualStyleBackColor = true;
             this.btnCerrar.Click += new System.EventHandler(this.BtnCerrar_Click);
-            // 
-            // rdbTiempoInicio
-            // 
-            this.rdbTiempoInicio.AutoSize = true;
-            this.rdbTiempoInicio.Location = new System.Drawing.Point(7, 19);
-            this.rdbTiempoInicio.Name = "rdbTiempoInicio";
-            this.rdbTiempoInicio.Size = new System.Drawing.Size(88, 17);
-            this.rdbTiempoInicio.TabIndex = 3;
-            this.rdbTiempoInicio.TabStop = true;
-            this.rdbTiempoInicio.Text = "Tiempo Inicio";
-            this.rdbTiempoInicio.UseVisualStyleBackColor = true;
-            // 
-            // rdbTiempoCierre
-            // 
-            this.rdbTiempoCierre.AutoSize = true;
-            this.rdbTiempoCierre.Location = new System.Drawing.Point(98, 19);
-            this.rdbTiempoCierre.Name = "rdbTiempoCierre";
-            this.rdbTiempoCierre.Size = new System.Drawing.Size(90, 17);
-            this.rdbTiempoCierre.TabIndex = 4;
-            this.rdbTiempoCierre.TabStop = true;
-            this.rdbTiempoCierre.Text = "Tiempo Cierre";
-            this.rdbTiempoCierre.UseVisualStyleBackColor = true;
-            // 
-            // rdbTiempoSesion
-            // 
-            this.rdbTiempoSesion.AutoSize = true;
-            this.rdbTiempoSesion.Location = new System.Drawing.Point(189, 19);
-            this.rdbTiempoSesion.Name = "rdbTiempoSesion";
-            this.rdbTiempoSesion.Size = new System.Drawing.Size(110, 17);
-            this.rdbTiempoSesion.TabIndex = 5;
-            this.rdbTiempoSesion.TabStop = true;
-            this.rdbTiempoSesion.Text = "Tiempo de Sesión";
-            this.rdbTiempoSesion.UseVisualStyleBackColor = true;
             // 
             // btnUsuario
             // 
@@ -108,6 +64,7 @@
             this.btnUsuario.TabStop = true;
             this.btnUsuario.Text = "Usuario";
             this.btnUsuario.UseVisualStyleBackColor = true;
+            this.btnUsuario.CheckedChanged += new System.EventHandler(this.RdbCheckedChanged);
             // 
             // rdbGrupo
             // 
@@ -119,31 +76,31 @@
             this.rdbGrupo.TabStop = true;
             this.rdbGrupo.Text = "Grupo";
             this.rdbGrupo.UseVisualStyleBackColor = true;
+            this.rdbGrupo.CheckedChanged += new System.EventHandler(this.RdbCheckedChanged);
             // 
             // gbTipo
             // 
-            this.gbTipo.Controls.Add(this.rdbTiempoSesion);
+            this.gbTipo.Controls.Add(this.label2);
+            this.gbTipo.Controls.Add(this.label1);
             this.gbTipo.Controls.Add(this.dtpFechaFin);
-            this.gbTipo.Controls.Add(this.rdbTiempoInicio);
-            this.gbTipo.Controls.Add(this.rdbTiempoCierre);
             this.gbTipo.Controls.Add(this.dtpFechaInicio);
             this.gbTipo.Location = new System.Drawing.Point(12, 101);
             this.gbTipo.Name = "gbTipo";
             this.gbTipo.Size = new System.Drawing.Size(406, 76);
             this.gbTipo.TabIndex = 8;
             this.gbTipo.TabStop = false;
-            this.gbTipo.Text = "Tipo de Informe";
+            this.gbTipo.Text = "Fechas";
             // 
             // dtpFechaFin
             // 
-            this.dtpFechaFin.Location = new System.Drawing.Point(209, 42);
+            this.dtpFechaFin.Location = new System.Drawing.Point(209, 41);
             this.dtpFechaFin.Name = "dtpFechaFin";
             this.dtpFechaFin.Size = new System.Drawing.Size(181, 20);
             this.dtpFechaFin.TabIndex = 10;
             // 
             // dtpFechaInicio
             // 
-            this.dtpFechaInicio.Location = new System.Drawing.Point(10, 42);
+            this.dtpFechaInicio.Location = new System.Drawing.Point(7, 41);
             this.dtpFechaInicio.Name = "dtpFechaInicio";
             this.dtpFechaInicio.Size = new System.Drawing.Size(178, 20);
             this.dtpFechaInicio.TabIndex = 9;
@@ -151,54 +108,72 @@
             // cmbTipo
             // 
             this.cmbTipo.FormattingEnabled = true;
-            this.cmbTipo.Location = new System.Drawing.Point(7, 47);
+            this.cmbTipo.Location = new System.Drawing.Point(7, 46);
             this.cmbTipo.Name = "cmbTipo";
             this.cmbTipo.Size = new System.Drawing.Size(168, 21);
             this.cmbTipo.TabIndex = 8;
             // 
             // gbFiltros
             // 
+            this.gbFiltros.Controls.Add(this.rdbTodos);
             this.gbFiltros.Controls.Add(this.cmbTipo);
             this.gbFiltros.Controls.Add(this.btnUsuario);
             this.gbFiltros.Controls.Add(this.rdbGrupo);
             this.gbFiltros.Location = new System.Drawing.Point(12, 12);
             this.gbFiltros.Name = "gbFiltros";
-            this.gbFiltros.Size = new System.Drawing.Size(185, 83);
+            this.gbFiltros.Size = new System.Drawing.Size(295, 83);
             this.gbFiltros.TabIndex = 11;
             this.gbFiltros.TabStop = false;
             this.gbFiltros.Text = "Filtros";
             // 
             // flpAcciones
             // 
-            this.flpAcciones.Location = new System.Drawing.Point(12, 390);
+            this.flpAcciones.Location = new System.Drawing.Point(12, 183);
             this.flpAcciones.Name = "flpAcciones";
-            this.flpAcciones.Size = new System.Drawing.Size(519, 65);
+            this.flpAcciones.Size = new System.Drawing.Size(406, 65);
             this.flpAcciones.TabIndex = 12;
             // 
-            // button1
+            // rdbTodos
             // 
-            this.button1.Location = new System.Drawing.Point(313, 49);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            this.rdbTodos.AutoSize = true;
+            this.rdbTodos.Location = new System.Drawing.Point(209, 24);
+            this.rdbTodos.Name = "rdbTodos";
+            this.rdbTodos.Size = new System.Drawing.Size(55, 17);
+            this.rdbTodos.TabIndex = 9;
+            this.rdbTodos.TabStop = true;
+            this.rdbTodos.Text = "Todos";
+            this.rdbTodos.UseVisualStyleBackColor = true;
+            this.rdbTodos.CheckedChanged += new System.EventHandler(this.RdbCheckedChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(15, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(65, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Fecha Inicio";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(219, 22);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(54, 13);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Fecha Fin";
             // 
             // frmInformes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 500);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(434, 287);
             this.Controls.Add(this.flpAcciones);
             this.Controls.Add(this.gbFiltros);
             this.Controls.Add(this.gbTipo);
             this.Controls.Add(this.btnCerrar);
-            this.Controls.Add(this.dgvInforme);
             this.Name = "frmInformes";
             this.Text = "frmInformes";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvInforme)).EndInit();
             this.gbTipo.ResumeLayout(false);
             this.gbTipo.PerformLayout();
             this.gbFiltros.ResumeLayout(false);
@@ -208,12 +183,7 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView dgvInforme;
         private System.Windows.Forms.Button btnCerrar;
-        private System.Windows.Forms.RadioButton rdbTiempoInicio;
-        private System.Windows.Forms.RadioButton rdbTiempoCierre;
-        private System.Windows.Forms.RadioButton rdbTiempoSesion;
         private System.Windows.Forms.RadioButton btnUsuario;
         private System.Windows.Forms.RadioButton rdbGrupo;
         private System.Windows.Forms.GroupBox gbTipo;
@@ -222,6 +192,8 @@
         private System.Windows.Forms.ComboBox cmbTipo;
         private System.Windows.Forms.GroupBox gbFiltros;
         private System.Windows.Forms.FlowLayoutPanel flpAcciones;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RadioButton rdbTodos;
     }
 }
