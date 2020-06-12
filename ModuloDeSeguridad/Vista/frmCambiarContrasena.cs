@@ -56,7 +56,7 @@ namespace ModuloDeSeguridad.Vista
                 return;
             }
 
-            if (!usuarioBL.ValidarContrasena(usuario,txtContrasenaActual.Text,txtContrasenaNueva.Text))
+            if (!usuarioBL.ValidarContrasena(usuario, txtContrasenaActual.Text, txtContrasenaNueva.Text))
             {
                 MessageBox.Show("La contraseña actual no es correcta o coincide con la nueva");
                 return;

@@ -29,7 +29,7 @@ namespace ModuloDeSeguridad.Vista
                 button.Text = accion.Descripcion;
                 button.AutoSize = true;
                 button.Click += BtnCrud;
-                button.Padding = new Padding(3);
+                button.Padding = new Padding(4);
                 button.ImageAlign = ContentAlignment.TopCenter;
                 button.TextAlign = ContentAlignment.BottomCenter;
                 button.FlatStyle = FlatStyle.Flat;

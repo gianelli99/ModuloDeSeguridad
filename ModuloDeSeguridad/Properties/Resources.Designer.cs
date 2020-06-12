@@ -153,6 +153,16 @@ namespace ModuloDeSeguridad.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap send_icon {
+            get {
+                object obj = ResourceManager.GetObject("send-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap update_icon {
             get {
                 object obj = ResourceManager.GetObject("update-icon", resourceCulture);

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmInicio));
             this.flpVistas = new System.Windows.Forms.FlowLayoutPanel();
             this.btnCerrarSesion = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -58,6 +59,7 @@
             this.ClientSize = new System.Drawing.Size(802, 450);
             this.Controls.Add(this.btnCerrarSesion);
             this.Controls.Add(this.flpVistas);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmInicio";
             this.Text = "Inicio";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmInicio_FormClosed);

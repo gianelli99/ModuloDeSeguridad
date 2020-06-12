@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUsuarios));
             this.btnCerrar = new System.Windows.Forms.Button();
             this.flpCrud = new System.Windows.Forms.FlowLayoutPanel();
             this.txtBuscar = new System.Windows.Forms.TextBox();
@@ -92,6 +93,7 @@
             this.Controls.Add(this.txtBuscar);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.dgvUsuarios);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmUsuarios";
             this.Text = "frmUsuarios";
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).EndInit();

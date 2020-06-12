@@ -36,6 +36,19 @@ namespace ModuloDeSeguridad.Vista
                 button.Text = accion.Descripcion;
                 button.AutoSize = true;
                 button.Click += BtnAccion;
+
+
+                button.Padding = new Padding(10,0,10,0);
+                button.Margin = new Padding(4);
+                button.ImageAlign = ContentAlignment.MiddleLeft;
+                button.TextAlign = ContentAlignment.MiddleRight;
+                button.FlatStyle = FlatStyle.Flat;
+                button.FlatAppearance.BorderSize = 0;
+                button.BackColor = Color.FromArgb(94, 48, 228);
+                button.Size = new Size(125, 40);
+                button.Image = Image.FromFile(@"..\..\Resources\" + accion.IconName);
+
+
                 flpAcciones.Controls.Add(button);
             }
         }

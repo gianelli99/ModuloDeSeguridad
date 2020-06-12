@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUsuario));
             this.pnDatos = new System.Windows.Forms.Panel();
             this.txtConfirmarContrasena = new System.Windows.Forms.TextBox();
             this.flpGrupos = new System.Windows.Forms.FlowLayoutPanel();
@@ -152,6 +153,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(577, 548);
             this.Controls.Add(this.pnDatos);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmUsuario";
             this.Text = "frmUsuario";
             this.pnDatos.ResumeLayout(false);

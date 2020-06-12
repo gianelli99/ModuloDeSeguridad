@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmGrupos));
             this.dgvGrupos = new System.Windows.Forms.DataGridView();
             this.txtBuscar = new System.Windows.Forms.TextBox();
             this.flpCrud = new System.Windows.Forms.FlowLayoutPanel();
@@ -49,8 +50,8 @@
             this.dgvGrupos.Location = new System.Drawing.Point(159, 57);
             this.dgvGrupos.Margin = new System.Windows.Forms.Padding(4);
             this.dgvGrupos.Name = "dgvGrupos";
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
-            this.dgvGrupos.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            this.dgvGrupos.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvGrupos.Size = new System.Drawing.Size(700, 365);
             this.dgvGrupos.TabIndex = 4;
             // 
@@ -144,9 +145,10 @@
             this.Controls.Add(this.dgvGrupos);
             this.Font = new System.Drawing.Font("Lato", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(184)))), ((int)(((byte)(200)))));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmGrupos";
-            this.Text = "frmGrupos";
+            this.Text = "Grupos";
             ((System.ComponentModel.ISupportInitialize)(this.dgvGrupos)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

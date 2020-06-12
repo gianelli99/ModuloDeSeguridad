@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>shield-icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -203,6 +206,9 @@
     <None Include="Resources\update-icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\send-icon.png" />
+    <Content Include="Resources\shield-icon.png" />
+    <Content Include="shield-icon.ico" />
     <None Include="Resources\logout-icon.png" />
     <None Include="Resources\check-icon.png" />
     <None Include="Resources\cancel-icon.png" />
