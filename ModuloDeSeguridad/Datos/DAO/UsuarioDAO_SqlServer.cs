@@ -66,7 +66,7 @@ namespace ModuloDeSeguridad.Datos.DAO
 
                 try
                 {
-                    command.CommandText = $"SELECT TOP 1 * from usuarios WHERE id = {id};SELECT grupos.id, grupos.codigo, grupos.descripcion,grupos.estado FROM grupos INNER JOIN usuarios_grupos ON grupos.id = usuarios_grupos.grupo_id WHERE usuarios_grupos.usuario_id = {id}";
+                    command.CommandText = $"SELECT TOP 1 * from usuarios WHERE id = {id};SELECT grupos.id, grupos.codigo, grupos.descripcion,grupos.estado FROM grupos INNER JOIN usuarios_grupos ON grupos.id = usuarios_grupos.grupo_id WHERE usuarios_grupos.usuario_id = {id} AND estado = 1";
                     transaction.Commit();
                     using (SqlDataReader response = command.ExecuteReader())
                     {
@@ -118,7 +118,7 @@ namespace ModuloDeSeguridad.Datos.DAO
 
                 try
                 {
-                    command.CommandText = $"SELECT TOP 1 * from usuarios WHERE username = @username AND email =@email";
+                    command.CommandText = $"SELECT TOP 1 * from usuarios WHERE username = @username AND email =@email AND estado = 1";
                     command.Parameters.AddWithValue("@username", username);
                     command.Parameters.AddWithValue("@email", email);
                     transaction.Commit();
