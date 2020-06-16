@@ -88,15 +88,29 @@ namespace ModuloDeSeguridad.Logica
                 throw ex;
             }
         }
-
         private void SesionTime_Elapsed(object sender, ElapsedEventArgs e)
         {
             FinalizarSesion();
         }
-
         public void Suscribir(ISesionObserver observer)
         {
             observadores.Add(observer);
+        }
+        public bool FirstLogIn(int userId)
+        {
+            try
+            {
+                if (sesionDAO.LogInsCount(userId) == 1)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         public void Desuscribir(ISesionObserver observer)
         {

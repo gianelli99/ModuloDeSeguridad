@@ -207,6 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\send-icon.png" />
+    <None Include="Resources\file-icon.png" />
     <Content Include="Resources\shield-icon.png" />
     <Content Include="shield-icon.ico" />
     <None Include="Resources\logout-icon.png" />

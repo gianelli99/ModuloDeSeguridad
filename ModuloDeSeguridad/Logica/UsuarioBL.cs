@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -130,6 +131,29 @@ namespace ModuloDeSeguridad.Logica
                         throw new Exception("Username o email no estan disponibles");
                     } 
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public void EnviarEmail(string passDES, string email)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress("gianjuanze@gmail.com");
+                mail.To.Add(email);
+                mail.Subject = "Nueva contraseña Módulo de Seguridad";
+                mail.Body = "Su nueva contraseña es: " + passDES;
+
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("gianjuanze@gmail.com", "gianjuan2020");
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(mail);
             }
             catch (Exception ex)
             {

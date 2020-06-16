@@ -56,25 +56,12 @@ namespace ModuloDeSeguridad.Vista
                     return;
                 }
 
-                string passDES = Logica.Hasheo.RandomString(6,true);
-                string passENC = Logica.Hasheo.GetMd5Hash(passDES);
-                usuario.Password = passENC;
-                
-
-                MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-
-                mail.From = new MailAddress("gianjuanze@gmail.com");
-                mail.To.Add(usuario.Email);
-                mail.Subject = "Nueva contraseña Módulo de Seguridad";
-                mail.Body = "Su nueva contraseña es: " + passDES;
-
-                SmtpServer.Port = 587;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("gianjuanze@gmail.com", "gianjuan2020");
-                SmtpServer.EnableSsl = true;
-
+                string passDES = Logica.Hasheo.RandomString(6, true);
+                usuario.Password = Logica.Hasheo.GenerarContrasena(passDES);
+               
                 usuarioBL.CambiarContrasena(passDES, usuario.ID, usuario.ID);
-                SmtpServer.Send(mail);
+
+                usuarioBL.EnviarEmail(passDES,usuario.Email);
                 
                 MessageBox.Show("Revise su correo electrónico para conocer su nueva contraseña.");
             }

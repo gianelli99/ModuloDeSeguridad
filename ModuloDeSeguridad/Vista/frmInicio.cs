@@ -30,6 +30,17 @@ namespace ModuloDeSeguridad.Vista
                     button.Text = vista.Descripcion;
                     button.AutoSize = true;
                     button.Click += VistaClick;
+
+                    button.Padding = new Padding(4);
+                    button.ImageAlign = ContentAlignment.TopCenter;
+                    button.TextAlign = ContentAlignment.BottomCenter;
+                    button.Font = new Font("Lato", 14);
+                    button.FlatStyle = FlatStyle.Flat;
+                    button.FlatAppearance.BorderSize = 0;
+                    button.BackColor = Color.FromArgb(94, 48, 228);
+                    button.Size = new Size(175, 120);
+                    button.Image = Image.FromFile(@"..\..\Resources\file-icon.png");
+
                     flpVistas.Controls.Add(button);
                 }
             }

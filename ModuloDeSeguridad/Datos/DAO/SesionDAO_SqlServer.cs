@@ -266,5 +266,42 @@ namespace ModuloDeSeguridad.Datos.DAO
             }
             throw new Exception("Ha ocurrido un error");
         }
+
+        public int LogInsCount(int userId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Listar sesiones");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"SELECT COUNT(id) as sesiones FROM sesiones WHERE usuario_id = {userId}";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.HasRows)
+                        {
+                            response.Read();
+
+                            int count = response.GetInt32(0);
+                            return count;
+                        }
+                        return -1;
+                    }
+                }
+                catch (Exception ex2)
+                {
+                    throw ex2;
+                }
+            }
+            throw new Exception("Ha ocurrido un error");
+        }
     }
 }

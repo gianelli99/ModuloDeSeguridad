@@ -25,9 +25,17 @@ namespace ModuloDeSeguridad.Vista
             {
                 var button = new Button();
                 button.Name = "btn" + accion.Descripcion;
-                button.Text = accion.Descripcion;
-                button.AutoSize = true;
+                button.Text = accion.Descripcion.Length > 12 ? accion.Descripcion.Substring(0,12) : accion.Descripcion;
                 button.Click += BtnCrud;
+                button.Padding = new Padding(4);
+                button.ImageAlign = ContentAlignment.TopCenter;
+                button.TextAlign = ContentAlignment.BottomCenter;
+                button.FlatStyle = FlatStyle.Flat;
+                button.AutoEllipsis = true;
+                button.FlatAppearance.BorderSize = 0;
+                button.BackColor = Color.FromArgb(94, 48, 228);
+                button.Size = new Size(135, 72);
+                button.Image = Image.FromFile(@"..\..\Resources\" + accion.IconName);
                 flpCrud.Controls.Add(button);
             }
             usuarios = usuarioBL.Listar();
@@ -38,9 +46,9 @@ namespace ModuloDeSeguridad.Vista
         {
             try
             {
-                switch (((Button)sender).Text)
+                switch (((Button)sender).Name)
                 {
-                    case "Alta":
+                    case "btnAlta":
                         frmUsuario frm = new frmUsuario();
                         DialogResult result = frm.ShowDialog();
                         if (result == DialogResult.OK)
@@ -50,7 +58,7 @@ namespace ModuloDeSeguridad.Vista
                             dgvUsuarios.Columns["Password"].Visible = false;
                         }
                         break;
-                    case "Baja":
+                    case "btnBaja":
                         if (TieneElementoSeleccionado())
                         {
                             var usuario = (Modelo.Usuario)dgvUsuarios.CurrentRow.DataBoundItem;
@@ -88,7 +96,7 @@ namespace ModuloDeSeguridad.Vista
                             return;
                         }
                         break;
-                    case "Modificacion":
+                    case "btnModificacion":
                         if (TieneElementoSeleccionado())
                         {
                             var usuario = (Modelo.Usuario)dgvUsuarios.CurrentRow.DataBoundItem;
@@ -107,7 +115,7 @@ namespace ModuloDeSeguridad.Vista
                             }
                         }
                         break;
-                    case "Consulta":
+                    case "btnConsulta":
                         if (TieneElementoSeleccionado())
                         {
                             frmUsuario frmConsulta = new frmUsuario(Accion.Consulta, ((Modelo.Usuario)dgvUsuarios.CurrentRow.DataBoundItem).ID);
@@ -119,7 +127,7 @@ namespace ModuloDeSeguridad.Vista
                             return;
                         }
                         break;
-                    case "Cambiar Contraseña":
+                    case "btnCambiar Contraseña":
                         if (TieneElementoSeleccionado())
                         {
                             var usuario = (Modelo.Usuario)dgvUsuarios.CurrentRow.DataBoundItem;
@@ -169,6 +177,11 @@ namespace ModuloDeSeguridad.Vista
             }
             Logica.SesionBL.ObtenerInstancia().Desuscribir(this);
             this.Dispose();
+        }
+
+        private void TxtBuscar_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

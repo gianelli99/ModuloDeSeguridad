@@ -26,7 +26,7 @@ namespace ModuloDeSeguridad.Vista
             {
                 var button = new Button();
                 button.Name = "btn" + accion.Descripcion;
-                button.Text = accion.Descripcion;
+                button.Text = accion.Descripcion.Length > 12 ? accion.Descripcion.Substring(0, 12) : accion.Descripcion;
                 button.AutoSize = true;
                 button.Click += BtnCrud;
                 button.Padding = new Padding(4);

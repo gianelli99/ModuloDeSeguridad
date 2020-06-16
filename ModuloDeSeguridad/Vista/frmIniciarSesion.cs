@@ -48,6 +48,14 @@ namespace ModuloDeSeguridad.Vista
                     sesion.Usuario = sesionBL.ConsultarUsuario(userId);
                     sesion.LogIn = DateTime.Now;
                     sesionBL.IniciarSesion();
+
+                    if (sesionBL.FirstLogIn(userId))
+                    {
+                        frmCambiarContrasena cContrasena = new frmCambiarContrasena(sesion.Usuario.ID);
+                        cContrasena.ShowDialog();
+                        sesion.Usuario = sesionBL.ConsultarUsuario(userId);
+                    }
+                    
                     frmInicio inicio = new frmInicio();
                     this.Hide();
                     DialogResult result = inicio.ShowDialog();
@@ -69,11 +77,6 @@ namespace ModuloDeSeguridad.Vista
         {
             frmRecuperarContrasena recuperar = new frmRecuperarContrasena();
             recuperar.ShowDialog();
-        }
-
-        private void PictureBox1_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
     }
 }

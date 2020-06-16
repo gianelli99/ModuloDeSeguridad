@@ -62,5 +62,11 @@ namespace ModuloDeSeguridad.Logica
                 return builder.ToString().ToLower();
             return builder.ToString();
         }
+        public static string GenerarContrasena(string passDES)
+        {
+            string passENC = GetMd5Hash(passDES);
+            return passENC;
+        }
+
     }
 }
