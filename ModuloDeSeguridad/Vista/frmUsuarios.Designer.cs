@@ -59,7 +59,7 @@
             this.dgvUsuarios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUsuarios.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvUsuarios.Location = new System.Drawing.Point(161, 54);
-            this.dgvUsuarios.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvUsuarios.Margin = new System.Windows.Forms.Padding(4);
             this.dgvUsuarios.Name = "dgvUsuarios";
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
             this.dgvUsuarios.RowsDefaultCellStyle = dataGridViewCellStyle1;
@@ -146,8 +146,9 @@
             this.Controls.Add(this.dgvUsuarios);
             this.Font = new System.Drawing.Font("Lato", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(184)))), ((int)(((byte)(200)))));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmUsuarios";
             this.Text = "frmUsuarios";
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).EndInit();

@@ -39,7 +39,7 @@
             // flpVistas
             // 
             this.flpVistas.Location = new System.Drawing.Point(10, 48);
-            this.flpVistas.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.flpVistas.Margin = new System.Windows.Forms.Padding(4);
             this.flpVistas.Name = "flpVistas";
             this.flpVistas.Size = new System.Drawing.Size(546, 274);
             this.flpVistas.TabIndex = 3;
@@ -92,8 +92,9 @@
             this.Controls.Add(this.flpVistas);
             this.Font = new System.Drawing.Font("Lato", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(184)))), ((int)(((byte)(200)))));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmInicio";
             this.Text = "Inicio";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmInicio_FormClosed);

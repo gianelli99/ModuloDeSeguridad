@@ -40,14 +40,19 @@ namespace ModuloDeSeguridad.Vista
             accion = miAccion;
             user = usuarioBL.Consultar(id);
             txtUsername.Text = user.Username;
-            txtContrasena.UseSystemPasswordChar = true;
-            txtConfirmarContrasena.UseSystemPasswordChar = true;
             txtContrasena.Text = user.Password;
             txtConfirmarContrasena.Text = user.Password;
             txtContrasena.Enabled = false;
             txtConfirmarContrasena.Enabled = false;
             txtContrasena.Visible = false;
             txtConfirmarContrasena.Visible = false;
+            lblContrasena.Visible = false;
+            lblRepetirContrasena.Visible = false;
+
+            btnAceptar.Location = new Point(283, 397);
+            btnCancelar.Location = new Point(434, 397);
+            this.Size = new Size(880, 504);
+
             txtEmail.Text = user.Email;
             txtNombre.Text = user.Nombre;
             txtApellido.Text = user.Apellido;
@@ -65,6 +70,7 @@ namespace ModuloDeSeguridad.Vista
             foreach (var grupo in grupos)
             {
                 var checkb = new CheckBox();
+                checkb.AutoSize = true;
                 checkb.Name = grupo.ID.ToString();
                 checkb.Text = grupo.Descripcion;
                 if (accion != Accion.Alta)
@@ -89,10 +95,11 @@ namespace ModuloDeSeguridad.Vista
         private void BtnAceptar_Click(object sender, EventArgs e)
         {
             if (String.IsNullOrWhiteSpace(txtUsername.Text)   ||
-                String.IsNullOrWhiteSpace(txtContrasena.Text) ||
                 String.IsNullOrWhiteSpace(txtEmail.Text) ||
                 String.IsNullOrWhiteSpace(txtNombre.Text) ||
-                String.IsNullOrWhiteSpace(txtApellido.Text))
+                String.IsNullOrWhiteSpace(txtApellido.Text) ||
+                String.IsNullOrWhiteSpace(txtContrasena.Text) ||
+                String.IsNullOrWhiteSpace(txtConfirmarContrasena.Text))
             {
                 MessageBox.Show("Debe completar todos los campos");
                 return;

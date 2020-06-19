@@ -22,7 +22,6 @@ namespace ModuloDeSeguridad.Vista
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
-            FrmGrupo_Resize(this, EventArgs.Empty);
             Logica.SesionBL.ObtenerInstancia().Suscribir(this);
             accion = Accion.Alta;
             grupo = new Modelo.Grupo();
@@ -37,7 +36,6 @@ namespace ModuloDeSeguridad.Vista
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
-            FrmGrupo_Resize(this, EventArgs.Empty);
             Logica.SesionBL.ObtenerInstancia().Suscribir(this);
             grupoBL = new Logica.GrupoBL();
             accion = miAccion;
@@ -70,7 +68,8 @@ namespace ModuloDeSeguridad.Vista
                     checkb.Name = permiso.ObtenerNombre();
                 }
                 checkb.Text = permiso.ObtenerNombre();
-                checkb.Width = 180;
+                checkb.Width = 281;
+                checkb.AutoEllipsis = true;
                 checkb.Checked = permiso.TienePermiso;
                 checkBoxes.Add(checkb);
             }
@@ -130,11 +129,6 @@ namespace ModuloDeSeguridad.Vista
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
             Actualizar(false);
-        }
-
-        private void FrmGrupo_Resize(object sender, EventArgs e)
-        {
-            pnDatos.Location =new Point( (this.ClientRectangle.Size.Width-pnDatos.Size.Width) / 2,(this.ClientRectangle.Size.Height - pnDatos.Size.Height)/2);
         }
 
         public void Actualizar(bool isFirst)

@@ -49,7 +49,7 @@
             // 
             this.flpAcciones.AutoScroll = true;
             this.flpAcciones.Location = new System.Drawing.Point(13, 397);
-            this.flpAcciones.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.flpAcciones.Margin = new System.Windows.Forms.Padding(4);
             this.flpAcciones.Name = "flpAcciones";
             this.flpAcciones.Size = new System.Drawing.Size(504, 55);
             this.flpAcciones.TabIndex = 0;
@@ -58,7 +58,7 @@
             // 
             this.flpGrupos.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpGrupos.Location = new System.Drawing.Point(383, 147);
-            this.flpGrupos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.flpGrupos.Margin = new System.Windows.Forms.Padding(4);
             this.flpGrupos.Name = "flpGrupos";
             this.flpGrupos.Size = new System.Drawing.Size(301, 178);
             this.flpGrupos.TabIndex = 21;
@@ -228,8 +228,9 @@
             this.Controls.Add(this.flpAcciones);
             this.Font = new System.Drawing.Font("Lato", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(184)))), ((int)(((byte)(200)))));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmMisDatos";
             this.ResumeLayout(false);
             this.PerformLayout();

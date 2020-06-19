@@ -34,6 +34,7 @@ namespace ModuloDeSeguridad.Datos.DAO
                         {
                             return response.GetInt32(0);
                         }
+                        return -1;
                     }
                 }
                 catch (Exception ex)
@@ -79,7 +80,6 @@ namespace ModuloDeSeguridad.Datos.DAO
                             }
                             return sesiones;
                         }
-                        return null;
                     }
                 }
                 catch (Exception ex2)
