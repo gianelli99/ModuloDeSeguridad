@@ -217,12 +217,12 @@ namespace ModuloDeSeguridad.Logica
                 return false;
             }
         }
-        public void CambiarContrasena(string pass, int userId, int editorId)
+        public void CambiarContrasena(string pass, int userId, int editorId,bool needNewPass)
         {
             try
             {
                 pass = Hasheo.GetMd5Hash(pass);
-                usuarioDAO.CambiarContrasena(pass, userId, editorId);
+                usuarioDAO.CambiarContrasena(pass, userId, editorId, needNewPass);
             }
             catch (Exception ex)
             {

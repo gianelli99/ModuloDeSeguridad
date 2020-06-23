@@ -14,10 +14,18 @@ namespace ModuloDeSeguridad.Vista
     {
         private Logica.UsuarioBL usuarioBL;
         private Modelo.Usuario usuario;
+        private bool necesitaContrActual;
         int userId;
-        public frmCambiarContrasena(int miUserId)
+        public frmCambiarContrasena(int miUserId, bool miNecesitaContrActual)
         {
             InitializeComponent();
+            necesitaContrActual = miNecesitaContrActual;
+            if (!necesitaContrActual)
+            {
+                txtContrasenaActual.Enabled = false;
+                lblContrasenaActual.Enabled = false;
+                lblTitle.Text = "Cambiá la contraseña.";
+            }
             CheckForIllegalCrossThreadCalls = false;
             userId = miUserId;
             usuarioBL = new Logica.UsuarioBL();
@@ -42,7 +50,7 @@ namespace ModuloDeSeguridad.Vista
 
         private void BtnAceptar_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(txtContrasenaActual.Text) ||
+            if (necesitaContrActual && String.IsNullOrWhiteSpace(txtContrasenaActual.Text) ||
                 String.IsNullOrWhiteSpace(txtContrasenaNueva.Text) ||
                 String.IsNullOrWhiteSpace(txtRepetirContrasena.Text))
             {
@@ -56,14 +64,20 @@ namespace ModuloDeSeguridad.Vista
                 return;
             }
 
-            if (!usuarioBL.ValidarContrasena(usuario, txtContrasenaActual.Text, txtContrasenaNueva.Text))
+            if (necesitaContrActual)
             {
-                MessageBox.Show("La contraseña actual no es correcta o coincide con la nueva");
-                return;
-            }
+                if (!usuarioBL.ValidarContrasena(usuario, txtContrasenaActual.Text, txtContrasenaNueva.Text))
+                {
+                    MessageBox.Show("La contraseña actual no es correcta o coincide con la nueva");
+                    return;
+                }
+            }         
+
+
             try
             {
-                usuarioBL.CambiarContrasena(txtContrasenaNueva.Text, userId,Modelo.Sesion.ObtenerInstancia().Usuario.ID);
+                bool needNewPass = !necesitaContrActual;
+                usuarioBL.CambiarContrasena(txtContrasenaNueva.Text, userId,Modelo.Sesion.ObtenerInstancia().Usuario.ID, needNewPass);
                 
                 Actualizar(false);
             }

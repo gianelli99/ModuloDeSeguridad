@@ -59,7 +59,7 @@ namespace ModuloDeSeguridad.Vista
                 string passDES = Logica.Hasheo.RandomString(6, true);
                 usuario.Password = Logica.Hasheo.GenerarContrasena(passDES);
                
-                usuarioBL.CambiarContrasena(passDES, usuario.ID, usuario.ID);
+                usuarioBL.CambiarContrasena(passDES, usuario.ID, usuario.ID,true);
 
                 usuarioBL.EnviarEmail(passDES,usuario.Email);
                 

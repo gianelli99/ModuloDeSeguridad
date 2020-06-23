@@ -96,11 +96,11 @@ namespace ModuloDeSeguridad.Logica
         {
             observadores.Add(observer);
         }
-        public bool FirstLogIn(int userId)
+        public bool NeedNewPassword(int userId)
         {
             try
             {
-                if (sesionDAO.LogInsCount(userId) == 1)
+                if (usuarioDAO.NeedNewPassword(userId))
                 {
                     return true;
                 }

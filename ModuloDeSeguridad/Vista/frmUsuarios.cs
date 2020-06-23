@@ -136,7 +136,7 @@ namespace ModuloDeSeguridad.Vista
                                 MessageBox.Show("Para realizar esta acción ingrese a \"Mis Datos\"");
                                 return;
                             }
-                            frmCambiarContrasena frmConsulta = new frmCambiarContrasena(((Modelo.Usuario)dgvUsuarios.CurrentRow.DataBoundItem).ID);
+                            frmCambiarContrasena frmConsulta = new frmCambiarContrasena(((Modelo.Usuario)dgvUsuarios.CurrentRow.DataBoundItem).ID, false);
                             frmConsulta.ShowDialog();
                         }
                         else

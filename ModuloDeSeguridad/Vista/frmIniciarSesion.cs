@@ -49,9 +49,9 @@ namespace ModuloDeSeguridad.Vista
                     sesion.LogIn = DateTime.Now;
                     sesionBL.IniciarSesion();
 
-                    if (sesionBL.FirstLogIn(userId))
+                    if (sesionBL.NeedNewPassword(userId))
                     {
-                        frmCambiarContrasena cContrasena = new frmCambiarContrasena(sesion.Usuario.ID);
+                        frmCambiarContrasena cContrasena = new frmCambiarContrasena(sesion.Usuario.ID, true);
                         cContrasena.ShowDialog();
                         sesion.Usuario = sesionBL.ConsultarUsuario(userId);
                     }

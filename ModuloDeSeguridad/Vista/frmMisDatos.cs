@@ -111,7 +111,7 @@ namespace ModuloDeSeguridad.Vista
                         }
                         break;
                     case "Cambiar Contraseña":
-                        frmCambiarContrasena frmCambiarContrasena = new frmCambiarContrasena(usuario.ID);
+                        frmCambiarContrasena frmCambiarContrasena = new frmCambiarContrasena(usuario.ID,true);
                         frmCambiarContrasena.ShowDialog();
                         usuarioBL.Consultar(usuario.ID);
                         break;

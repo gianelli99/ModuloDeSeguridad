@@ -30,13 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCambiarContrasena));
             this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblContrasenaActual = new System.Windows.Forms.Label();
             this.txtContrasenaActual = new System.Windows.Forms.TextBox();
             this.txtContrasenaNueva = new System.Windows.Forms.TextBox();
             this.txtRepetirContrasena = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -52,16 +52,16 @@
             this.label2.TabIndex = 14;
             this.label2.Text = "Contraseña nueva";
             // 
-            // label1
+            // lblContrasenaActual
             // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(143)))), ((int)(((byte)(168)))));
-            this.label1.Location = new System.Drawing.Point(105, 124);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(135, 19);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "Contraseña actual";
+            this.lblContrasenaActual.AutoSize = true;
+            this.lblContrasenaActual.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(143)))), ((int)(((byte)(168)))));
+            this.lblContrasenaActual.Location = new System.Drawing.Point(105, 124);
+            this.lblContrasenaActual.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblContrasenaActual.Name = "lblContrasenaActual";
+            this.lblContrasenaActual.Size = new System.Drawing.Size(135, 19);
+            this.lblContrasenaActual.TabIndex = 13;
+            this.lblContrasenaActual.Text = "Contraseña actual";
             // 
             // txtContrasenaActual
             // 
@@ -125,15 +125,15 @@
             this.label4.TabIndex = 19;
             this.label4.Text = "Asegurate que no sea igual a la actual.";
             // 
-            // label5
+            // lblTitle
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Lato", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(75, 34);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(334, 39);
-            this.label5.TabIndex = 18;
-            this.label5.Text = "Cambiá tu contraseña.";
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Lato", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.Location = new System.Drawing.Point(75, 34);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(334, 39);
+            this.lblTitle.TabIndex = 18;
+            this.lblTitle.Text = "Cambiá tu contraseña.";
             // 
             // btnAceptar
             // 
@@ -178,12 +178,12 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(25)))), ((int)(((byte)(74)))));
             this.ClientSize = new System.Drawing.Size(474, 485);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.txtRepetirContrasena);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtContrasenaNueva);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblContrasenaActual);
             this.Controls.Add(this.txtContrasenaActual);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.btnCancelar);
@@ -202,12 +202,12 @@
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Button btnAceptar;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblContrasenaActual;
         private System.Windows.Forms.TextBox txtContrasenaActual;
         private System.Windows.Forms.TextBox txtContrasenaNueva;
         private System.Windows.Forms.TextBox txtRepetirContrasena;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblTitle;
     }
 }

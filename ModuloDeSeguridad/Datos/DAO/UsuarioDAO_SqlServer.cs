@@ -10,7 +10,7 @@ namespace ModuloDeSeguridad.Datos.DAO
 {
     public class UsuarioDAO_SqlServer : ConexionDB,Interfaces.IUsuarioDAO
     {
-        public void CambiarContrasena(string pass, int userId, int editorId)
+        public void CambiarContrasena(string pass, int userId, int editorId, bool needNewPass)
         {
             using (SqlConnection connection = new SqlConnection(connectionSQL))
             {
@@ -27,8 +27,8 @@ namespace ModuloDeSeguridad.Datos.DAO
                     command.CommandText = $"INSERT INTO usuarios_auditorias SELECT * FROM usuarios WHERE usuarios.id = {userId}";
                     command.ExecuteNonQuery();
 
-
-                    command.CommandText = $"UPDATE usuarios SET contrasena=@contrasena, editor_id={editorId}, edicion_fecha=@edicion_fecha, edicion_accion='M' WHERE id = {userId}";
+                    string needPass = needNewPass ? "1" : "0";
+                    command.CommandText = $"UPDATE usuarios SET contrasena=@contrasena, need_new_password={needPass}, editor_id={editorId}, edicion_fecha=@edicion_fecha, edicion_accion='M' WHERE id = {userId}";
                     command.Parameters.AddWithValue("@contrasena", pass);
                     command.Parameters.AddWithValue("@edicion_fecha", DateTime.Now);
                     command.ExecuteNonQuery();
@@ -518,6 +518,42 @@ namespace ModuloDeSeguridad.Datos.DAO
                 catch (Exception ex)
                 {
                     throw ex;
+                }
+            }
+            throw new Exception("Ha ocurrido un error");
+        }
+        public bool NeedNewPassword(int userId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionSQL))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction("Necesita nueva contraseña");
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = $"SELECT need_new_password FROM usuarios WHERE id = {userId}";
+                    transaction.Commit();
+                    using (SqlDataReader response = command.ExecuteReader())
+                    {
+                        if (response.HasRows)
+                        {
+                            response.Read();
+
+                            bool need = response.GetBoolean(0);
+                            return need;
+                        }
+                        return false;
+                    }
+                }
+                catch (Exception ex2)
+                {
+                    throw ex2;
                 }
             }
             throw new Exception("Ha ocurrido un error");
