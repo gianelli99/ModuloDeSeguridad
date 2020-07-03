@@ -51,8 +51,10 @@
   <ItemGroup>
     <Compile Include="Datos\ConexionDB.cs" />
     <Compile Include="Datos\DAO\GrupoDAO_SqlServer.cs" />
+    <Compile Include="Datos\DAO\PermisoDAO_SqlServer.cs" />
     <Compile Include="Datos\DAO\SesionDAO_SqlServer.cs" />
     <Compile Include="Datos\Interfaces\IGrupoDAO.cs" />
+    <Compile Include="Datos\Interfaces\IPermisoDAO.cs" />
     <Compile Include="Datos\Interfaces\ISesionDAO.cs" />
     <Compile Include="Datos\Interfaces\IUsuarioDAO.cs" />
     <Compile Include="Datos\DAO\UsuarioDAO_SqlServer.cs" />

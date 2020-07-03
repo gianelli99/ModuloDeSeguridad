@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModuloDeSeguridad.Modelo
 {
+    // Clase "Singleton"
     public class Sesion
     {
         public int ID { get; set; }
@@ -16,15 +17,13 @@ namespace ModuloDeSeguridad.Modelo
         {
             return LogOut - LogIn;
         }
-        //singleton
+        // Variable de clase privada que referencia a la única instancia 
         private static Sesion _instancia;
+        // Constructor privado
         private Sesion()
         {
         }
-        public static Sesion SesionInforme()
-        {
-            return new Sesion();
-        }
+        // Método de clase para crear u obtener la instancia
         public static Sesion ObtenerInstancia()
         {
             if (_instancia == null)
@@ -32,6 +31,18 @@ namespace ModuloDeSeguridad.Modelo
                 _instancia = new Sesion();
             }
             return _instancia;
+        }
+
+
+
+
+
+
+
+
+        public static Sesion SesionInforme()
+        {
+            return new Sesion();
         }
     }
 }

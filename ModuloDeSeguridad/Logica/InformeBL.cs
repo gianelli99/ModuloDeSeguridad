@@ -87,7 +87,6 @@ namespace ModuloDeSeguridad.Logica
                 throw ex;
             }
         }
-
         private void GenerarExcel(TipoInforme tipoInforme, List<Modelo.Sesion> sesiones, DateTime fechaDesde, DateTime fechaHasta)
         {
             Excel.Application oXL = null;
