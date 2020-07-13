@@ -13,16 +13,22 @@ namespace ModuloDeSeguridad.Vista
     public partial class frmInicio : Form, Logica.Interfaces.ISesionObserver
     {
         private Logica.SesionBL sesionBL;
+        private Modelo.Sesion sesion;
         public frmInicio()
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
-            var sesion = Modelo.Sesion.ObtenerInstancia();
+            sesion = Modelo.Sesion.ObtenerInstancia();
             sesionBL = Logica.SesionBL.ObtenerInstancia();
             sesionBL.Suscribir(this);
+            ListarVistasDisponibles();
+        }
+        private void ListarVistasDisponibles()
+        {
             List<Modelo.Vista> vistasDisponibles = sesionBL.ListarVistasDisponibles(sesion.Usuario.ID);
             if (vistasDisponibles != null)
             {
+                flpVistas.Controls.Clear();
                 foreach (var vista in vistasDisponibles)
                 {
                     var button = new Button();
@@ -56,10 +62,14 @@ namespace ModuloDeSeguridad.Vista
                     case "Grupos":
                         frmGrupos grupos = new frmGrupos(vistaId);
                         grupos.ShowDialog();
+                        // refrescar
+                        ListarVistasDisponibles();
                         break;
                     case "Usuarios":
                         frmUsuarios usuarios = new frmUsuarios(vistaId);
                         usuarios.ShowDialog();
+                        // refrescar
+                        ListarVistasDisponibles();
                         break;
                     case "Informes":
                         frmInformes informes = new frmInformes(vistaId);

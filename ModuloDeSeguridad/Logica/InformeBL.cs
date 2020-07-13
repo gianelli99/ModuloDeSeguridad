@@ -49,9 +49,12 @@ namespace ModuloDeSeguridad.Logica
         {
             try
             {
+                fechaDesde = fechaDesde.Date;
+                fechaHasta = fechaHasta.Date;
+
                 List<Modelo.Sesion> sesiones = new List<Modelo.Sesion>();
                 sesiones = sesionDAO.Listar(fechaDesde, fechaHasta);
-                if (sesiones != null)
+                if (sesiones.Count> 0)
                 {
                     GenerarExcel(TipoInforme.Todos, sesiones, fechaDesde, fechaHasta);
                 }
@@ -70,6 +73,9 @@ namespace ModuloDeSeguridad.Logica
         {
             try
             {
+                fechaDesde = fechaDesde.Date;
+                fechaHasta = fechaHasta.Date;
+
                 List<Modelo.Sesion> sesiones = new List<Modelo.Sesion>();
                 if (tipoInforme == TipoInforme.Grupo)
                 {
@@ -79,7 +85,14 @@ namespace ModuloDeSeguridad.Logica
                 {
                     sesiones = sesionDAO.ListarPorUsuario(id, fechaDesde, fechaHasta);
                 }
-                GenerarExcel(tipoInforme, sesiones, fechaDesde, fechaHasta);
+                if (sesiones.Count>0)
+                {
+                    GenerarExcel(tipoInforme, sesiones, fechaDesde, fechaHasta);
+                }
+                else
+                {
+                    throw new Exception("No se han encontrado sesiones.");
+                }
             }
             catch (Exception ex)
             {
@@ -89,6 +102,9 @@ namespace ModuloDeSeguridad.Logica
         }
         private void GenerarExcel(TipoInforme tipoInforme, List<Modelo.Sesion> sesiones, DateTime fechaDesde, DateTime fechaHasta)
         {
+            fechaDesde = fechaDesde.Date;
+            fechaHasta = fechaHasta.Date;
+
             Excel.Application oXL = null;
             Excel._Workbook oWB = null;
             Excel._Worksheet oSheet = null;

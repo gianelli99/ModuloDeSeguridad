@@ -99,9 +99,9 @@ namespace ModuloDeSeguridad.Vista
                         break;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Ha ocurrido un error.");
+                MessageBox.Show(ex.Message);
             }
         }
         private void RdbCheckedChanged(object sender, EventArgs e)

@@ -64,9 +64,10 @@ namespace ModuloDeSeguridad.Datos.DAO
                     transaction.Commit();
                     using (SqlDataReader response = command.ExecuteReader())
                     {
+                        var sesiones = new List<Modelo.Sesion>();
                         if (response.HasRows)
                         {
-                            var sesiones = new List<Modelo.Sesion>();
+                            
                             while (response.Read())
                             {
                                 var sesion = Modelo.Sesion.SesionInforme();
@@ -78,8 +79,8 @@ namespace ModuloDeSeguridad.Datos.DAO
                                 sesion.LogOut = response.GetDateTime(3);
                                 sesiones.Add(sesion);
                             }
-                            return sesiones;
                         }
+                        return sesiones;
                     }
                 }
                 catch (Exception ex2)
@@ -131,7 +132,10 @@ namespace ModuloDeSeguridad.Datos.DAO
                         {
                             response.Read();
                             var grupo = new Modelo.Grupo() { Descripcion = response.GetString(0) };
-                            sesiones[0].Usuario.Grupos.Add(grupo);
+                            if (sesiones.Count>0)
+                            {
+                                sesiones[0].Usuario.Grupos.Add(grupo);
+                            }
                         }
                         return sesiones;
                     }

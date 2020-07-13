@@ -208,7 +208,7 @@ namespace ModuloDeSeguridad.Datos.DAO
                 {
                     int bitEstado = t.Estado ? 1 : 0;
 
-                    command.CommandText = $"INSERT INTO usuarios VALUES(@username,@contrasena,@email,@nombre,@apelido,{bitEstado.ToString()},@editor_id,@edicion_fecha,'A');SELECT CAST(scope_identity() AS int)";
+                    command.CommandText = $"INSERT INTO usuarios VALUES(@username,@contrasena,@email,@nombre,@apelido,{bitEstado.ToString()},@editor_id,@edicion_fecha,'A',1);SELECT CAST(scope_identity() AS int)";
                     command.Parameters.AddWithValue("@username", t.Username);
                     command.Parameters.AddWithValue("@contrasena", t.Password);
                     command.Parameters.AddWithValue("@email", t.Email);
@@ -415,7 +415,7 @@ namespace ModuloDeSeguridad.Datos.DAO
                             return vistas;
                         }        
                     }
-                    throw new Exception("No se han podido encontrar vistas disponibles");
+                    throw new Exception("No se han podido encontrar vistas disponibles, contáctese con un administrador.");
                 }
                 catch (Exception ex)
                 {

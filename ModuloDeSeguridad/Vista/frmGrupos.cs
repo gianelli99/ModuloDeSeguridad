@@ -15,13 +15,22 @@ namespace ModuloDeSeguridad.Vista
     {
         private Logica.GrupoBL grupoBL;
         private List<Modelo.Grupo> grupos;
-        public frmGrupos(int vistaId)
+        private int vistaId;
+        public frmGrupos(int MivistaId)
         {
+            vistaId = MivistaId;
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
             grupoBL = new Logica.GrupoBL();
             Logica.SesionBL.ObtenerInstancia().Suscribir(this);
+            ListarAccionesDisponibles();
+            grupos = grupoBL.Listar();
+            dgvGrupos.DataSource = grupos;
+        }
+        private void ListarAccionesDisponibles()
+        {
             var accionesDisponibles = grupoBL.ListarAccionesDisponibles(Modelo.Sesion.ObtenerInstancia().Usuario.ID, vistaId);
+            flpCrud.Controls.Clear();
             foreach (var accion in accionesDisponibles)
             {
                 var button = new Button();
@@ -36,11 +45,9 @@ namespace ModuloDeSeguridad.Vista
                 button.FlatAppearance.BorderSize = 0;
                 button.BackColor = Color.FromArgb(94, 48, 228);
                 button.Size = new Size(135, 72);
-                button.Image = Image.FromFile(@"..\..\Resources\"+accion.IconName);
+                button.Image = Image.FromFile(@"..\..\Resources\" + accion.IconName);
                 flpCrud.Controls.Add(button);
             }
-            grupos = grupoBL.Listar();
-            dgvGrupos.DataSource = grupos;
         }
 
         private void BtnBuscar_Click(object sender, EventArgs e)
@@ -107,6 +114,8 @@ namespace ModuloDeSeguridad.Vista
                             {
                                 dgvGrupos.DataSource = null;
                                 dgvGrupos.DataSource = grupoBL.Listar();
+                                //refrescar
+                                ListarAccionesDisponibles();
                             }
                         }
                         break;

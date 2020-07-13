@@ -32,14 +32,6 @@ namespace ModuloDeSeguridad.Modelo
             }
             return _instancia;
         }
-
-
-
-
-
-
-
-
         public static Sesion SesionInforme()
         {
             return new Sesion();
